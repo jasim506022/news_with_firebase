@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:newsapps/const/const.dart';
 import 'package:newsapps/model/bookmarksmodel.dart';
 import 'package:newsapps/widget/articlewidget.dart';
 import 'package:provider/provider.dart';
-import '../../const/fontstyle.dart';
-import '../../const/function.dart';
-import '../../service/bookmarksprovider.dart';
-import '../../service/database_service.dart';
-import '../../widget/drawerwidget.dart';
+import '../../service/provider/bookmarksprovider.dart';
 import '../../widget/loadingarticlewidget.dart';
 
 class BookmarskPage extends StatefulWidget {
@@ -24,19 +21,15 @@ class _BookmarskPageState extends State<BookmarskPage> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          iconTheme: const IconThemeData(color: Colors.black),
-          backgroundColor: Colors.white,
-          centerTitle: true,
-          title: Text('Bookmarks', style: appBarTextStyle),
+          title: const Text('Bookmarks'),
         ),
-        drawer: const DrawerWidget(),
         body: FutureBuilder<List<BookmarksModel>>(
           future: newsProvider.fetchAllNews(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const LoadingArticleWidget();
             } else if (snapshot.hasError) {
-              return GlobalMethod.errorMethod(error: snapshot.error.toString());
+              return globalMethod.errorMethod(error: snapshot.error.toString());
             } else if (!snapshot.hasData) {
               return Image.asset("asset/image/nonewsitemfound.png");
             }

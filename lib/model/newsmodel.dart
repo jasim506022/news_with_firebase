@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:newsapps/const/const.dart';
 import 'package:reading_time/reading_time.dart';
 
-import '../const/function.dart';
 
 class NewsModel with ChangeNotifier {
   final String id;
@@ -53,7 +53,7 @@ class NewsModel with ChangeNotifier {
     String content = map['title'] ?? '';
     String datetoshow = "";
     if (map['publishedAt'] != null) {
-      datetoshow = GlobalMethod.formattedDatText(map['publishedAt'] ?? '');
+      datetoshow = globalMethod.formattedDatText(map['publishedAt'] ?? '');
     }
     return NewsModel(
       id: map["source"]['id'] ?? '',

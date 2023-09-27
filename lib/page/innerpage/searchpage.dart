@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:newsapps/const/fontstyle.dart';
 import 'package:newsapps/const/globalcolors.dart';
 import 'package:newsapps/widget/articlewidget.dart';
 import 'package:provider/provider.dart';
-
-import '../../const/function.dart';
+import '../../const/const.dart';
 import '../../model/newsmodel.dart';
-import '../../service/newsprovider.dart';
+import '../../service/provider/newsprovider.dart';
 
 class SearchPage extends StatefulWidget {
   static const routeName = "/Searchpage";
@@ -17,26 +17,17 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
-  late final TextEditingController _searchEditController;
-  late final FocusNode focusnode;
+  final TextEditingController _searchEditController = TextEditingController();
 
-  @override
-  void initState() {
-    super.initState();
-    _searchEditController = TextEditingController();
-    focusnode = FocusNode();
-  }
+  List<NewsModel>? searchList = [];
 
   @override
   void dispose() {
     if (mounted) {
       _searchEditController.dispose();
-      focusnode.dispose();
     }
     super.dispose();
   }
-
-  List<NewsModel>? searchList = [];
 
   @override
   Widget build(BuildContext context) {
@@ -44,28 +35,22 @@ class _SearchPageState extends State<SearchPage> {
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
-        focusnode.unfocus();
       },
       child: SafeArea(
         child: Scaffold(
           appBar: AppBar(
-            iconTheme: IconThemeData(color: GlobalColors.black),
-            backgroundColor: GlobalColors.white,
-            elevation: 0.0,
-            centerTitle: true,
-            title: GlobalMethod.applogo(),
+            title: globalMethod.applogo(),
           ),
           body: Column(
             children: [
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                 child: TextField(
-                  focusNode: focusnode,
                   controller: _searchEditController,
-                  autofocus: true,
                   textInputAction: TextInputAction.search,
                   keyboardType: TextInputType.text,
-                  style: titleTextSTyle,
+                  style: TextFontStyle.titleTextSTyle(context),
                   onSubmitted: (value) async {
                     searchList = await newsProvider.fetchASearchNews(
                         q: _searchEditController.text);
@@ -77,6 +62,12 @@ class _SearchPageState extends State<SearchPage> {
                   },
                   decoration: InputDecoration(
                       hintText: "Search Here",
+                      hintStyle: GoogleFonts.poppins(
+                          textStyle: const TextStyle(
+                              color: Colors.grey,
+                              fontSize: 14,
+                              letterSpacing: 1,
+                              fontWeight: FontWeight.w600)),
                       contentPadding:
                           const EdgeInsets.only(bottom: 8 / 5, left: 10),
                       suffix: Padding(
@@ -88,7 +79,6 @@ class _SearchPageState extends State<SearchPage> {
                           child: InkWell(
                             onTap: () {
                               _searchEditController.clear();
-                              focusnode.unfocus();
                               searchList!.clear();
                               newsProvider.setSearch(false);
                             },

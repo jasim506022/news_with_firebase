@@ -30,9 +30,6 @@ class BookmarksModel with ChangeNotifier {
     required this.datetoshow,
     required this.readingTimeText,
   });
-
-  
-
   
 
    factory BookmarksModel.fromSnapshot(

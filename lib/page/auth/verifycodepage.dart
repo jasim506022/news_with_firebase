@@ -1,15 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:newsapps/const/function.dart';
+import 'package:newsapps/const/const.dart';
 import 'package:newsapps/page/news/homepage.dart';
-
 import 'package:pinput/pinput.dart';
 import 'package:provider/provider.dart';
-
 import '../../const/globalcolors.dart';
-import '../../service/othersprovider.dart';
+import '../../service/provider/loadingprovider.dart';
 import '../../widget/roundbutton.dart';
-
 
 class VerifiyCodePage extends StatefulWidget {
   const VerifiyCodePage({super.key, required this.verificationId});
@@ -26,7 +23,6 @@ class _VerifiyCodePageState extends State<VerifiyCodePage> {
   final auth = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
-     final newsmodelProvider = Provider.of<IsBookmarkProvider>(context);
     final defaultPinTheme = PinTheme(
       width: 56,
       height: 56,
@@ -117,24 +113,38 @@ class _VerifiyCodePageState extends State<VerifiyCodePage> {
                   const SizedBox(
                     height: 20,
                   ),
-                  RoundButton(
-                      text: "Verify Phone Number",
-                      loading: newsmodelProvider.isLoading,
-                      onTap: () async {
-                       newsmodelProvider.setLoading(isLoading: true);
-                        final cendial = PhoneAuthProvider.credential(
-                            verificationId: widget.verificationId,
-                            smsCode: pinNumber);
-                        try {
-                          await auth.signInWithCredential(cendial);
-                          Navigator.pushNamed(context, HomePage.routeName);
-                          GlobalMethod.toastMessage("Login Successfully");
-                          newsmodelProvider.setLoading(isLoading: false);
-                        } catch (e) {
-                          GlobalMethod.toastMessage(e.toString());
-                         newsmodelProvider.setLoading(isLoading: false);
-                        }
-                      })
+                  Consumer<LoadingProvider>(
+                    builder: (context, loadingProvider, child) {
+                      return RoundButton(
+                          text: "Verify Phone Number",
+                          loading: loadingProvider,
+                          onTap: () async {
+                            Provider.of<LoadingProvider>(context, listen: false)
+                                .setUploading(loading: true);
+                            final cendial = PhoneAuthProvider.credential(
+                                verificationId: widget.verificationId,
+                                smsCode: pinNumber);
+                            try {
+                              await auth.signInWithCredential(cendial);
+                              sharedPreferences!
+                                  .setString("uid", auth.currentUser!.uid);
+                              // ignore: use_build_context_synchronously
+                              Navigator.pushNamed(context, HomePage.routeName);
+                              // ignore: use_build_context_synchronously
+                              Provider.of<LoadingProvider>(context,
+                                      listen: false)
+                                  .setUploading(loading: false);
+
+                              globalMethod.toastMessage("Login Successfully");
+                            } catch (e) {
+                              globalMethod.toastMessage(e.toString());
+                              Provider.of<LoadingProvider>(context,
+                                      listen: false)
+                                  .setUploading(loading: false);
+                            }
+                          });
+                    },
+                  )
                 ],
               ),
             )));

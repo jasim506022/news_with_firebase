@@ -17,6 +17,7 @@ class ShaderMaskWidget extends StatelessWidget {
     final newsmodelProvider = Provider.of<NewsModel>(context);
     double width = MediaQuery.of(context).size.width;
     return Material(
+      color: Theme.of(context).cardColor,
       child: InkWell(
         onTap: () {
           Navigator.push(

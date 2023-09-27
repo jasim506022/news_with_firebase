@@ -1,12 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:newsapps/const/function.dart';
-import 'package:newsapps/page/loginout/verifycodepage.dart';
+import 'package:newsapps/const/const.dart';
+import 'package:newsapps/page/auth/verifycodepage.dart';
 import 'package:newsapps/widget/roundbutton.dart';
 import 'package:provider/provider.dart';
 import '../../const/globalcolors.dart';
-import '../../service/othersprovider.dart';
+import '../../service/provider/loadingprovider.dart';
 
 class LoginWithPhoneNukmberPage extends StatefulWidget {
   const LoginWithPhoneNukmberPage({super.key});
@@ -19,14 +19,13 @@ class LoginWithPhoneNukmberPage extends StatefulWidget {
 class _LoginWithPhoneNukmberPageState extends State<LoginWithPhoneNukmberPage> {
   final phoneNumberController = TextEditingController();
   String countryCode = "+880";
-  final auth = FirebaseAuth.instance;
 
+  FirebaseAuth auth = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
-    final newsmodelProvider = Provider.of<IsBookmarkProvider>(context);
     return GestureDetector(
       onTap: () {
-         FocusScope.of(context).unfocus();
+        FocusScope.of(context).unfocus();
       },
       child: SafeArea(
         child: Scaffold(
@@ -123,32 +122,42 @@ class _LoginWithPhoneNukmberPageState extends State<LoginWithPhoneNukmberPage> {
                   const SizedBox(
                     height: 20,
                   ),
-                  RoundButton(
-                      text: "Send the code",
-                      loading: newsmodelProvider.isLoadingphone,
-                      onTap: () {
-                        newsmodelProvider.setLoadingphone(isLoading: true);
-                        auth.verifyPhoneNumber(
-                          verificationCompleted: (phoneAuthCredential) {},
-                          phoneNumber: countryCode + phoneNumberController.text,
-                          verificationFailed: (error) {
-                            GlobalMethod.toastMessage(error.toString());
-                          },
-                          codeSent: (verificationId, forceResendingToken) {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => VerifiyCodePage(
-                                      verificationId: verificationId),
-                                ));
-                            newsmodelProvider.setLoadingphone(isLoading: true);
-                          },
-                          codeAutoRetrievalTimeout: (verificationId) {
-                            GlobalMethod.toastMessage(verificationId);
-                            newsmodelProvider.setLoading(isLoading: true);
-                          },
-                        );
-                      })
+                  Consumer<LoadingProvider>(
+                    builder: (context, loadingProvider, child) {
+                      return RoundButton(
+                          text: "Send the code",
+                          loading: loadingProvider,
+                          onTap: () {
+                            Provider.of<LoadingProvider>(context, listen: false)
+                                .setUploading(loading: true);
+                            auth.verifyPhoneNumber(
+                              verificationCompleted: (phoneAuthCredential) {},
+                              phoneNumber:
+                                  countryCode + phoneNumberController.text,
+                              verificationFailed: (error) {
+                                globalMethod.toastMessage(error.toString());
+                              },
+                              codeSent: (verificationId, forceResendingToken) {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => VerifiyCodePage(
+                                          verificationId: verificationId),
+                                    ));
+                                Provider.of<LoadingProvider>(context,
+                                        listen: false)
+                                    .setUploading(loading: false);
+                              },
+                              codeAutoRetrievalTimeout: (verificationId) {
+                                globalMethod.toastMessage(verificationId);
+                                Provider.of<LoadingProvider>(context,
+                                        listen: false)
+                                    .setUploading(loading: false);
+                              },
+                            );
+                          });
+                    },
+                  )
                 ],
               ),
             ),

@@ -1,10 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:newsapps/model/newsmodel.dart';
-import 'package:newsapps/service/apiservice.dart';
 import 'package:provider/provider.dart';
-import '../../const/globalcolors.dart';
+import '../../service/other/apiservice.dart';
 import '../../widget/articlewidget.dart';
 import '../../widget/loadingarticlewidget.dart';
 
@@ -21,8 +19,6 @@ class _CategoryPageState extends State<CategoryPage> {
 
   List<NewsModel> categoryList = [];
 
-  
-
   int limit = 10;
   bool _islimit = false;
   @override
@@ -30,6 +26,7 @@ class _CategoryPageState extends State<CategoryPage> {
     getNews();
     super.initState();
   }
+
   @override
   void didChangeDependencies() {
     _scrollController.addListener(() async {
@@ -59,7 +56,7 @@ class _CategoryPageState extends State<CategoryPage> {
   }
 
   Future<void> getNews() async {
-    categoryList = await ApiServices.getAllTopNews(
+    categoryList = await ApiServices.getAllNews(
         pageSize: limit, category: widget.categoryname.toLowerCase());
     setState(() {});
   }
@@ -68,18 +65,8 @@ class _CategoryPageState extends State<CategoryPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          iconTheme: IconThemeData(color: GlobalColors.black),
-          backgroundColor: GlobalColors.white,
-          elevation: 0.0,
-          centerTitle: true,
           title: Text(
             "${widget.categoryname}  News",
-            style: GoogleFonts.poppins(
-                textStyle: TextStyle(
-                    color: GlobalColors.red,
-                    fontSize: 16,
-                    letterSpacing: 1,
-                    fontWeight: FontWeight.w800)),
           ),
         ),
         body: categoryList.isEmpty
@@ -95,7 +82,7 @@ class _CategoryPageState extends State<CategoryPage> {
                       itemBuilder: (context, index) {
                         return ChangeNotifierProvider.value(
                           value: categoryList[index],
-                          child:  const ArticleItemWidget(),
+                          child: const ArticleItemWidget(),
                         );
                       },
                     ),

@@ -1,48 +1,55 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:newsapps/const/const.dart';
 import 'package:newsapps/const/globalcolors.dart';
-import 'package:newsapps/page/loginout/loginpage.dart';
+import 'package:newsapps/page/auth/signuppage.dart';
+import 'package:newsapps/page/news/homepage.dart';
+import 'package:newsapps/service/provider/loadingprovider.dart';
 import 'package:provider/provider.dart';
-
-import '../../const/function.dart';
-import '../../service/othersprovider.dart';
+import '../../service/other/apiservice.dart';
 import '../../widget/newstextfieldwidget.dart';
 import '../../widget/roundbutton.dart';
+import '../../widget/signwithiconwidget.dart';
+import 'loginwithphonenumber.dart';
 
-class SignUpPage extends StatefulWidget {
-  const SignUpPage({super.key});
-
+class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
+  static const routeName = "/LoginDetailsPage";
   @override
-  State<SignUpPage> createState() => _SignUpPageState();
+  State<LoginPage> createState() => _LoginPageState();
 }
 
-class _SignUpPageState extends State<SignUpPage> {
+class _LoginPageState extends State<LoginPage> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
-  final _form = GlobalKey<FormState>();
-  FirebaseAuth auth = FirebaseAuth.instance;
 
-  FocusNode emailNode = FocusNode();
-  FocusNode passwordNode = FocusNode();
+  final _form = GlobalKey<FormState>();
+
   @override
   void dispose() {
     emailController.dispose();
     passwordController.dispose();
-    emailNode.dispose();
-    passwordNode.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final newsmodelProvider = Provider.of<IsBookmarkProvider>(context);
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+        statusBarColor: Color(0xffE5E5E5),
+        statusBarIconBrightness: Brightness.dark));
+
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
       },
-      child: Scaffold(
-        body: SafeArea(
+      child: WillPopScope(
+        onWillPop: () async {
+          SystemNavigator.pop();
+          return true;
+        },
+        child: SafeArea(
           child: Scaffold(
             resizeToAvoidBottomInset: false,
             backgroundColor: const Color(0xffE5E5E5),
@@ -56,7 +63,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     Row(
                       children: [
                         Text(
-                          "Sign up",
+                          "Login",
                           style: GoogleFonts.poppins(
                             textStyle: TextStyle(
                                 color: GlobalColors.black,
@@ -78,7 +85,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       "Welcome to Jasim Uddin News",
                       style: GoogleFonts.poppins(
                         textStyle: TextStyle(
-                            color: GlobalColors.gray,
+                            color: GlobalColors.lightCardColor,
                             fontSize: 14,
                             letterSpacing: 1,
                             fontWeight: FontWeight.w500),
@@ -103,7 +110,6 @@ class _SignUpPageState extends State<SignUpPage> {
                           children: [
                             NewsTextFieldWidget(
                               emailController: emailController,
-                              focusnode: emailNode,
                               hintText: 'Email',
                               icon: Icons.email,
                               keyboardType: TextInputType.emailAddress,
@@ -115,7 +121,6 @@ class _SignUpPageState extends State<SignUpPage> {
                             ),
                             NewsTextFieldWidget(
                               emailController: passwordController,
-                              focusnode: passwordNode,
                               hintText: 'Password',
                               icon: Icons.lock,
                               keyboardType: TextInputType.text,
@@ -127,28 +132,82 @@ class _SignUpPageState extends State<SignUpPage> {
                     const SizedBox(
                       height: 15,
                     ),
-                    RoundButton(
-                      text: 'Sign Up',
-                      loading: newsmodelProvider.isLoading,
-                      onTap: () {
-                        if (_form.currentState!.validate()) {
-                          newsmodelProvider.setLoading(isLoading: true);
-                          auth
-                              .createUserWithEmailAndPassword(
-                                  email: emailController.text.toString(),
-                                  password: passwordController.text.toString())
-                              .then((value) {
-                            newsmodelProvider.setLoading(isLoading: false);
-                            Navigator.pushNamed(context, LoginPage.routeName);
-                          }).onError((error, stackTrace) {
-                            GlobalMethod.toastMessage(error.toString());
-                            newsmodelProvider.setLoading(isLoading: false);
-                          });
-                        }
+                    Consumer<LoadingProvider>(
+                      builder: (context, loadingProvider, child) {
+                        return RoundButton(
+                          text: 'Login',
+                          loading: loadingProvider,
+                          onTap: () {
+                            if (_form.currentState!.validate()) {
+                              Provider.of<LoadingProvider>(context,
+                                      listen: false)
+                                  .setUploading(loading: true);
+                              FirebaseAuth auth = FirebaseAuth.instance;
+                              auth
+                                  .signInWithEmailAndPassword(
+                                      email: emailController.text.toString(),
+                                      password:
+                                          passwordController.text.toString())
+                                  .then((value) {
+                                sharedPreferences!
+                                    .setString("uid", value.user!.uid);
+                                Provider.of<LoadingProvider>(context,
+                                        listen: false)
+                                    .setUploading(loading: false);
+                                Navigator.pushNamed(
+                                    context, HomePage.routeName);
+                                globalMethod.toastMessage("Login Successfully");
+                              }).onError((error, stackTrace) {
+                                globalMethod.toastMessage(error.toString());
+                                Provider.of<LoadingProvider>(context,
+                                        listen: false)
+                                    .setUploading(loading: false);
+                              });
+                            }
+                          },
+                        );
                       },
                     ),
                     const SizedBox(
                       height: 15,
+                    ),
+                    Consumer<LoadingProvider>(
+                      builder: (context, loadingProvider, child) {
+                        return SignWithIcon(
+                          loading: loadingProvider,
+                          image: "asset/image/phone.png",
+                          text: 'Login With Phone Number',
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      const LoginWithPhoneNukmberPage(),
+                                ));
+                          },
+                        );
+                      },
+                    ),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    Consumer<LoadingProvider>(
+                      builder: (context, loadingProvider, child) {
+                        return SignWithIcon(
+                          loading: loadingProvider,
+                          image: "asset/image/gmail.png",
+                          text: 'Login With Gmail',
+                          onTap: () {
+                            Provider.of<LoadingProvider>(context, listen: false)
+                                .setLoadingGmail(loading: true);
+                            ApiServices.googleSignUp();
+                            globalMethod.toastMessage("Login Successfully");
+                            Provider.of<LoadingProvider>(context, listen: false)
+                                .setLoadingGmail(loading: false);
+                            Navigator.pushNamed(context, HomePage.routeName);
+                          },
+                        );
+                      },
                     ),
                     const SizedBox(
                       height: 15,
@@ -157,7 +216,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          "Already Have a Account",
+                          "Don't Have an Account",
                           style: GoogleFonts.poppins(
                               textStyle: TextStyle(
                                   color: GlobalColors.black,
@@ -166,9 +225,13 @@ class _SignUpPageState extends State<SignUpPage> {
                         ),
                         TextButton(
                             onPressed: () {
-                              Navigator.pushNamed(context, LoginPage.routeName);
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const SignUpPage(),
+                                  ));
                             },
-                            child: Text("Login",
+                            child: Text("Sign Up",
                                 style: GoogleFonts.poppins(
                                     textStyle: TextStyle(
                                         color: GlobalColors.deepred,

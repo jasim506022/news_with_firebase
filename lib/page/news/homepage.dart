@@ -1,16 +1,15 @@
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_exit_app/flutter_exit_app.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:newsapps/const/const.dart';
 import 'package:newsapps/const/globalcolors.dart';
 import 'package:newsapps/page/innerpage/searchpage.dart';
-import 'package:newsapps/service/newsprovider.dart';
+import 'package:newsapps/service/provider/newsprovider.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import '../../const/fontstyle.dart';
-import '../../const/function.dart';
 import '../../widget/drawerwidget.dart';
+import '../../widget/rowwidget.dart';
 import '../../widget/shadermaskwidget.dart';
 import '../../widget/singletabbarwidget.dart';
 import 'alltopnews.dart';
@@ -18,7 +17,6 @@ import 'alltopnews.dart';
 class HomePage extends StatefulWidget {
   static const routeName = "/HomePage";
   const HomePage({super.key});
-
   @override
   State<HomePage> createState() => _HomePageState();
 }
@@ -30,8 +28,10 @@ class _HomePageState extends State<HomePage>
   @override
   void initState() {
     _tabController = TabController(length: 7, vsync: this);
+
     super.initState();
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -39,16 +39,11 @@ class _HomePageState extends State<HomePage>
     double width = MediaQuery.of(context).size.width;
     return WillPopScope(
       onWillPop: () async {
-        FlutterExitApp.exitApp();
         return true;
       },
       child: Scaffold(
         appBar: AppBar(
-          iconTheme: IconThemeData(color: GlobalColors.black),
-          backgroundColor: GlobalColors.white,
-          elevation: 0.0,
-          centerTitle: true,
-          title: GlobalMethod.applogo(),
+          title: globalMethod.applogo(),
           actions: [
             Padding(
               padding: const EdgeInsets.all(8.0),
@@ -56,11 +51,8 @@ class _HomePageState extends State<HomePage>
                   onPressed: () {
                     Navigator.pushNamed(context, SearchPage.routeName);
                   },
-                  icon: Icon(
-                    IconlyLight.search,
-                    color: GlobalColors.black,
-                    weight: 4,
-                  )),
+                  icon: Icon(IconlyLight.search,
+                      color: Theme.of(context).iconTheme.color)),
             )
           ],
         ),
@@ -71,24 +63,14 @@ class _HomePageState extends State<HomePage>
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text("Top News", style: titleTextSTyle),
-                  InkWell(
-                    onTap: () {
-                      Navigator.pushNamed(context, AllTopNews.routeName);
-                    },
-                    child: Text("See All",
-                        style: GoogleFonts.poppins(
-                            textStyle: TextStyle(
-                                color: GlobalColors.black,
-                                fontSize: 14,
-                                letterSpacing: 1,
-                                fontStyle: FontStyle.normal))),
-                  ),
-                ],
+              const SizedBox(
+                height: 8,
               ),
+              RowWidget(
+                  title: "Top News",
+                  function: () {
+                    Navigator.pushNamed(context, AllTopNews.routeName);
+                  }),
               const SizedBox(
                 height: 10,
               ),
@@ -96,7 +78,7 @@ class _HomePageState extends State<HomePage>
                 height: 200,
                 width: width,
                 child: FutureBuilder(
-                    future: newsProvider.fetchAllNews(page: 2),
+                    future: newsProvider.fetchAllTopNews(page: 2),
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return Shimmer.fromColors(
@@ -105,11 +87,11 @@ class _HomePageState extends State<HomePage>
                           child: Container(
                             height: 200,
                             width: width,
-                            color: Colors.grey.shade700,
+                            color: Theme.of(context).cardColor,
                           ),
                         );
                       } else if (snapshot.hasError) {
-                        return GlobalMethod.errorMethod(
+                        return globalMethod.errorMethod(
                             error: snapshot.error.toString());
                       }
                       return Swiper(
@@ -131,7 +113,7 @@ class _HomePageState extends State<HomePage>
               const SizedBox(
                 height: 10,
               ),
-              Text("All News", style: titleTextSTyle),
+              Text("All News", style: TextFontStyle.titleTextSTyle(context)),
               const SizedBox(
                 height: 10,
               ),
@@ -141,7 +123,7 @@ class _HomePageState extends State<HomePage>
                 child: TabBar(
                   isScrollable: true,
                   labelStyle: tabLabelStyle,
-                  unselectedLabelColor: Colors.black,
+                  unselectedLabelColor: Theme.of(context).iconTheme.color,
                   unselectedLabelStyle: tabunselectedLabelStyle,
                   labelColor: Colors.white,
                   indicator: BoxDecoration(

@@ -11,7 +11,6 @@ class NewsTextFieldWidget extends StatelessWidget {
     required this.validatorText,
     required this.hintText,
     required this.icon,
-    required this.focusnode,
     required this.obscureText,
   });
 
@@ -20,7 +19,6 @@ class NewsTextFieldWidget extends StatelessWidget {
   final String validatorText;
   final String hintText;
   final IconData icon;
-  final FocusNode focusnode;
   final bool obscureText;
 
   @override
@@ -28,7 +26,6 @@ class NewsTextFieldWidget extends StatelessWidget {
     return TextFormField(
       obscureText: obscureText,
       keyboardType: keyboardType,
-      focusNode: focusnode,
       controller: emailController,
       style: GoogleFonts.poppins(
           textStyle: TextStyle(

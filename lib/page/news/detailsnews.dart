@@ -1,20 +1,22 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:newsapps/model/bookmarksmodel.dart';
 import 'package:newsapps/page/news/detailsnewswebsite.dart';
+import 'package:newsapps/service/other/database_service.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
-import '../../const/function.dart';
+import '../../const/const.dart';
 import '../../const/globalcolors.dart';
-import '../../model/newsmodel.dart';
-import '../../service/bookmarksprovider.dart';
-import '../../service/newsprovider.dart';
+import '../../service/provider/bookmarksprovider.dart';
 
 class NewsDetailsPage extends StatefulWidget {
   static const routeName = "/NewsDetailsPage";
-  const NewsDetailsPage({super.key, required this.newsModel, });
+
+  const NewsDetailsPage({
+    super.key,
+    required this.newsModel,
+  });
   final dynamic newsModel;
 
   @override
@@ -22,12 +24,8 @@ class NewsDetailsPage extends StatefulWidget {
 }
 
 class _NewsDetailsPageState extends State<NewsDetailsPage> {
-  final firebasedatabase = FirebaseFirestore.instance.collection('News');
-   dynamic newsModel;
+  dynamic newsModel;
   bool isBooking = false;
-  String? publishedAt;
-  dynamic currBookmark;
-  bool isbookmarksLoading = true;
 
   @override
   void initState() {
@@ -37,21 +35,18 @@ class _NewsDetailsPageState extends State<NewsDetailsPage> {
 
   @override
   void didChangeDependencies() {
-    if (isbookmarksLoading) {
-      final List<BookmarksModel> bookmarkList =
-          Provider.of<BookmarksProvider>(context).getNewsList;
-      if (bookmarkList.isEmpty) {
-        return;
-      }
-      currBookmark = bookmarkList
-          .where((element) => element.publishedAt == newsModel?.publishedAt)
-          .toList();
-      if (currBookmark.isEmpty) {
-        isBooking = false;
-      } else {
-        isBooking = true;
-      }
-      isbookmarksLoading = false;
+    final List<BookmarksModel> bookmarkList =
+        Provider.of<BookmarksProvider>(context).getbookimarNewList;
+    if (bookmarkList.isEmpty) {
+      return;
+    }
+    List<BookmarksModel> currBookmark = bookmarkList
+        .where((element) => element.publishedAt == newsModel?.publishedAt)
+        .toList();
+    if (currBookmark.isEmpty) {
+      isBooking = false;
+    } else {
+      isBooking = true;
     }
 
     super.didChangeDependencies();
@@ -61,18 +56,11 @@ class _NewsDetailsPageState extends State<NewsDetailsPage> {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
-    final newsProviders = Provider.of<NewsProvider>(context);
-    //final newsModel = Provider.of<NewsModel>(context);
     final bookmarksProvider = Provider.of<BookmarksProvider>(context);
-
-   // final newsModel = newsProviders.findByDate(publishedAt: publishedAt!);
 
     return Scaffold(
       appBar: AppBar(
-        iconTheme: IconThemeData(color: GlobalColors.black),
-        backgroundColor: GlobalColors.white,
-        centerTitle: true,
-        title: GlobalMethod.applogo(),
+        title: globalMethod.applogo(),
         elevation: 1.15,
       ),
       body: SingleChildScrollView(
@@ -89,7 +77,7 @@ class _NewsDetailsPageState extends State<NewsDetailsPage> {
                 newsModel!.title,
                 style: GoogleFonts.poppins(
                     textStyle: TextStyle(
-                        color: GlobalColors.black,
+                        color: Theme.of(context).iconTheme.color,
                         fontSize: 18,
                         height: 1.5,
                         fontWeight: FontWeight.w700)),
@@ -105,7 +93,7 @@ class _NewsDetailsPageState extends State<NewsDetailsPage> {
                           newsModel!.author,
                           style: GoogleFonts.poppins(
                               textStyle: TextStyle(
-                                  color: GlobalColors.gray,
+                                  color: GlobalColors.lightCardColor,
                                   fontSize: 12,
                                   fontWeight: FontWeight.w600)),
                         )
@@ -129,7 +117,7 @@ class _NewsDetailsPageState extends State<NewsDetailsPage> {
                 height: height * .35,
                 width: width,
                 child: Card(
-                  color: GlobalColors.white,
+                  color: Theme.of(context).cardColor,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -160,14 +148,16 @@ class _NewsDetailsPageState extends State<NewsDetailsPage> {
                               child: InkWell(
                                 onTap: () async {
                                   if (isBooking) {
-                                    bookmarksProvider.delete(publishedAt: newsModel!.publishedAt);
+                                    bookmarksProvider.delete(
+                                        publishedAt: newsModel!.publishedAt);
                                     setState(() {
                                       isBooking = false;
                                     });
                                   } else {
-                                    firebasedatabase
-                                        .doc(newsModel!.publishedAt)
-                                        .set(newsModel!.toMap());
+                                    DatabaseService.uploadFirebase(
+                                        id: newsModel!.publishedAt,
+                                        newsmodel: newsModel);
+
                                     setState(() {
                                       isBooking = true;
                                     });
@@ -220,7 +210,7 @@ class _NewsDetailsPageState extends State<NewsDetailsPage> {
                                       Share.share(newsModel!.url,
                                           subject: 'Share The Url');
                                     } catch (error) {
-                                      await GlobalMethod.errorDialog(
+                                      await globalMethod.errorDialog(
                                           context: context,
                                           errorMessage: error.toString());
                                     }
@@ -300,7 +290,7 @@ class _NewsDetailsPageState extends State<NewsDetailsPage> {
                 "Content ",
                 style: GoogleFonts.poppins(
                     textStyle: TextStyle(
-                        color: GlobalColors.black,
+                        color: Theme.of(context).iconTheme.color,
                         fontSize: 16,
                         height: 1.2,
                         fontWeight: FontWeight.w700)),
@@ -313,7 +303,7 @@ class _NewsDetailsPageState extends State<NewsDetailsPage> {
                 textAlign: TextAlign.justify,
                 style: GoogleFonts.poppins(
                     textStyle: TextStyle(
-                        color: GlobalColors.black,
+                        color: Theme.of(context).iconTheme.color,
                         fontSize: 15,
                         height: 1.5,
                         fontWeight: FontWeight.normal)),
@@ -325,7 +315,7 @@ class _NewsDetailsPageState extends State<NewsDetailsPage> {
                 "Description ",
                 style: GoogleFonts.poppins(
                     textStyle: TextStyle(
-                        color: GlobalColors.black,
+                        color: Theme.of(context).iconTheme.color,
                         fontSize: 16,
                         height: 1.2,
                         fontWeight: FontWeight.w700)),
@@ -338,7 +328,7 @@ class _NewsDetailsPageState extends State<NewsDetailsPage> {
                 textAlign: TextAlign.justify,
                 style: GoogleFonts.poppins(
                     textStyle: TextStyle(
-                        color: GlobalColors.black,
+                        color: Theme.of(context).iconTheme.color,
                         fontSize: 15,
                         height: 1.5,
                         fontWeight: FontWeight.normal)),

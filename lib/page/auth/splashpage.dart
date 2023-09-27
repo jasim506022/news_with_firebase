@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:newsapps/service/splashservice.dart';
 
+import '../../const/const.dart';
 import '../../const/globalcolors.dart';
-
-
 
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});
@@ -14,12 +12,12 @@ class SplashPage extends StatefulWidget {
 }
 
 class _SplashPageState extends State<SplashPage> {
-  SplashService splashService = SplashService();
   @override
   void initState() {
-    splashService.isMainPage(context);
+    globalMethod.isMainPage(context);
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

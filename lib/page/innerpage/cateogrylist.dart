@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:newsapps/const/const.dart';
 import 'package:newsapps/page/news/alltopnews.dart';
 import 'package:newsapps/page/innerpage/categroypage.dart';
-import '../../const/function.dart';
+import 'package:newsapps/page/news/homepage.dart';
 import '../../const/globalcolors.dart';
 import '../../model/categorymodel.dart';
-import '../../widget/drawerwidget.dart';
 
 class CategoryList extends StatefulWidget {
-    static const routeName = "/CategoryList";
+  static const routeName = "/CategoryList";
   const CategoryList({super.key});
 
   @override
@@ -20,13 +20,17 @@ class _CategoryListState extends State<CategoryList> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        iconTheme: IconThemeData(color: GlobalColors.black),
-        backgroundColor: GlobalColors.white,
-        elevation: 1,
-        centerTitle: true,
-        title: GlobalMethod.applogo(),
+        leading: IconButton(
+            onPressed: () {
+              Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const HomePage(),
+                  ));
+            },
+            icon: const Icon(Icons.arrow_back)),
+        title: globalMethod.applogo(),
       ),
-      drawer: const DrawerWidget(),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         child: GridView.builder(

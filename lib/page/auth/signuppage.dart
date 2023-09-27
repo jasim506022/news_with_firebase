@@ -1,32 +1,29 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:newsapps/const/const.dart';
 import 'package:newsapps/const/globalcolors.dart';
-import 'package:newsapps/page/loginout/signuppage.dart';
-import 'package:newsapps/page/news/homepage.dart';
+import 'package:newsapps/page/auth/loginpage.dart';
+import 'package:newsapps/service/provider/loadingprovider.dart';
 import 'package:provider/provider.dart';
-import '../../const/function.dart';
-import '../../service/othersprovider.dart';
+
 import '../../widget/newstextfieldwidget.dart';
 import '../../widget/roundbutton.dart';
-import 'loginwithphonenumber.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
-  static const routeName = "/LoginDetailsPage";
+class SignUpPage extends StatefulWidget {
+  const SignUpPage({super.key});
+
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<SignUpPage> createState() => _SignUpPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _SignUpPageState extends State<SignUpPage> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
-  FocusNode emailNode = FocusNode();
-  FocusNode passwordNode = FocusNode();
   final _form = GlobalKey<FormState>();
 
-  FirebaseAuth auth = FirebaseAuth.instance;
+  FocusNode emailNode = FocusNode();
+  FocusNode passwordNode = FocusNode();
   @override
   void dispose() {
     emailController.dispose();
@@ -38,17 +35,12 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    final newsmodelProvider = Provider.of<IsBookmarkProvider>(context);
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
       },
-      child: WillPopScope(
-        onWillPop: () async {
-          SystemNavigator.pop();
-          return true;
-        },
-        child: SafeArea(
+      child: Scaffold(
+        body: SafeArea(
           child: Scaffold(
             resizeToAvoidBottomInset: false,
             backgroundColor: const Color(0xffE5E5E5),
@@ -62,7 +54,7 @@ class _LoginPageState extends State<LoginPage> {
                     Row(
                       children: [
                         Text(
-                          "Login",
+                          "Sign up",
                           style: GoogleFonts.poppins(
                             textStyle: TextStyle(
                                 color: GlobalColors.black,
@@ -84,7 +76,7 @@ class _LoginPageState extends State<LoginPage> {
                       "Welcome to Jasim Uddin News",
                       style: GoogleFonts.poppins(
                         textStyle: TextStyle(
-                            color: GlobalColors.gray,
+                            color: GlobalColors.lightCardColor,
                             fontSize: 14,
                             letterSpacing: 1,
                             fontWeight: FontWeight.w500),
@@ -109,7 +101,6 @@ class _LoginPageState extends State<LoginPage> {
                           children: [
                             NewsTextFieldWidget(
                               emailController: emailController,
-                              focusnode: emailNode,
                               hintText: 'Email',
                               icon: Icons.email,
                               keyboardType: TextInputType.emailAddress,
@@ -121,7 +112,6 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                             NewsTextFieldWidget(
                               emailController: passwordController,
-                              focusnode: passwordNode,
                               hintText: 'Password',
                               icon: Icons.lock,
                               keyboardType: TextInputType.text,
@@ -133,60 +123,42 @@ class _LoginPageState extends State<LoginPage> {
                     const SizedBox(
                       height: 15,
                     ),
-                    RoundButton(
-                      text: 'Login',
-                      loading: newsmodelProvider.isLoading,
-                      onTap: () {
-                        if (_form.currentState!.validate()) {
-                          newsmodelProvider.setLoading(isLoading: true);
-
-                          auth
-                              .signInWithEmailAndPassword(
-                                  email: emailController.text.toString(),
-                                  password: passwordController.text.toString())
-                              .then((value) {
-                            newsmodelProvider.setLoading(isLoading: false);
-                            Navigator.pushNamed(context, HomePage.routeName);
-                            GlobalMethod.toastMessage("Login Successfully");
-                          }).onError((error, stackTrace) {
-                            GlobalMethod.toastMessage(error.toString());
-                            setState(() {
-                              newsmodelProvider.setLoading(isLoading: false);
+                    Consumer<LoadingProvider>(
+                      builder: (context, loadingProvider, child) {
+                        return 
+                       RoundButton(
+                        text: 'Sign Up',
+                        loading: loadingProvider,
+                        onTap: () {
+                          if (_form.currentState!.validate()) {
+                            Provider.of<LoadingProvider>(context,
+                                      listen: false)
+                                  .setUploading(loading: true);
+                    
+                            FirebaseAuth.instance
+                                .createUserWithEmailAndPassword(
+                                    email: emailController.text.toString(),
+                                    password: passwordController.text.toString())
+                                .then((value) {
+                              Provider.of<LoadingProvider>(context,
+                                      listen: false)
+                                  .setUploading(loading: false);
+                              Navigator.pushNamed(context, LoginPage.routeName);
+                            }).onError((error, stackTrace) {
+                              globalMethod.toastMessage(error.toString());
+                             Provider.of<LoadingProvider>(context,
+                                      listen: false)
+                                  .setUploading(loading: false);
                             });
-                          });
-                        }
+                          }
+                        },
+                      );
+                   
                       },
+                      
                     ),
                     const SizedBox(
                       height: 15,
-                    ),
-                    SignWithIcon(
-                      loading: false,
-                      image: "asset/image/phone.png",
-                      text: 'Login With Phone Number',
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  const LoginWithPhoneNukmberPage(),
-                            ));
-                      },
-                    ),
-                    const SizedBox(
-                      height: 15,
-                    ),
-                    SignWithIcon(
-                      loading: newsmodelProvider.isLoadingGmail,
-                      image: "asset/image/gmail.png",
-                      text: 'Login With Gmail',
-                      onTap: () {
-                        newsmodelProvider.setLoadingGmail(isLoading: true);
-                        GlobalMethod.googleSignUp();
-                        GlobalMethod.toastMessage("Login Successfully");
-                        newsmodelProvider.setLoadingphone(isLoading: false);
-                        Navigator.pushNamed(context, HomePage.routeName);
-                      },
                     ),
                     const SizedBox(
                       height: 15,
@@ -195,7 +167,7 @@ class _LoginPageState extends State<LoginPage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          "Don't Have an Account",
+                          "Already Have a Account",
                           style: GoogleFonts.poppins(
                               textStyle: TextStyle(
                                   color: GlobalColors.black,
@@ -204,13 +176,9 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                         TextButton(
                             onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => const SignUpPage(),
-                                  ));
+                              Navigator.pushNamed(context, LoginPage.routeName);
                             },
-                            child: Text("Sign Up",
+                            child: Text("Login",
                                 style: GoogleFonts.poppins(
                                     textStyle: TextStyle(
                                         color: GlobalColors.deepred,
@@ -226,66 +194,6 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
           ),
-        ),
-      ),
-    );
-  }
-}
-
-class SignWithIcon extends StatelessWidget {
-  const SignWithIcon({
-    super.key,
-    required this.loading,
-    required this.text,
-    required this.onTap,
-    required this.image,
-  });
-
-  final bool loading;
-  final String text;
-  final VoidCallback onTap;
-  final String image;
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      child: Container(
-        height: 50,
-        decoration: BoxDecoration(
-            color: Colors.white,
-            border: Border.all(color: GlobalColors.deepred, width: 2),
-            borderRadius: BorderRadius.circular(10)),
-        child: Center(
-          child: loading
-              ? const CircularProgressIndicator(
-                  color: Colors.white,
-                )
-              : Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Image(
-                      height: 35,
-                      width: 35,
-                      image: AssetImage(
-                        image,
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    Text(
-                      text,
-                      style: GoogleFonts.poppins(
-                          textStyle: TextStyle(
-                              color: GlobalColors.black,
-                              fontSize: 14,
-                              letterSpacing: 1,
-                              fontWeight: FontWeight.w800)),
-                    ),
-                  ],
-                ),
         ),
       ),
     );

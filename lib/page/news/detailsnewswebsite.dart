@@ -1,13 +1,10 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:newsapps/const/const.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';
-
-import '../../const/fontstyle.dart';
-import '../../const/function.dart';
 import '../../const/globalcolors.dart';
 
 class DetailsNewsWebPage extends StatefulWidget {
@@ -20,22 +17,24 @@ class DetailsNewsWebPage extends StatefulWidget {
 
 class _DetailsNewsWebPageState extends State<DetailsNewsWebPage> {
   late WebViewController controller;
-  double loadingPercentage = 0;
+  bool loading = false;
+  double progressValue = 0.0;
 
   @override
   void initState() {
     super.initState();
+
+    loading = true;
+
     controller = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
       ..setBackgroundColor(const Color(0x00000000))
       ..setNavigationDelegate(
         NavigationDelegate(
           onProgress: (int progress) {
-            // Update loading bar.
-            loadingPercentage = (progress / 100);
-            if (kDebugMode) {
-              print(loadingPercentage);
-            }
+            setState(() {
+              progressValue = (progress / 100);
+            });
           },
           onPageStarted: (String url) {},
           onPageFinished: (String url) {},
@@ -62,50 +61,48 @@ class _DetailsNewsWebPageState extends State<DetailsNewsWebPage> {
         return true;
       },
       child: Scaffold(
-        appBar: AppBar(
-          iconTheme: const IconThemeData(color: Colors.black),
-          backgroundColor: Colors.white,
-          leading: InkWell(
-              onTap: () {
-                Navigator.pop(context);
-              },
-              child: const Icon(IconlyLight.arrowLeft)),
-          centerTitle: true,
-          title: Text(
-            widget.url,
-            style: GoogleFonts.poppins(
-                textStyle: TextStyle(
-                    color: GlobalColors.black,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500)),
-          ),
-          actions: [
-            IconButton(
-                onPressed: () async {
-                  await _showModelSheetFct();
+          appBar: AppBar(
+            iconTheme: const IconThemeData(color: Colors.black),
+            backgroundColor: Colors.white,
+            leading: InkWell(
+                onTap: () {
+                  Navigator.pop(context);
                 },
-                icon: const Icon(Icons.more_vert))
-          ],
-        ),
-        body: Column(
-          children: [
-            LinearProgressIndicator(
-              minHeight: 5,
-              value: loadingPercentage,
-              color: loadingPercentage == 1.0 ? Colors.white : Colors.blue,
-              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                child: const Icon(IconlyLight.arrowLeft)),
+            centerTitle: true,
+            title: Text(
+              widget.url,
+              style: GoogleFonts.poppins(
+                  textStyle: TextStyle(
+                      color: GlobalColors.black,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500)),
             ),
-            Expanded(
+            actions: [
+              IconButton(
+                  onPressed: () async {
+                    await _showModelSheetFct();
+                  },
+                  icon: const Icon(Icons.more_vert))
+            ],
+          ),
+          body: Column(
+            children: [
+              LinearProgressIndicator(
+                value: progressValue,
+                color: progressValue == 1.0 ? Colors.transparent : Colors.red,
+                backgroundColor: Colors.white,
+              ),
+              Expanded(
                 child: WebViewWidget(
-              controller: controller,
-            )),
-          ],
-        ),
-      ),
+                  controller: controller,
+                ),
+              ),
+            ],
+          )),
     );
   }
 
-  
   Future<void> _showModelSheetFct() async {
     await showModalBottomSheet(
       context: context,
@@ -113,7 +110,8 @@ class _DetailsNewsWebPageState extends State<DetailsNewsWebPage> {
         return Container(
           decoration: BoxDecoration(
               color: GlobalColors.white,
-              borderRadius: const BorderRadius.vertical(top:  Radius.circular(20))),
+              borderRadius:
+                  const BorderRadius.vertical(top: Radius.circular(20))),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -130,7 +128,13 @@ class _DetailsNewsWebPageState extends State<DetailsNewsWebPage> {
               const SizedBox(
                 height: 15,
               ),
-              Text("More Option", style: titleTextSTyle),
+              Text("More Option",
+                  style: GoogleFonts.poppins(
+                      textStyle: const TextStyle(
+                          color: Colors.black,
+                          fontSize: 14,
+                          letterSpacing: 1,
+                          fontWeight: FontWeight.w800))),
               const SizedBox(
                 height: 10,
               ),
@@ -155,7 +159,7 @@ class _DetailsNewsWebPageState extends State<DetailsNewsWebPage> {
                   try {
                     Share.share(widget.url, subject: 'Share The Url');
                   } catch (error) {
-                    await GlobalMethod.errorDialog(
+                    await globalMethod.errorDialog(
                         context: context, errorMessage: error.toString());
                   }
                 },
@@ -192,7 +196,7 @@ class _DetailsNewsWebPageState extends State<DetailsNewsWebPage> {
                   try {
                     //await controller.reload();
                   } catch (error) {
-                    await GlobalMethod.errorDialog(
+                    await globalMethod.errorDialog(
                         context: context, errorMessage: error.toString());
                   } finally {
                     Navigator.pop(context);

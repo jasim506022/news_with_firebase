@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:newsapps/const/globalcolors.dart';
+import 'package:newsapps/service/provider/loadingprovider.dart';
 
 class RoundButton extends StatelessWidget {
   const RoundButton(
       {super.key,
       required this.text,
       required this.onTap,
-      this.loading = false});
+      required this.loading});
   final String text;
   final VoidCallback onTap;
-  final bool loading;
+  final LoadingProvider loading;
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +23,7 @@ class RoundButton extends StatelessWidget {
             color: GlobalColors.deepred,
             borderRadius: BorderRadius.circular(10)),
         child: Center(
-          child: loading
+          child: loading.isLoading
               ? const CircularProgressIndicator(
                   color: Colors.white,
                 )

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:newsapps/service/apiservice.dart';
 
-import '../model/newsmodel.dart';
+import '../../model/newsmodel.dart';
+import '../other/apiservice.dart';
 
 class NewsProvider with ChangeNotifier {
   List<NewsModel> newsList = [];
+
   int _currentindex = 0;
 
   bool _isSearch = false;
@@ -37,15 +38,15 @@ class NewsProvider with ChangeNotifier {
     return newsList;
   }
 
-  Future<List<NewsModel>> fetchAllNews({required int page}) async {
-    newsList = await ApiServices.getAllNews(page: page);
+  Future<List<NewsModel>> fetchAllTopNews({required int page}) async {
+    newsList = await ApiServices.getAllTopNews(page: page);
     return newsList;
   }
 
-  Future<List<NewsModel>> fetchAllTopNews(
+  Future<List<NewsModel>> fetchAllNews(
       {required String category, required int pageSize}) async {
     newsList =
-        await ApiServices.getAllTopNews(category: category, pageSize: pageSize);
+        await ApiServices.getAllNews(category: category, pageSize: pageSize);
     return newsList;
   }
 
@@ -54,10 +55,5 @@ class NewsProvider with ChangeNotifier {
   }) async {
     newsList = await ApiServices.searchNewsItem(q: q);
     return newsList;
-  }
-
-NewsModel findByDate({required String? publishedAt}) {
-    return newsList
-        .firstWhere((newsModel) => newsModel.publishedAt == publishedAt);
   }
 }

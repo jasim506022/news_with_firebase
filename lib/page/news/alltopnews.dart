@@ -1,40 +1,39 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:newsapps/service/newsprovider.dart';
+import 'package:newsapps/const/const.dart';
+import 'package:newsapps/service/provider/newsprovider.dart';
 import 'package:provider/provider.dart';
 
-import '../../const/fontstyle.dart';
-import '../../const/function.dart';
 import '../../const/globalcolors.dart';
-import '../../service/apiservice.dart';
+import '../../service/other/apiservice.dart';
 import '../../widget/articlewidget.dart';
 import '../../widget/loadingarticlewidget.dart';
-
 
 class AllTopNews extends StatefulWidget {
   static const routeName = "/AllNewsPage";
   const AllTopNews({super.key});
+
 
   @override
   State<AllTopNews> createState() => _AllTopNewsState();
 }
 
 class _AllTopNewsState extends State<AllTopNews> {
+
+@override
+  void initState() {
+    Future.delayed(Duration.zero, () {
+      Provider.of<NewsProvider>(context, listen: false).setCurrentIndex(0);
+    },);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final newsProvider = Provider.of<NewsProvider>(context);
     return Scaffold(
       appBar: AppBar(
-        iconTheme: const IconThemeData(color: Colors.black),
-        backgroundColor: Colors.white,
-        leading: InkWell(
-            onTap: () {
-              Navigator.pop(context);
-            },
-            child: const Icon(IconlyLight.arrowLeft)),
-        centerTitle: true,
-        title: Text('All TopNews', style: appBarTextStyle),
+        title: const Text('All TopNews'),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -45,7 +44,7 @@ class _AllTopNewsState extends State<AllTopNews> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  GlobalMethod.paginationButton(
+                  globalMethod.paginationButton(
                     text: 'Pre',
                     function: () {
                       if (newsProvider.currentindex == 0) {
@@ -91,7 +90,7 @@ class _AllTopNewsState extends State<AllTopNews> {
                       },
                     ),
                   ),
-                  GlobalMethod.paginationButton(
+                  globalMethod.paginationButton(
                     text: 'Next',
                     function: () {
                       if (newsProvider.currentindex == 19) {
@@ -106,12 +105,12 @@ class _AllTopNewsState extends State<AllTopNews> {
             Expanded(
               child: FutureBuilder(
                 future:
-                    ApiServices.getAllNews(page: newsProvider.currentindex + 1),
+                    ApiServices.getAllTopNews(page: newsProvider.currentindex + 1),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return const LoadingArticleWidget();
                   } else if (snapshot.hasError) {
-                    return GlobalMethod.errorMethod(
+                    return globalMethod.errorMethod(
                         error: snapshot.error.toString());
                   } else if (!snapshot.hasData) {
                     return Image.asset("asset/image/nonewsitemfound.png");

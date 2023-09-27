@@ -5,11 +5,10 @@ import 'package:newsapps/model/bookmarksmodel.dart';
 import 'package:newsapps/model/newsmodel.dart';
 import 'package:provider/provider.dart';
 import '../const/fontstyle.dart';
-import '../const/function.dart';
 import '../const/globalcolors.dart';
 import '../page/news/detailsnews.dart';
 import '../page/news/detailsnewswebsite.dart';
-import '../service/bookmarksprovider.dart';
+import '../service/other/apiservice.dart';
 
 class ArticleItemWidget extends StatefulWidget {
   const ArticleItemWidget({
@@ -32,8 +31,8 @@ class _ArticleItemWidgetState extends State<ArticleItemWidget> {
     dynamic newsmodelProvider = widget.isBookmarks == true
         ? Provider.of<BookmarksModel>(context)
         : Provider.of<NewsModel>(context);
-
     return Material(
+      color: Theme.of(context).cardColor,
       child: InkWell(
         onTap: () {
           Navigator.push(
@@ -43,10 +42,9 @@ class _ArticleItemWidgetState extends State<ArticleItemWidget> {
                     NewsDetailsPage(newsModel: newsmodelProvider),
               ));
         },
-        onDoubleTap: () {
+        onLongPress: () {
           widget.isDelete == true
-              ? 
-               GlobalMethod.logOutDialog(
+              ? ApiServices.logOutDialog(
                   context: context,
                   isDelete: true,
                   id: newsmodelProvider.publishedAt)
@@ -56,7 +54,7 @@ class _ArticleItemWidgetState extends State<ArticleItemWidget> {
           height: 135,
           width: width,
           child: Card(
-            shadowColor: Colors.grey,
+            shadowColor: Theme.of(context).scaffoldBackgroundColor,
             elevation: 3,
             child: Container(
               padding:
@@ -92,7 +90,7 @@ class _ArticleItemWidgetState extends State<ArticleItemWidget> {
                               newsmodelProvider.title,
                               overflow: TextOverflow.ellipsis,
                               maxLines: 3,
-                              style: titleTextstyleblack,
+                              style: TextFontStyle.titleTextstyleblack(context),
                             ),
                             const SizedBox(
                               height: 08,
@@ -155,7 +153,8 @@ class _ArticleItemWidgetState extends State<ArticleItemWidget> {
                                           overflow: TextOverflow.ellipsis,
                                           style: GoogleFonts.poppins(
                                               textStyle: TextStyle(
-                                                  color: GlobalColors.gray,
+                                                  color: GlobalColors
+                                                      .lightCardColor,
                                                   fontSize: 13,
                                                   fontWeight:
                                                       FontWeight.w600)), //
@@ -169,7 +168,8 @@ class _ArticleItemWidgetState extends State<ArticleItemWidget> {
                                           overflow: TextOverflow.ellipsis,
                                           style: GoogleFonts.poppins(
                                               textStyle: TextStyle(
-                                                  color: GlobalColors.gray,
+                                                  color: GlobalColors
+                                                      .lightCardColor,
                                                   fontSize: 13,
                                                   fontWeight:
                                                       FontWeight.w600)), //
