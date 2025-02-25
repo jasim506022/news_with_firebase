@@ -1,11 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:newsapps/const/const.dart';
+import 'package:newsapps/res/const.dart';
 import 'package:newsapps/page/auth/verifycodepage.dart';
 import 'package:newsapps/widget/roundbutton.dart';
 import 'package:provider/provider.dart';
-import '../../const/globalcolors.dart';
+import '../../res/app_colors.dart';
 import '../../service/provider/loadingprovider.dart';
 
 class LoginWithPhoneNukmberPage extends StatefulWidget {
@@ -50,7 +50,7 @@ class _LoginWithPhoneNukmberPageState extends State<LoginWithPhoneNukmberPage> {
                     "Phone Verification",
                     style: GoogleFonts.poppins(
                         textStyle: TextStyle(
-                            color: GlobalColors.red,
+                            color: AppColors.red,
                             fontSize: 22,
                             letterSpacing: 1,
                             fontWeight: FontWeight.w800)),
@@ -62,7 +62,7 @@ class _LoginWithPhoneNukmberPageState extends State<LoginWithPhoneNukmberPage> {
                     "We need to register your phone without getting started!",
                     style: GoogleFonts.poppins(
                         textStyle: TextStyle(
-                            color: GlobalColors.black,
+                            color: AppColors.black,
                             fontSize: 16,
                             letterSpacing: 1,
                             fontWeight: FontWeight.normal)),
@@ -88,7 +88,7 @@ class _LoginWithPhoneNukmberPageState extends State<LoginWithPhoneNukmberPage> {
                             countryCode,
                             style: GoogleFonts.poppins(
                                 textStyle: TextStyle(
-                                    color: GlobalColors.black,
+                                    color: AppColors.black,
                                     fontSize: 17,
                                     letterSpacing: 1,
                                     fontWeight: FontWeight.w500)),
@@ -105,7 +105,7 @@ class _LoginWithPhoneNukmberPageState extends State<LoginWithPhoneNukmberPage> {
                           child: TextFormField(
                             style: GoogleFonts.poppins(
                                 textStyle: TextStyle(
-                                    color: GlobalColors.black,
+                                    color: AppColors.black,
                                     fontSize: 17,
                                     letterSpacing: 1,
                                     fontWeight: FontWeight.w500)),

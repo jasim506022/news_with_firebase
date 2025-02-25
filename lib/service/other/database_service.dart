@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:newsapps/const/const.dart';
+import 'package:newsapps/res/const.dart';
 
 import '../../model/bookmarksmodel.dart';
 import '../../model/newsmodel.dart';

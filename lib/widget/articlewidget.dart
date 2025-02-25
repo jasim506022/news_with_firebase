@@ -4,8 +4,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:newsapps/model/bookmarksmodel.dart';
 import 'package:newsapps/model/newsmodel.dart';
 import 'package:provider/provider.dart';
-import '../const/fontstyle.dart';
-import '../const/globalcolors.dart';
+import '../res/app_text_style.dart';
+import '../res/app_colors.dart';
 import '../page/news/detailsnews.dart';
 import '../page/news/detailsnewswebsite.dart';
 import '../service/other/apiservice.dart';
@@ -90,7 +90,7 @@ class _ArticleItemWidgetState extends State<ArticleItemWidget> {
                               newsmodelProvider.title,
                               overflow: TextOverflow.ellipsis,
                               maxLines: 3,
-                              style: TextFontStyle.titleTextstyleblack(context),
+                              style: AppTextStyle.titleTextstyleblack(context),
                             ),
                             const SizedBox(
                               height: 08,
@@ -135,11 +135,11 @@ class _ArticleItemWidgetState extends State<ArticleItemWidget> {
                                       height: 10,
                                       width: 10,
                                       decoration: BoxDecoration(
-                                          color: GlobalColors.white,
+                                          color: AppColors.white,
                                           shape: BoxShape.circle,
                                           border: Border.all(
                                               width: 3,
-                                              color: GlobalColors.deepred)),
+                                              color: AppColors.deepred)),
                                     ),
                                     const SizedBox(
                                       width: 6,
@@ -153,8 +153,8 @@ class _ArticleItemWidgetState extends State<ArticleItemWidget> {
                                           overflow: TextOverflow.ellipsis,
                                           style: GoogleFonts.poppins(
                                               textStyle: TextStyle(
-                                                  color: GlobalColors
-                                                      .lightCardColor,
+                                                  color:
+                                                      AppColors.lightCardColor,
                                                   fontSize: 13,
                                                   fontWeight:
                                                       FontWeight.w600)), //
@@ -168,8 +168,8 @@ class _ArticleItemWidgetState extends State<ArticleItemWidget> {
                                           overflow: TextOverflow.ellipsis,
                                           style: GoogleFonts.poppins(
                                               textStyle: TextStyle(
-                                                  color: GlobalColors
-                                                      .lightCardColor,
+                                                  color:
+                                                      AppColors.lightCardColor,
                                                   fontSize: 13,
                                                   fontWeight:
                                                       FontWeight.w600)), //

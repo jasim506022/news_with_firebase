@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:newsapps/const/const.dart';
+import 'package:newsapps/res/const.dart';
 import 'package:newsapps/service/provider/newsprovider.dart';
 import 'package:provider/provider.dart';
 
-import '../../const/globalcolors.dart';
+import '../../res/app_colors.dart';
 import '../../service/other/apiservice.dart';
 import '../../widget/articlewidget.dart';
 import '../../widget/loadingarticlewidget.dart';
@@ -13,18 +13,19 @@ class AllTopNews extends StatefulWidget {
   static const routeName = "/AllNewsPage";
   const AllTopNews({super.key});
 
-
   @override
   State<AllTopNews> createState() => _AllTopNewsState();
 }
 
 class _AllTopNewsState extends State<AllTopNews> {
-
-@override
+  @override
   void initState() {
-    Future.delayed(Duration.zero, () {
-      Provider.of<NewsProvider>(context, listen: false).setCurrentIndex(0);
-    },);
+    Future.delayed(
+      Duration.zero,
+      () {
+        Provider.of<NewsProvider>(context, listen: false).setCurrentIndex(0);
+      },
+    );
     super.initState();
   }
 
@@ -62,7 +63,7 @@ class _AllTopNewsState extends State<AllTopNews> {
                           padding: const EdgeInsets.all(8.0),
                           child: Material(
                             color: newsProvider.currentindex == index
-                                ? GlobalColors.red
+                                ? AppColors.red
                                 : Colors.white,
                             child: InkWell(
                               onTap: () {
@@ -77,8 +78,8 @@ class _AllTopNewsState extends State<AllTopNews> {
                                       textStyle: TextStyle(
                                           color:
                                               newsProvider.currentindex == index
-                                                  ? GlobalColors.white
-                                                  : GlobalColors.black,
+                                                  ? AppColors.white
+                                                  : AppColors.black,
                                           fontSize: 15,
                                           letterSpacing: 1,
                                           fontWeight: FontWeight.w800)),
@@ -104,8 +105,8 @@ class _AllTopNewsState extends State<AllTopNews> {
             ),
             Expanded(
               child: FutureBuilder(
-                future:
-                    ApiServices.getAllTopNews(page: newsProvider.currentindex + 1),
+                future: ApiServices.getAllTopNews(
+                    page: newsProvider.currentindex + 1),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return const LoadingArticleWidget();

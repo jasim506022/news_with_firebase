@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:newsapps/const/const.dart';
+import 'package:newsapps/res/const.dart';
 import 'package:reading_time/reading_time.dart';
-
 
 class NewsModel with ChangeNotifier {
   final String id;

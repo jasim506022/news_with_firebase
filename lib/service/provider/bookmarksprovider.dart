@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:newsapps/const/const.dart';
+import 'package:newsapps/res/const.dart';
 import '../../model/bookmarksmodel.dart';
 import '../other/database_service.dart';
 

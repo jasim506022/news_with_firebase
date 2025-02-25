@@ -1,10 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:newsapps/const/const.dart';
+import 'package:newsapps/res/const.dart';
 import 'package:newsapps/page/news/homepage.dart';
 import 'package:pinput/pinput.dart';
 import 'package:provider/provider.dart';
-import '../../const/globalcolors.dart';
+import '../../res/app_colors.dart';
 import '../../service/provider/loadingprovider.dart';
 import '../../widget/roundbutton.dart';
 
@@ -27,7 +27,7 @@ class _VerifiyCodePageState extends State<VerifiyCodePage> {
       width: 56,
       height: 56,
       textStyle: TextStyle(
-          color: GlobalColors.black,
+          color: AppColors.black,
           fontSize: 20,
           letterSpacing: 1,
           fontWeight: FontWeight.w700),
@@ -38,18 +38,18 @@ class _VerifiyCodePageState extends State<VerifiyCodePage> {
     );
 
     final focusedPinTheme = defaultPinTheme.copyDecorationWith(
-      border: Border.all(color: GlobalColors.deepred, width: 2),
+      border: Border.all(color: AppColors.deepred, width: 2),
       borderRadius: BorderRadius.circular(8),
     );
 
     final submittedPinTheme = defaultPinTheme.copyWith(
       textStyle: TextStyle(
-          color: GlobalColors.white,
+          color: AppColors.white,
           fontSize: 20,
           letterSpacing: 1,
           fontWeight: FontWeight.w700),
       decoration: defaultPinTheme.decoration?.copyWith(
-        color: GlobalColors.deepred,
+        color: AppColors.deepred,
       ),
     );
     return Scaffold(

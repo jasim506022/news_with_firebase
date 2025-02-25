@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../const/globalcolors.dart';
+import '../res/app_colors.dart';
 
 class NewsTextFieldWidget extends StatelessWidget {
   const NewsTextFieldWidget({
@@ -29,7 +29,7 @@ class NewsTextFieldWidget extends StatelessWidget {
       controller: emailController,
       style: GoogleFonts.poppins(
           textStyle: TextStyle(
-              color: GlobalColors.black,
+              color: AppColors.black,
               fontSize: 14,
               fontWeight: FontWeight.w700)),
       validator: (value) {

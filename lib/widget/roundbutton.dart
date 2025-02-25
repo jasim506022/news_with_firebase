@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:newsapps/const/globalcolors.dart';
+import 'package:newsapps/res/app_colors.dart';
 import 'package:newsapps/service/provider/loadingprovider.dart';
 
 class RoundButton extends StatelessWidget {
@@ -20,8 +20,7 @@ class RoundButton extends StatelessWidget {
       child: Container(
         height: 50,
         decoration: BoxDecoration(
-            color: GlobalColors.deepred,
-            borderRadius: BorderRadius.circular(10)),
+            color: AppColors.deepred, borderRadius: BorderRadius.circular(10)),
         child: Center(
           child: loading.isLoading
               ? const CircularProgressIndicator(
@@ -31,7 +30,7 @@ class RoundButton extends StatelessWidget {
                   text,
                   style: GoogleFonts.poppins(
                       textStyle: TextStyle(
-                          color: GlobalColors.white,
+                          color: AppColors.white,
                           fontSize: 14,
                           letterSpacing: 1,
                           fontWeight: FontWeight.w800)),

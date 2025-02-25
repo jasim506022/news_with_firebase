@@ -2,8 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:newsapps/const/const.dart';
-import 'package:newsapps/const/globalcolors.dart';
+import 'package:newsapps/res/const.dart';
+import 'package:newsapps/res/app_colors.dart';
 import 'package:newsapps/page/auth/signuppage.dart';
 import 'package:newsapps/page/news/homepage.dart';
 import 'package:newsapps/service/provider/loadingprovider.dart';
@@ -66,7 +66,7 @@ class _LoginPageState extends State<LoginPage> {
                           "Login",
                           style: GoogleFonts.poppins(
                             textStyle: TextStyle(
-                                color: GlobalColors.black,
+                                color: AppColors.black,
                                 fontSize: 20,
                                 letterSpacing: 1,
                                 fontWeight: FontWeight.w900),
@@ -85,7 +85,7 @@ class _LoginPageState extends State<LoginPage> {
                       "Welcome to Jasim Uddin News",
                       style: GoogleFonts.poppins(
                         textStyle: TextStyle(
-                            color: GlobalColors.lightCardColor,
+                            color: AppColors.lightCardColor,
                             fontSize: 14,
                             letterSpacing: 1,
                             fontWeight: FontWeight.w500),
@@ -219,7 +219,7 @@ class _LoginPageState extends State<LoginPage> {
                           "Don't Have an Account",
                           style: GoogleFonts.poppins(
                               textStyle: TextStyle(
-                                  color: GlobalColors.black,
+                                  color: AppColors.black,
                                   fontSize: 15,
                                   fontWeight: FontWeight.w600)),
                         ),
@@ -234,7 +234,7 @@ class _LoginPageState extends State<LoginPage> {
                             child: Text("Sign Up",
                                 style: GoogleFonts.poppins(
                                     textStyle: TextStyle(
-                                        color: GlobalColors.deepred,
+                                        color: AppColors.deepred,
                                         fontSize: 15,
                                         fontWeight: FontWeight.w800))))
                       ],

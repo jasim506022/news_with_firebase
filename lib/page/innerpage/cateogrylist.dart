@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:newsapps/const/const.dart';
+import 'package:newsapps/res/const.dart';
 import 'package:newsapps/page/news/alltopnews.dart';
 import 'package:newsapps/page/innerpage/categroypage.dart';
 import 'package:newsapps/page/news/homepage.dart';
-import '../../const/globalcolors.dart';
+import '../../res/app_colors.dart';
 import '../../model/categorymodel.dart';
 
 class CategoryList extends StatefulWidget {
@@ -68,7 +68,7 @@ class _CategoryListState extends State<CategoryList> {
                               listcategory[index].name,
                               style: GoogleFonts.poppins(
                                   textStyle: TextStyle(
-                                      color: GlobalColors.white,
+                                      color: AppColors.white,
                                       fontSize: 18,
                                       letterSpacing: 1,
                                       fontWeight: FontWeight.w800)),

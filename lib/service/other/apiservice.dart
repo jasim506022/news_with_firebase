@@ -5,14 +5,13 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
-import 'package:newsapps/const/const.dart';
+import 'package:newsapps/res/const.dart';
 import 'package:newsapps/service/provider/bookmarksprovider.dart';
 import 'package:provider/provider.dart';
-import '../../const/fontstyle.dart';
-import '../../const/globalcolors.dart';
+import '../../res/app_text_style.dart';
+import '../../res/app_colors.dart';
 import '../../model/newsmodel.dart';
 import '../../page/auth/loginpage.dart';
-
 
 class ApiServices {
   static final auth = FirebaseAuth.instance;
@@ -124,7 +123,7 @@ class ApiServices {
                     const Text('Delete'),
                     Icon(
                       Icons.delete,
-                      color: GlobalColors.red,
+                      color: AppColors.red,
                     ),
                   ],
                 )
@@ -135,7 +134,7 @@ class ApiServices {
           actions: <Widget>[
             TextButton(
               style: TextButton.styleFrom(
-                foregroundColor: GlobalColors.red,
+                foregroundColor: AppColors.red,
                 textStyle: tabLabelStyle,
               ),
               child: const Text('Yes'),
@@ -150,7 +149,7 @@ class ApiServices {
             ),
             TextButton(
               style: TextButton.styleFrom(
-                  foregroundColor: GlobalColors.red, textStyle: tabLabelStyle),
+                  foregroundColor: AppColors.red, textStyle: tabLabelStyle),
               child: const Text('No'),
               onPressed: () {
                 Navigator.of(context).pop();

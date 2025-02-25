@@ -1,8 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:newsapps/const/const.dart';
-import 'package:newsapps/const/globalcolors.dart';
+import 'package:newsapps/res/const.dart';
+import 'package:newsapps/res/app_colors.dart';
 import 'package:newsapps/page/auth/loginpage.dart';
 import 'package:newsapps/service/provider/loadingprovider.dart';
 import 'package:provider/provider.dart';
@@ -57,7 +57,7 @@ class _SignUpPageState extends State<SignUpPage> {
                           "Sign up",
                           style: GoogleFonts.poppins(
                             textStyle: TextStyle(
-                                color: GlobalColors.black,
+                                color: AppColors.black,
                                 fontSize: 20,
                                 letterSpacing: 1,
                                 fontWeight: FontWeight.w900),
@@ -76,7 +76,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       "Welcome to Jasim Uddin News",
                       style: GoogleFonts.poppins(
                         textStyle: TextStyle(
-                            color: GlobalColors.lightCardColor,
+                            color: AppColors.lightCardColor,
                             fontSize: 14,
                             letterSpacing: 1,
                             fontWeight: FontWeight.w500),
@@ -125,37 +125,36 @@ class _SignUpPageState extends State<SignUpPage> {
                     ),
                     Consumer<LoadingProvider>(
                       builder: (context, loadingProvider, child) {
-                        return 
-                       RoundButton(
-                        text: 'Sign Up',
-                        loading: loadingProvider,
-                        onTap: () {
-                          if (_form.currentState!.validate()) {
-                            Provider.of<LoadingProvider>(context,
-                                      listen: false)
-                                  .setUploading(loading: true);
-                    
-                            FirebaseAuth.instance
-                                .createUserWithEmailAndPassword(
-                                    email: emailController.text.toString(),
-                                    password: passwordController.text.toString())
-                                .then((value) {
+                        return RoundButton(
+                          text: 'Sign Up',
+                          loading: loadingProvider,
+                          onTap: () {
+                            if (_form.currentState!.validate()) {
                               Provider.of<LoadingProvider>(context,
                                       listen: false)
-                                  .setUploading(loading: false);
-                              Navigator.pushNamed(context, LoginPage.routeName);
-                            }).onError((error, stackTrace) {
-                              globalMethod.toastMessage(error.toString());
-                             Provider.of<LoadingProvider>(context,
-                                      listen: false)
-                                  .setUploading(loading: false);
-                            });
-                          }
-                        },
-                      );
-                   
+                                  .setUploading(loading: true);
+
+                              FirebaseAuth.instance
+                                  .createUserWithEmailAndPassword(
+                                      email: emailController.text.toString(),
+                                      password:
+                                          passwordController.text.toString())
+                                  .then((value) {
+                                Provider.of<LoadingProvider>(context,
+                                        listen: false)
+                                    .setUploading(loading: false);
+                                Navigator.pushNamed(
+                                    context, LoginPage.routeName);
+                              }).onError((error, stackTrace) {
+                                globalMethod.toastMessage(error.toString());
+                                Provider.of<LoadingProvider>(context,
+                                        listen: false)
+                                    .setUploading(loading: false);
+                              });
+                            }
+                          },
+                        );
                       },
-                      
                     ),
                     const SizedBox(
                       height: 15,
@@ -170,7 +169,7 @@ class _SignUpPageState extends State<SignUpPage> {
                           "Already Have a Account",
                           style: GoogleFonts.poppins(
                               textStyle: TextStyle(
-                                  color: GlobalColors.black,
+                                  color: AppColors.black,
                                   fontSize: 15,
                                   fontWeight: FontWeight.w600)),
                         ),
@@ -181,7 +180,7 @@ class _SignUpPageState extends State<SignUpPage> {
                             child: Text("Login",
                                 style: GoogleFonts.poppins(
                                     textStyle: TextStyle(
-                                        color: GlobalColors.deepred,
+                                        color: AppColors.deepred,
                                         fontSize: 15,
                                         fontWeight: FontWeight.w800))))
                       ],

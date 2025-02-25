@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:newsapps/const/fontstyle.dart';
-import 'package:newsapps/const/globalcolors.dart';
+import 'package:newsapps/res/app_text_style.dart';
+import 'package:newsapps/res/app_colors.dart';
 import 'package:newsapps/widget/articlewidget.dart';
 import 'package:provider/provider.dart';
-import '../../const/const.dart';
+import '../../res/const.dart';
 import '../../model/newsmodel.dart';
 import '../../service/provider/newsprovider.dart';
 
@@ -50,7 +50,7 @@ class _SearchPageState extends State<SearchPage> {
                   controller: _searchEditController,
                   textInputAction: TextInputAction.search,
                   keyboardType: TextInputType.text,
-                  style: TextFontStyle.titleTextSTyle(context),
+                  style: AppTextStyle.titleTextSTyle(context),
                   onSubmitted: (value) async {
                     searchList = await newsProvider.fetchASearchNews(
                         q: _searchEditController.text);
@@ -96,7 +96,7 @@ class _SearchPageState extends State<SearchPage> {
                       focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                           borderSide:
-                              BorderSide(color: GlobalColors.red, width: 1))),
+                              BorderSide(color: AppColors.red, width: 1))),
                 ),
               ),
               if (newsProvider.isSearch && searchList!.isEmpty)

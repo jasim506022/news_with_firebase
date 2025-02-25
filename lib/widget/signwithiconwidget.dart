@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:newsapps/service/provider/loadingprovider.dart';
 
-import '../const/globalcolors.dart';
+import '../res/app_colors.dart';
 
 class SignWithIcon extends StatelessWidget {
   const SignWithIcon({
@@ -26,7 +26,7 @@ class SignWithIcon extends StatelessWidget {
         height: 50,
         decoration: BoxDecoration(
             color: Colors.white,
-            border: Border.all(color: GlobalColors.deepred, width: 2),
+            border: Border.all(color: AppColors.deepred, width: 2),
             borderRadius: BorderRadius.circular(10)),
         child: Center(
           child: loading.isLoadinggmail
@@ -51,7 +51,7 @@ class SignWithIcon extends StatelessWidget {
                       text,
                       style: GoogleFonts.poppins(
                           textStyle: TextStyle(
-                              color: GlobalColors.black,
+                              color: AppColors.black,
                               fontSize: 14,
                               letterSpacing: 1,
                               fontWeight: FontWeight.w800)),

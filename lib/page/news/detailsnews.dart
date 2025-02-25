@@ -6,8 +6,8 @@ import 'package:newsapps/page/news/detailsnewswebsite.dart';
 import 'package:newsapps/service/other/database_service.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
-import '../../const/const.dart';
-import '../../const/globalcolors.dart';
+import '../../res/const.dart';
+import '../../res/app_colors.dart';
 import '../../service/provider/bookmarksprovider.dart';
 
 class NewsDetailsPage extends StatefulWidget {
@@ -93,7 +93,7 @@ class _NewsDetailsPageState extends State<NewsDetailsPage> {
                           newsModel!.author,
                           style: GoogleFonts.poppins(
                               textStyle: TextStyle(
-                                  color: GlobalColors.lightCardColor,
+                                  color: AppColors.lightCardColor,
                                   fontSize: 12,
                                   fontWeight: FontWeight.w600)),
                         )
@@ -103,7 +103,7 @@ class _NewsDetailsPageState extends State<NewsDetailsPage> {
                           newsModel!.source,
                           style: GoogleFonts.poppins(
                               textStyle: TextStyle(
-                                  color: GlobalColors.deepred,
+                                  color: AppColors.deepred,
                                   fontSize: 13,
                                   fontWeight: FontWeight.w600)),
                         )
@@ -182,7 +182,7 @@ class _NewsDetailsPageState extends State<NewsDetailsPage> {
                                         ? Icons.bookmark
                                         : Icons.bookmark_outline,
                                     color: isBooking == true
-                                        ? GlobalColors.red
+                                        ? AppColors.red
                                         : Colors.black,
                                   ),
                                 ),
@@ -255,11 +255,11 @@ class _NewsDetailsPageState extends State<NewsDetailsPage> {
                                       height: 10,
                                       width: 10,
                                       decoration: BoxDecoration(
-                                          color: GlobalColors.white,
+                                          color: AppColors.white,
                                           shape: BoxShape.circle,
                                           border: Border.all(
                                               width: 3,
-                                              color: GlobalColors.deepred)),
+                                              color: AppColors.deepred)),
                                     ),
                                     const SizedBox(
                                       width: 10,
@@ -268,7 +268,7 @@ class _NewsDetailsPageState extends State<NewsDetailsPage> {
                                       newsModel!.datetoshow,
                                       style: GoogleFonts.poppins(
                                           textStyle: TextStyle(
-                                              color: GlobalColors.deepred,
+                                              color: AppColors.deepred,
                                               fontSize: 13,
                                               fontWeight: FontWeight.w600)),
                                     )

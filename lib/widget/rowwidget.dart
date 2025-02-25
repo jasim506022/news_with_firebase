@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:newsapps/const/fontstyle.dart';
+import 'package:newsapps/res/app_text_style.dart';
 
 class RowWidget extends StatelessWidget {
   const RowWidget({
@@ -17,7 +17,7 @@ class RowWidget extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text("Top News", style: TextFontStyle.titleTextSTyle(context)),
+        Text("Top News", style: AppTextStyle.titleTextSTyle(context)),
         InkWell(
           onTap: () {
             function();

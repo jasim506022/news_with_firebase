@@ -1,13 +1,13 @@
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
-import 'package:newsapps/const/const.dart';
-import 'package:newsapps/const/globalcolors.dart';
+import 'package:newsapps/res/const.dart';
+import 'package:newsapps/res/app_colors.dart';
 import 'package:newsapps/page/innerpage/searchpage.dart';
 import 'package:newsapps/service/provider/newsprovider.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
-import '../../const/fontstyle.dart';
+import '../../res/app_text_style.dart';
 import '../../widget/drawerwidget.dart';
 import '../../widget/rowwidget.dart';
 import '../../widget/shadermaskwidget.dart';
@@ -31,7 +31,6 @@ class _HomePageState extends State<HomePage>
 
     super.initState();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -113,7 +112,7 @@ class _HomePageState extends State<HomePage>
               const SizedBox(
                 height: 10,
               ),
-              Text("All News", style: TextFontStyle.titleTextSTyle(context)),
+              Text("All News", style: AppTextStyle.titleTextSTyle(context)),
               const SizedBox(
                 height: 10,
               ),
@@ -128,7 +127,7 @@ class _HomePageState extends State<HomePage>
                   labelColor: Colors.white,
                   indicator: BoxDecoration(
                       borderRadius: BorderRadius.circular(5),
-                      color: GlobalColors.red),
+                      color: AppColors.red),
                   indicatorColor: Colors.transparent,
                   tabs: const [
                     Tab(

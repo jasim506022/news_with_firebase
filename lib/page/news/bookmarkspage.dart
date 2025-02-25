@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:newsapps/const/const.dart';
+import 'package:newsapps/res/const.dart';
 import 'package:newsapps/model/bookmarksmodel.dart';
 import 'package:newsapps/widget/articlewidget.dart';
 import 'package:provider/provider.dart';

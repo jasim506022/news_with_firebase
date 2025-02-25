@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:newsapps/const/const.dart';
+import 'package:newsapps/res/const.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';
-import '../../const/globalcolors.dart';
+import '../../res/app_colors.dart';
 
 class DetailsNewsWebPage extends StatefulWidget {
   const DetailsNewsWebPage({super.key, required this.url});
@@ -74,7 +74,7 @@ class _DetailsNewsWebPageState extends State<DetailsNewsWebPage> {
               widget.url,
               style: GoogleFonts.poppins(
                   textStyle: TextStyle(
-                      color: GlobalColors.black,
+                      color: AppColors.black,
                       fontSize: 14,
                       fontWeight: FontWeight.w500)),
             ),
@@ -109,7 +109,7 @@ class _DetailsNewsWebPageState extends State<DetailsNewsWebPage> {
       builder: (context) {
         return Container(
           decoration: BoxDecoration(
-              color: GlobalColors.white,
+              color: AppColors.white,
               borderRadius:
                   const BorderRadius.vertical(top: Radius.circular(20))),
           child: Column(
@@ -150,7 +150,7 @@ class _DetailsNewsWebPageState extends State<DetailsNewsWebPage> {
                   "Share",
                   style: GoogleFonts.poppins(
                       textStyle: TextStyle(
-                          color: GlobalColors.black,
+                          color: AppColors.black,
                           fontSize: 14,
                           letterSpacing: 1,
                           fontWeight: FontWeight.w600)),
@@ -171,7 +171,7 @@ class _DetailsNewsWebPageState extends State<DetailsNewsWebPage> {
                 title: Text("Open IN Browser",
                     style: GoogleFonts.poppins(
                         textStyle: TextStyle(
-                            color: GlobalColors.black,
+                            color: AppColors.black,
                             fontSize: 14,
                             letterSpacing: 1,
                             fontWeight: FontWeight.w600))),
@@ -187,7 +187,7 @@ class _DetailsNewsWebPageState extends State<DetailsNewsWebPage> {
                   "Refresh",
                   style: GoogleFonts.poppins(
                       textStyle: TextStyle(
-                          color: GlobalColors.black,
+                          color: AppColors.black,
                           fontSize: 14,
                           letterSpacing: 1,
                           fontWeight: FontWeight.w600)),

@@ -7,41 +7,14 @@ import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
-import 'package:newsapps/const/const.dart';
-import 'package:newsapps/page/auth/onboadingpage.dart';
-import 'package:newsapps/page/news/homepage.dart';
+
 import 'package:newsapps/service/provider/themeprovider.dart';
 
-import 'fontstyle.dart';
-import 'globalcolors.dart';
-import '../page/auth/loginpage.dart';
+import 'app_text_style.dart';
+import 'app_colors.dart';
 
-class GlobalMethod {
+class AppFunction {
   final auth = FirebaseAuth.instance;
-
-  void isMainPage(BuildContext context) {
-    final user = auth.currentUser;
-    if (user != null) {
-      Timer(
-        const Duration(seconds: 3),
-        () => Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const HomePage(),
-            )),
-      );
-    } else {
-      Timer(
-        const Duration(seconds: 3),
-        () => Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) =>
-                  isViewd != 0 ? const OnboardingPage() : const LoginPage(),
-            )),
-      );
-    }
-  }
 
   Column errorMethod({required String error}) {
     return Column(
@@ -61,7 +34,7 @@ class GlobalMethod {
             error,
             style: GoogleFonts.poppins(
                 textStyle: TextStyle(
-                    color: GlobalColors.red,
+                    color: AppColors.red,
                     fontSize: 16,
                     letterSpacing: 1,
                     fontWeight: FontWeight.w800)),
@@ -77,8 +50,8 @@ class GlobalMethod {
       padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(6),
-          color: GlobalColors.white,
-          border: Border.all(color: GlobalColors.red, width: 1)),
+          color: AppColors.white,
+          border: Border.all(color: AppColors.red, width: 1)),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -86,18 +59,17 @@ class GlobalMethod {
           Text("JU",
               style: GoogleFonts.poppins(
                   textStyle: TextStyle(
-                      color: GlobalColors.red,
+                      color: AppColors.red,
                       fontSize: 14,
                       fontWeight: FontWeight.w900))),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 2),
             decoration: BoxDecoration(
-                color: GlobalColors.red,
-                borderRadius: BorderRadius.circular(1)),
+                color: AppColors.red, borderRadius: BorderRadius.circular(1)),
             child: Text("News",
                 style: GoogleFonts.poppins(
                     textStyle: TextStyle(
-                        color: GlobalColors.white,
+                        color: AppColors.white,
                         fontSize: 10,
                         fontWeight: FontWeight.w600))),
           )
@@ -111,25 +83,25 @@ class GlobalMethod {
         appBarTheme: AppBarTheme(
             iconTheme: IconThemeData(
                 color: themeProvider.getDarkTheme
-                    ? GlobalColors.white
-                    : GlobalColors.black),
+                    ? AppColors.white
+                    : AppColors.black),
             backgroundColor: themeProvider.getDarkTheme
-                ? GlobalColors.darkCardColor
-                : GlobalColors.white,
+                ? AppColors.darkCardColor
+                : AppColors.white,
             elevation: 0.0,
             centerTitle: true,
             titleTextStyle: GoogleFonts.poppins(
                 textStyle: TextStyle(
                     color: themeProvider.getDarkTheme
                         ? Colors.white
-                        : GlobalColors.deepred,
+                        : AppColors.deepred,
                     fontSize: 18,
                     letterSpacing: 1,
                     fontWeight: FontWeight.bold)),
             systemOverlayStyle: SystemUiOverlayStyle(
                 systemNavigationBarColor: themeProvider.getDarkTheme
-                    ? GlobalColors.darkCardColor
-                    : GlobalColors.white,
+                    ? AppColors.darkCardColor
+                    : AppColors.white,
                 systemNavigationBarIconBrightness: themeProvider.getDarkTheme
                     ? Brightness.light
                     : Brightness.dark,
@@ -137,17 +109,17 @@ class GlobalMethod {
                     ? Brightness.light
                     : Brightness.dark,
                 statusBarColor: themeProvider.getDarkTheme
-                    ? GlobalColors.darkBackgroundColor
+                    ? AppColors.darkBackgroundColor
                     : Colors.white)),
         scaffoldBackgroundColor: themeProvider.getDarkTheme
-            ? GlobalColors.darkBackgroundColor
-            : GlobalColors.white,
+            ? AppColors.darkBackgroundColor
+            : AppColors.white,
         iconTheme: IconThemeData(
             color: themeProvider.getDarkTheme ? Colors.white : Colors.black),
         cardColor: themeProvider.getDarkTheme
-            ? GlobalColors.darkCardColor
-            : GlobalColors.white,
-        primaryColor: GlobalColors.red);
+            ? AppColors.darkCardColor
+            : AppColors.white,
+        primaryColor: themeProvider.getDarkTheme ? Colors.white : Colors.black);
   }
 
   toastMessage(String message) {
@@ -155,7 +127,7 @@ class GlobalMethod {
         msg: message,
         gravity: ToastGravity.BOTTOM,
         fontSize: 16.0,
-        backgroundColor: GlobalColors.red,
+        backgroundColor: AppColors.red,
         textColor: Colors.white);
   }
 
@@ -174,7 +146,7 @@ class GlobalMethod {
           function();
         },
         style: ElevatedButton.styleFrom(
-          backgroundColor: GlobalColors.deepred,
+          backgroundColor: AppColors.deepred,
         ),
         child: Text(
           text,

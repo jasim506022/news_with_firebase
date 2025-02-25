@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:newsapps/page/news/detailsnews.dart';
 import 'package:provider/provider.dart';
-import '../const/globalcolors.dart';
+import '../res/app_colors.dart';
 import '../model/newsmodel.dart';
 import '../page/news/detailsnewswebsite.dart';
 
@@ -67,7 +67,7 @@ class ShaderMaskWidget extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       style: GoogleFonts.poppins(
                           textStyle: TextStyle(
-                              color: GlobalColors.white,
+                              color: AppColors.white,
                               fontSize: 17,
                               letterSpacing: 1.2,
                               fontWeight: FontWeight.w700))),
@@ -97,7 +97,7 @@ class ShaderMaskWidget extends StatelessWidget {
                         child: Text(newsmodelProvider.datetoshow,
                             style: GoogleFonts.poppins(
                                 textStyle: TextStyle(
-                                    color: GlobalColors.white,
+                                    color: AppColors.white,
                                     fontSize: 15,
                                     fontWeight: FontWeight.normal))),
                       )

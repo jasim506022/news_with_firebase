@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:newsapps/const/const.dart';
+import 'package:newsapps/res/const.dart';
 import 'package:newsapps/page/news/bookmarkspage.dart';
 import 'package:provider/provider.dart';
-import '../const/fontstyle.dart';
+import '../res/app_text_style.dart';
 
 import '../page/news/homepage.dart';
 import '../page/innerpage/cateogrylist.dart';
@@ -40,7 +40,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                 ),
                 Text(
                   "Jasim Uddin News",
-                  style: TextFontStyle.titleTextSTyle(context),
+                  style: AppTextStyle.titleTextSTyle(context),
                 ),
                 const SizedBox(
                   height: 5,

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class GlobalColors {
+class AppColors {
 // Light
 
   static Color lightCardColor = const Color(0xff808080);
@@ -14,4 +14,5 @@ class GlobalColors {
   static Color deepred = const Color(0xffcc3939);
   static Color black = const Color(0xff000000);
   static Color white = const Color(0xffffffff);
+  static Color pink = const Color.fromARGB(255, 190, 78, 255);
 }
