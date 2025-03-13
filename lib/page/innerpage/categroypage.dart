@@ -1,8 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:newsapps/model/newsmodel.dart';
+import 'package:newsapps/model/news_model_.dart';
 import 'package:provider/provider.dart';
-import '../../service/other/apiservice.dart';
+import '../../service/other/api_service.dart';
 import '../../widget/articlewidget.dart';
 import '../../widget/loadingarticlewidget.dart';
 

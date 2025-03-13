@@ -1,9 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-import '../../page/auth/loginpage.dart';
+import '../../page/auth/log_in_page.dart';
 import '../../page/splash/onboading_page.dart';
-import '../../page/news/homepage.dart';
+import '../../page/home/home_page.dart';
 import '../../res/const.dart';
 
 class SplashProvider with ChangeNotifier {

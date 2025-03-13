@@ -1,11 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:newsapps/res/const.dart';
-import 'package:newsapps/page/auth/verifycodepage.dart';
+import 'package:newsapps/page/auth/verify_code_page.dart';
 import 'package:newsapps/widget/roundbutton.dart';
 import 'package:provider/provider.dart';
 import '../../res/app_colors.dart';
+import '../../res/app_function.dart';
 import '../../service/provider/loadingprovider.dart';
 
 class LoginWithPhoneNukmberPage extends StatefulWidget {
@@ -135,7 +135,7 @@ class _LoginWithPhoneNukmberPageState extends State<LoginWithPhoneNukmberPage> {
                               phoneNumber:
                                   countryCode + phoneNumberController.text,
                               verificationFailed: (error) {
-                                globalMethod.toastMessage(error.toString());
+                                AppFunction.toastMessage(error.toString());
                               },
                               codeSent: (verificationId, forceResendingToken) {
                                 Navigator.push(
@@ -149,7 +149,7 @@ class _LoginWithPhoneNukmberPageState extends State<LoginWithPhoneNukmberPage> {
                                     .setUploading(loading: false);
                               },
                               codeAutoRetrievalTimeout: (verificationId) {
-                                globalMethod.toastMessage(verificationId);
+                                AppFunction.toastMessage(verificationId);
                                 Provider.of<LoadingProvider>(context,
                                         listen: false)
                                     .setUploading(loading: false);

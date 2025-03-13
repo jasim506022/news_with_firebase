@@ -16,7 +16,6 @@ class NewsModel with ChangeNotifier {
   final String readingTimeText;
 
   NewsModel({
-    // this.kid,
     required this.id,
     required this.source,
     required this.author,
@@ -69,7 +68,7 @@ class NewsModel with ChangeNotifier {
     );
   }
 
-  static List<NewsModel> snapchatTopNewsList(List topNewsList) {
+  static List<NewsModel> snapchatTopNewsList(List<dynamic> topNewsList) {
     return topNewsList.map((e) => NewsModel.fromMap(e)).toList();
   }
 }

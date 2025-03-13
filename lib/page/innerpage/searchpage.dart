@@ -5,8 +5,8 @@ import 'package:newsapps/res/app_colors.dart';
 import 'package:newsapps/widget/articlewidget.dart';
 import 'package:provider/provider.dart';
 import '../../res/const.dart';
-import '../../model/newsmodel.dart';
-import '../../service/provider/newsprovider.dart';
+import '../../model/news_model_.dart';
+import '../../service/provider/news_provider.dart';
 
 class SearchPage extends StatefulWidget {
   static const routeName = "/Searchpage";
@@ -39,7 +39,7 @@ class _SearchPageState extends State<SearchPage> {
       child: SafeArea(
         child: Scaffold(
           appBar: AppBar(
-            title: globalMethod.applogo(),
+            title: Text("JU News"),
           ),
           body: Column(
             children: [

@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:newsapps/res/const.dart';
-import 'package:newsapps/service/provider/newsprovider.dart';
+import 'package:newsapps/service/provider/news_provider.dart';
 import 'package:provider/provider.dart';
 
 import '../../res/app_colors.dart';
-import '../../service/other/apiservice.dart';
+import '../../service/other/api_service.dart';
 import '../../widget/articlewidget.dart';
 import '../../widget/loadingarticlewidget.dart';
 
 class AllTopNews extends StatefulWidget {
-  static const routeName = "/AllNewsPage";
   const AllTopNews({super.key});
 
   @override
@@ -105,7 +104,7 @@ class _AllTopNewsState extends State<AllTopNews> {
             ),
             Expanded(
               child: FutureBuilder(
-                future: ApiServices.getAllTopNews(
+                future: ApiServices.fetchAllTopNews(
                     page: newsProvider.currentindex + 1),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {

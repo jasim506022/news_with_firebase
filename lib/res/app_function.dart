@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
@@ -15,6 +16,10 @@ import 'app_colors.dart';
 
 class AppFunction {
   final auth = FirebaseAuth.instance;
+
+  static SizedBox verticalSpace(double height) {
+    return SizedBox(height: height.h);
+  }
 
   Column errorMethod({required String error}) {
     return Column(
@@ -28,58 +33,55 @@ class AppFunction {
         const SizedBox(
           height: 10,
         ),
-        Flexible(
-          flex: 3,
-          child: Text(
-            error,
-            style: GoogleFonts.poppins(
-                textStyle: TextStyle(
-                    color: AppColors.red,
-                    fontSize: 16,
-                    letterSpacing: 1,
-                    fontWeight: FontWeight.w800)),
-          ),
-        ),
       ],
     );
   }
 
-  Container applogo() {
-    return Container(
-      height: 40,
-      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1),
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(6),
-          color: AppColors.white,
-          border: Border.all(color: AppColors.red, width: 1)),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Text("JU",
-              style: GoogleFonts.poppins(
-                  textStyle: TextStyle(
-                      color: AppColors.red,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w900))),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 2),
-            decoration: BoxDecoration(
-                color: AppColors.red, borderRadius: BorderRadius.circular(1)),
-            child: Text("News",
-                style: GoogleFonts.poppins(
-                    textStyle: TextStyle(
-                        color: AppColors.white,
-                        fontSize: 10,
-                        fontWeight: FontWeight.w600))),
-          )
-        ],
-      ),
-    );
-  }
-
   ThemeData themeDate(ThemeProvider themeProvider) {
+    var isDark = themeProvider.getDarkTheme;
     return ThemeData(
+        dialogTheme: DialogTheme(
+          backgroundColor: isDark ? AppColors.cardDark : AppColors.white,
+          titleTextStyle: GoogleFonts.poppins(
+            color: isDark ? AppColors.white : AppColors.black,
+            fontSize: 18.sp,
+            fontWeight: FontWeight.bold,
+          ),
+          contentTextStyle: GoogleFonts.poppins(
+            color: isDark
+                ? AppColors.white.withOpacity(.7)
+                : AppColors.black.withOpacity(.7),
+            fontSize: 15.sp,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+        tabBarTheme: TabBarTheme(
+          labelStyle: tabLabelStyle,
+          tabAlignment: TabAlignment.start,
+          dividerColor: Colors.transparent,
+          indicatorColor: Colors.transparent,
+          indicatorSize: TabBarIndicatorSize.tab,
+          unselectedLabelStyle: tabunselectedLabelStyle,
+          labelColor: Colors.white,
+          unselectedLabelColor: isDark ? AppColors.white : AppColors.black,
+          indicator: BoxDecoration(
+            borderRadius: BorderRadius.circular(5.r),
+            color: AppColors.red,
+          ),
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+              padding: EdgeInsets.zero,
+              backgroundColor: AppColors.red,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15.r))),
+        ),
+        progressIndicatorTheme: ProgressIndicatorThemeData(
+          color: AppColors.white,
+          linearTrackColor: Colors.green,
+          circularTrackColor: Colors.green,
+          refreshBackgroundColor: Colors.green,
+        ),
         appBarTheme: AppBarTheme(
             iconTheme: IconThemeData(
                 color: themeProvider.getDarkTheme
@@ -94,10 +96,10 @@ class AppFunction {
                 textStyle: TextStyle(
                     color: themeProvider.getDarkTheme
                         ? Colors.white
-                        : AppColors.deepred,
-                    fontSize: 18,
+                        : AppColors.red,
+                    fontSize: 20.sp,
                     letterSpacing: 1,
-                    fontWeight: FontWeight.bold)),
+                    fontWeight: FontWeight.w900)),
             systemOverlayStyle: SystemUiOverlayStyle(
                 systemNavigationBarColor: themeProvider.getDarkTheme
                     ? AppColors.darkCardColor
@@ -115,18 +117,19 @@ class AppFunction {
             ? AppColors.darkBackgroundColor
             : AppColors.white,
         iconTheme: IconThemeData(
-            color: themeProvider.getDarkTheme ? Colors.white : Colors.black),
+            color: themeProvider.getDarkTheme ? Colors.white : Colors.black,
+            size: 25.h),
         cardColor: themeProvider.getDarkTheme
             ? AppColors.darkCardColor
             : AppColors.white,
         primaryColor: themeProvider.getDarkTheme ? Colors.white : Colors.black);
   }
 
-  toastMessage(String message) {
+  static toastMessage(String message) {
     Fluttertoast.showToast(
         msg: message,
         gravity: ToastGravity.BOTTOM,
-        fontSize: 16.0,
+        fontSize: 16.0.sh,
         backgroundColor: AppColors.red,
         textColor: Colors.white);
   }

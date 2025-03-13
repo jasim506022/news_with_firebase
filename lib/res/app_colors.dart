@@ -14,5 +14,8 @@ class AppColors {
   static Color deepred = const Color(0xffcc3939);
   static Color black = const Color(0xff000000);
   static Color white = const Color(0xffffffff);
+  static Color gray = Colors.grey;
   static Color pink = const Color.fromARGB(255, 190, 78, 255);
+  static Color searchLightColor = const Color(0xfff3f3f4);
+  static const Color cardDark = Color(0xff393e4b); // cardDark
 }

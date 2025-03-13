@@ -11,8 +11,6 @@ import '../../res/app_colors.dart';
 import '../../service/provider/bookmarksprovider.dart';
 
 class NewsDetailsPage extends StatefulWidget {
-  static const routeName = "/NewsDetailsPage";
-
   const NewsDetailsPage({
     super.key,
     required this.newsModel,
@@ -60,7 +58,7 @@ class _NewsDetailsPageState extends State<NewsDetailsPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: globalMethod.applogo(),
+        title: Text("JU News"),
         elevation: 1.15,
       ),
       body: SingleChildScrollView(

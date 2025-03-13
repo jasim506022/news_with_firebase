@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:newsapps/res/app_routes.dart';
 import 'package:newsapps/res/const.dart';
 import 'package:newsapps/page/news/alltopnews.dart';
 import 'package:newsapps/page/innerpage/categroypage.dart';
-import 'package:newsapps/page/news/homepage.dart';
+import 'package:newsapps/page/home/home_page.dart';
 import '../../res/app_colors.dart';
 import '../../model/categorymodel.dart';
 
@@ -29,7 +30,7 @@ class _CategoryListState extends State<CategoryList> {
                   ));
             },
             icon: const Icon(Icons.arrow_back)),
-        title: globalMethod.applogo(),
+        title: Text("JU News"),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
@@ -44,7 +45,7 @@ class _CategoryListState extends State<CategoryList> {
             return InkWell(
               onTap: () {
                 listcategory[index].name == "All News"
-                    ? Navigator.pushNamed(context, AllTopNews.routeName)
+                    ? Navigator.pushNamed(context, AppRoutes.allNewsPage)
                     : Navigator.push(
                         context,
                         MaterialPageRoute(

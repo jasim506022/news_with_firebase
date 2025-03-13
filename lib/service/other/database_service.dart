@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:newsapps/res/const.dart';
 
 import '../../model/bookmarksmodel.dart';
-import '../../model/newsmodel.dart';
+import '../../model/news_model_.dart';
 
 class DatabaseService {
   static final db = FirebaseFirestore.instance;

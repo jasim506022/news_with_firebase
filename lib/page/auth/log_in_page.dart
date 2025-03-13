@@ -1,14 +1,18 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:google_fonts/google_fonts.dart';
+
+import 'package:newsapps/page/auth/widget/auth_intro_widget.dart';
+
 import 'package:newsapps/res/const.dart';
 import 'package:newsapps/res/app_colors.dart';
-import 'package:newsapps/page/auth/signuppage.dart';
-import 'package:newsapps/page/news/homepage.dart';
+import 'package:newsapps/page/auth/sign_up_page.dart';
 import 'package:newsapps/service/provider/loadingprovider.dart';
+import 'package:newsapps/widget/rich_text_widget.dart';
 import 'package:provider/provider.dart';
-import '../../service/other/apiservice.dart';
+import '../../res/app_function.dart';
+import '../../res/app_routes.dart';
+import '../../service/other/api_service.dart';
 import '../../widget/newstextfieldwidget.dart';
 import '../../widget/roundbutton.dart';
 import '../../widget/signwithiconwidget.dart';
@@ -36,8 +40,8 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-        statusBarColor: Color(0xffE5E5E5),
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+        statusBarColor: AppColors.white,
         statusBarIconBrightness: Brightness.dark));
 
     return GestureDetector(
@@ -52,80 +56,29 @@ class _LoginPageState extends State<LoginPage> {
         child: SafeArea(
           child: Scaffold(
             resizeToAvoidBottomInset: false,
-            backgroundColor: const Color(0xffE5E5E5),
+            backgroundColor: AppColors.white,
             body: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: SingleChildScrollView(
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Row(
-                      children: [
-                        Text(
-                          "Login",
-                          style: GoogleFonts.poppins(
-                            textStyle: TextStyle(
-                                color: AppColors.black,
-                                fontSize: 20,
-                                letterSpacing: 1,
-                                fontWeight: FontWeight.w900),
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        const Icon(
-                          Icons.person_2,
-                          size: 30,
-                        )
-                      ],
-                    ),
-                    Text(
-                      "Welcome to Jasim Uddin News",
-                      style: GoogleFonts.poppins(
-                        textStyle: TextStyle(
-                            color: AppColors.lightCardColor,
-                            fontSize: 14,
-                            letterSpacing: 1,
-                            fontWeight: FontWeight.w500),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    const Image(
-                      image: AssetImage(
-                        "asset/image/newj.png",
-                      ),
-                      height: 200,
-                      width: double.infinity,
-                    ),
-                    const SizedBox(
-                      height: 15,
-                    ),
+                    const AuthIntroWidget(),
                     Form(
                         key: _form,
                         child: Column(
                           children: [
-                            NewsTextFieldWidget(
-                              emailController: emailController,
+                            CustomTextFormField(
+                              label: "Email",
+                              controller: emailController,
                               hintText: 'Email',
-                              icon: Icons.email,
-                              keyboardType: TextInputType.emailAddress,
                               obscureText: false,
-                              validatorText: 'Enter Your Email Address',
                             ),
-                            const SizedBox(
-                              height: 20,
-                            ),
-                            NewsTextFieldWidget(
-                              emailController: passwordController,
+                            CustomTextFormField(
+                              hasPasswordToggle: true,
+                              label: "Password",
+                              controller: passwordController,
                               hintText: 'Password',
-                              icon: Icons.lock,
-                              keyboardType: TextInputType.text,
-                              obscureText: true,
-                              validatorText: 'Enter Your Password Address',
                             ),
                           ],
                         )),
@@ -155,10 +108,10 @@ class _LoginPageState extends State<LoginPage> {
                                         listen: false)
                                     .setUploading(loading: false);
                                 Navigator.pushNamed(
-                                    context, HomePage.routeName);
-                                globalMethod.toastMessage("Login Successfully");
+                                    context, AppRoutes.homePage);
+                                AppFunction.toastMessage("Login Successfully");
                               }).onError((error, stackTrace) {
-                                globalMethod.toastMessage(error.toString());
+                                AppFunction.toastMessage(error.toString());
                                 Provider.of<LoadingProvider>(context,
                                         listen: false)
                                     .setUploading(loading: false);
@@ -174,7 +127,6 @@ class _LoginPageState extends State<LoginPage> {
                     Consumer<LoadingProvider>(
                       builder: (context, loadingProvider, child) {
                         return SignWithIcon(
-                          loading: loadingProvider,
                           image: "asset/image/phone.png",
                           text: 'Login With Phone Number',
                           onTap: () {
@@ -194,17 +146,16 @@ class _LoginPageState extends State<LoginPage> {
                     Consumer<LoadingProvider>(
                       builder: (context, loadingProvider, child) {
                         return SignWithIcon(
-                          loading: loadingProvider,
                           image: "asset/image/gmail.png",
                           text: 'Login With Gmail',
                           onTap: () {
                             Provider.of<LoadingProvider>(context, listen: false)
                                 .setLoadingGmail(loading: true);
                             ApiServices.googleSignUp();
-                            globalMethod.toastMessage("Login Successfully");
+                            AppFunction.toastMessage("Login Successfully");
                             Provider.of<LoadingProvider>(context, listen: false)
                                 .setLoadingGmail(loading: false);
-                            Navigator.pushNamed(context, HomePage.routeName);
+                            Navigator.pushNamed(context, AppRoutes.homePage);
                           },
                         );
                       },
@@ -212,33 +163,16 @@ class _LoginPageState extends State<LoginPage> {
                     const SizedBox(
                       height: 15,
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "Don't Have an Account",
-                          style: GoogleFonts.poppins(
-                              textStyle: TextStyle(
-                                  color: AppColors.black,
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w600)),
-                        ),
-                        TextButton(
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => const SignUpPage(),
-                                  ));
-                            },
-                            child: Text("Sign Up",
-                                style: GoogleFonts.poppins(
-                                    textStyle: TextStyle(
-                                        color: AppColors.deepred,
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w800))))
-                      ],
-                    ),
+                    RichTextWidget(
+                        normalText: "Don't Have an Account",
+                        highlightedText: "Sign Up",
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const SignUpPage(),
+                              ));
+                        }),
                     const SizedBox(
                       height: 200,
                     )

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:newsapps/res/const.dart';
+import 'package:newsapps/res/app_routes.dart';
 import 'package:newsapps/page/news/bookmarkspage.dart';
+import 'package:newsapps/widget/app_logo_widget.dart';
 import 'package:provider/provider.dart';
 import '../res/app_text_style.dart';
 
-import '../page/news/homepage.dart';
 import '../page/innerpage/cateogrylist.dart';
-import '../service/other/apiservice.dart';
+import '../service/other/api_service.dart';
 import '../service/provider/themeprovider.dart';
 
 class DrawerWidget extends StatefulWidget {
@@ -34,7 +34,8 @@ class _DrawerWidgetState extends State<DrawerWidget> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                globalMethod.applogo(),
+                // globalMethod.applogo(),
+                AppLogoWidget(),
                 const SizedBox(
                   height: 5,
                 ),
@@ -71,7 +72,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
               title: 'Home',
               icon: Icons.home,
               function: () {
-                Navigator.pushNamed(context, HomePage.routeName);
+                Navigator.pushNamed(context, AppRoutes.homePage);
               }),
           drawableItemMethod(
               title: 'News Category',

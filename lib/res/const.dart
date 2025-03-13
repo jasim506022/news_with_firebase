@@ -7,3 +7,13 @@ AppFunction globalMethod = AppFunction();
 SharedPreferences? sharedPreferences;
 
 int? isViewd;
+
+final List<String> categories = [
+  'General',
+  'Technology',
+  'Sports',
+  'Science',
+  'Business',
+  'Entertainment',
+  'Health'
+];

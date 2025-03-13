@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:newsapps/res/const.dart';
-import 'package:newsapps/widget/rowwidget.dart';
+import 'package:newsapps/widget/row_widget.dart';
 import 'package:provider/provider.dart';
 import '../page/innerpage/categroypage.dart';
-import '../service/provider/newsprovider.dart';
+import '../service/provider/news_provider.dart';
 import 'articlewidget.dart';
 import 'loadingarticlewidget.dart';
 
@@ -20,7 +20,7 @@ class SingleTabBarViewWidget extends StatelessWidget {
       children: [
         RowWidget(
             title: text,
-            function: () {
+            onTap: () {
               Navigator.push(
                   context,
                   MaterialPageRoute(

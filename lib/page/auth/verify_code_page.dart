@@ -1,10 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:newsapps/res/const.dart';
-import 'package:newsapps/page/news/homepage.dart';
+import 'package:newsapps/page/home/home_page.dart';
 import 'package:pinput/pinput.dart';
 import 'package:provider/provider.dart';
 import '../../res/app_colors.dart';
+import '../../res/app_function.dart';
+import '../../res/app_routes.dart';
 import '../../service/provider/loadingprovider.dart';
 import '../../widget/roundbutton.dart';
 
@@ -129,15 +131,15 @@ class _VerifiyCodePageState extends State<VerifiyCodePage> {
                               sharedPreferences!
                                   .setString("uid", auth.currentUser!.uid);
                               // ignore: use_build_context_synchronously
-                              Navigator.pushNamed(context, HomePage.routeName);
+                              Navigator.pushNamed(context, AppRoutes.homePage);
                               // ignore: use_build_context_synchronously
                               Provider.of<LoadingProvider>(context,
                                       listen: false)
                                   .setUploading(loading: false);
 
-                              globalMethod.toastMessage("Login Successfully");
+                              AppFunction.toastMessage("Login Successfully");
                             } catch (e) {
-                              globalMethod.toastMessage(e.toString());
+                              AppFunction.toastMessage(e.toString());
                               Provider.of<LoadingProvider>(context,
                                       listen: false)
                                   .setUploading(loading: false);

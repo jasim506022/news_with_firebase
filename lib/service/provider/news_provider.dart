@@ -1,10 +1,20 @@
 import 'package:flutter/material.dart';
 
-import '../../model/newsmodel.dart';
-import '../other/apiservice.dart';
+import '../../model/news_model_.dart';
+import '../other/api_service.dart';
 
 class NewsProvider with ChangeNotifier {
-  List<NewsModel> newsList = [];
+  List<NewsModel> _newsList = [];
+
+  List<NewsModel> get newsList => _newsList;
+
+  Future<List<NewsModel>> fetchAllTopNews({required int page}) async {
+    try {
+      return await ApiServices.fetchAllTopNews(page: page);
+    } catch (e) {
+      throw Exception("Error fetching news: $e");
+    }
+  }
 
   int _currentindex = 0;
 
@@ -35,25 +45,20 @@ class NewsProvider with ChangeNotifier {
   }
 
   List<NewsModel> get getNewsList {
-    return newsList;
-  }
-
-  Future<List<NewsModel>> fetchAllTopNews({required int page}) async {
-    newsList = await ApiServices.getAllTopNews(page: page);
-    return newsList;
+    return _newsList;
   }
 
   Future<List<NewsModel>> fetchAllNews(
       {required String category, required int pageSize}) async {
-    newsList =
+    _newsList =
         await ApiServices.getAllNews(category: category, pageSize: pageSize);
-    return newsList;
+    return _newsList;
   }
 
   Future<List<NewsModel>> fetchASearchNews({
     required String q,
   }) async {
-    newsList = await ApiServices.searchNewsItem(q: q);
-    return newsList;
+    _newsList = await ApiServices.searchNewsItem(q: q);
+    return _newsList;
   }
 }
