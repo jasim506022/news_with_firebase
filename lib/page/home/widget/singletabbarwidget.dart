@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:newsapps/res/const.dart';
+import 'package:newsapps/widget/error_widget.dart';
 import 'package:newsapps/widget/row_widget.dart';
 import 'package:provider/provider.dart';
-import '../page/innerpage/categroypage.dart';
-import '../service/provider/news_provider.dart';
-import 'articlewidget.dart';
-import 'loadingarticlewidget.dart';
+import '../../news/categroy_page.dart';
+import '../../../service/provider/news_provider.dart';
+import '../../../widget/articlewidget.dart';
+import '../../../widget/loadingarticlewidget.dart';
 
 class SingleTabBarViewWidget extends StatelessWidget {
   const SingleTabBarViewWidget({
@@ -24,8 +24,8 @@ class SingleTabBarViewWidget extends StatelessWidget {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => CategoryPage(
-                            categoryname: text,
+                      builder: (context) => CateoryPage(
+                            categoryName: text,
                           )));
             }),
         const SizedBox(
@@ -39,11 +39,11 @@ class SingleTabBarViewWidget extends StatelessWidget {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const LoadingArticleWidget();
               } else if (snapshot.hasError) {
-                return globalMethod.errorMethod(
-                    error: snapshot.error.toString());
+                return const ErrorNullWidget();
               } else if (!snapshot.hasData) {
-                return Image.asset("asset/image/nonewsitemfound.png");
+                return const ErrorNullWidget();
               }
+
               return ListView.builder(
                 itemCount: snapshot.data!.length,
                 itemBuilder: (context, index) {

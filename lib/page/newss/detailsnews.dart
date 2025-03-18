@@ -2,7 +2,7 @@ import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:newsapps/model/bookmarksmodel.dart';
-import 'package:newsapps/page/news/detailsnewswebsite.dart';
+import 'package:newsapps/page/newss/detailsnewswebsite.dart';
 import 'package:newsapps/service/other/database_service.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';

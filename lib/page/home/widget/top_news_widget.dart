@@ -1,9 +1,9 @@
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:newsapps/widget/error_widget.dart';
 import 'package:provider/provider.dart';
 
-import '../../../res/const.dart';
 import '../../../service/provider/news_provider.dart';
 import '../../../widget/shader_mask_widget.dart';
 import '../../../widget/shimmer_auth_widget.dart';
@@ -23,10 +23,8 @@ class TopNewsWidget extends StatelessWidget {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const ShimmerAutoWidget();
             } else if (snapshot.hasError) {
-              return globalMethod.errorMethod(error: snapshot.error.toString());
+              return const ErrorNullWidget();
             }
-            return globalMethod.errorMethod(error: snapshot.error.toString());
-/*
             return Swiper(
               itemBuilder: (BuildContext context, int index) {
                 return ChangeNotifierProvider.value(
@@ -41,7 +39,6 @@ class TopNewsWidget extends StatelessWidget {
               autoplay: true,
               autoplayDelay: 3000,
             );
-            */
           }),
     );
   }

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:newsapps/res/app_routes.dart';
 import 'package:newsapps/res/const.dart';
-import 'package:newsapps/page/news/alltopnews.dart';
-import 'package:newsapps/page/innerpage/categroypage.dart';
+import 'package:newsapps/page/newss/alltopnews.dart';
+import 'package:newsapps/page/news/categroy_page.dart';
 import 'package:newsapps/page/home/home_page.dart';
 import '../../res/app_colors.dart';
 import '../../model/categorymodel.dart';
@@ -49,8 +49,8 @@ class _CategoryListState extends State<CategoryList> {
                     : Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => CategoryPage(
-                            categoryname: listcategory[index].name,
+                          builder: (context) => CateoryPage(
+                            categoryName: listcategory[index].name,
                           ),
                         ));
               },

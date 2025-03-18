@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:newsapps/res/app_routes.dart';
-import 'package:newsapps/page/news/bookmarkspage.dart';
+import 'package:newsapps/page/newss/bookmarkspage.dart';
 import 'package:newsapps/widget/app_logo_widget.dart';
 import 'package:provider/provider.dart';
 import '../res/app_text_style.dart';
 
-import '../page/innerpage/cateogrylist.dart';
+import '../page/news/cateogrylist.dart';
 import '../service/other/api_service.dart';
 import '../service/provider/themeprovider.dart';
 

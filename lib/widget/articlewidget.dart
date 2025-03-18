@@ -8,8 +8,8 @@ import 'package:newsapps/res/app_function.dart';
 import 'package:provider/provider.dart';
 import '../res/app_text_style.dart';
 import '../res/app_colors.dart';
-import '../page/news/detailsnews.dart';
-import '../page/news/detailsnewswebsite.dart';
+import '../page/newss/detailsnews.dart';
+import '../page/newss/detailsnewswebsite.dart';
 import '../service/other/api_service.dart';
 
 class ArticleItemWidget extends StatefulWidget {

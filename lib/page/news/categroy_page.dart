@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:newsapps/model/news_model_.dart';
 import 'package:provider/provider.dart';
@@ -6,21 +5,22 @@ import '../../service/other/api_service.dart';
 import '../../widget/articlewidget.dart';
 import '../../widget/loadingarticlewidget.dart';
 
-class CategoryPage extends StatefulWidget {
-  const CategoryPage({super.key, required this.categoryname});
-  final String categoryname;
+class CateoryPage extends StatefulWidget {
+  const CateoryPage({super.key, required this.categoryName});
+  final String categoryName;
 
   @override
-  State<CategoryPage> createState() => _CategoryPageState();
+  State<CateoryPage> createState() => _CateoryPageState();
 }
 
-class _CategoryPageState extends State<CategoryPage> {
+class _CateoryPageState extends State<CateoryPage> {
   final ScrollController _scrollController = ScrollController();
 
   List<NewsModel> categoryList = [];
 
   int limit = 10;
   bool _islimit = false;
+
   @override
   void initState() {
     getNews();
@@ -37,10 +37,6 @@ class _CategoryPageState extends State<CategoryPage> {
       }
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
-        if (kDebugMode) {
-          print("_isLoading $_islimit");
-        }
-
         limit += 10;
 
         await getNews();
@@ -56,18 +52,23 @@ class _CategoryPageState extends State<CategoryPage> {
   }
 
   Future<void> getNews() async {
-    categoryList = await ApiServices.getAllNews(
-        pageSize: limit, category: widget.categoryname.toLowerCase());
-    setState(() {});
+    final fetchedNews = await ApiServices.getAllNews(
+        pageSize: limit, category: widget.categoryName.toLowerCase());
+    if (fetchedNews.length < limit) {
+      _islimit = true; // All data is fetched, hide the progress indicator
+    }
+
+    // Add the fetched news to the list
+    setState(() {
+      categoryList = fetchedNews;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text(
-            "${widget.categoryname}  News",
-          ),
+          title: Text("${widget.categoryName} News"),
         ),
         body: categoryList.isEmpty
             ? const LoadingArticleWidget()

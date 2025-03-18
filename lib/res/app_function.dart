@@ -21,21 +21,9 @@ class AppFunction {
     return SizedBox(height: height.h);
   }
 
-  Column errorMethod({required String error}) {
-    return Column(
-      children: [
-        Flexible(
-          flex: 7,
-          child: Image.asset(
-            "asset/image/nonewsitemfound.png",
-          ),
-        ),
-        const SizedBox(
-          height: 10,
-        ),
-      ],
-    );
-  }
+  // Widget errorMethod({required String error}) {
+  //   return ErrorWidget;
+  // }
 
   ThemeData themeDate(ThemeProvider themeProvider) {
     var isDark = themeProvider.getDarkTheme;

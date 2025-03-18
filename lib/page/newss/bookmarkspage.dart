@@ -29,9 +29,9 @@ class _BookmarskPageState extends State<BookmarskPage> {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const LoadingArticleWidget();
             } else if (snapshot.hasError) {
-              return globalMethod.errorMethod(error: snapshot.error.toString());
+              // return globalMethod.errorMethod(error: snapshot.error.toString());
             } else if (!snapshot.hasData) {
-              return Image.asset("asset/image/nonewsitemfound.png");
+              // return Image.asset("asset/image/nonewsitemfound.png");
             }
             return ListView.builder(
               itemCount: snapshot.data!.length,

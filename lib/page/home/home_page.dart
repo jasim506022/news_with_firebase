@@ -12,8 +12,8 @@ import '../../service/other/api_service.dart';
 import '../../widget/drawerwidget.dart';
 import '../../widget/row_widget.dart';
 
-import '../../widget/singletabbarwidget.dart';
-import '../innerpage/searchpage.dart';
+import 'widget/singletabbarwidget.dart';
+import '../news/searchpage.dart';
 import 'widget/top_news_widget.dart';
 
 class HomePage extends StatefulWidget {
@@ -34,7 +34,6 @@ class _HomePageState extends State<HomePage>
 
   @override
   void dispose() {
-    // TODO: implement dispose
     tabController.dispose();
     super.dispose();
   }
