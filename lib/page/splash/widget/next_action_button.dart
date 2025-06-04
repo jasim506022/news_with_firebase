@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import 'package:provider/provider.dart';
 
+import '../../../res/app_colors.dart';
+import '../../../res/app_function.dart';
 import '../../../res/app_string.dart';
 import '../../../res/app_text_style.dart';
-import '../../../service/onbaording_data_list.dart';
+import '../../../service/other/onbaording_data.dart';
 import '../../../service/provider/onboarding_provide.dart';
 
 class NextActionButton extends StatelessWidget {
@@ -20,8 +23,9 @@ class NextActionButton extends StatelessWidget {
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: 30.w, vertical: 15.h),
             decoration: BoxDecoration(
-              color:
-                  isEvenIndex ? Theme.of(context).primaryColor : Colors.black,
+              color: isEvenIndex
+                  ? Theme.of(context).primaryColor
+                  : AppColors.black,
               borderRadius: BorderRadius.circular(15),
             ),
             child: Row(
@@ -29,12 +33,13 @@ class NextActionButton extends StatelessWidget {
               children: [
                 Text(
                     onboardingProvider.currentIndex ==
-                            OnbaordingDataList.onboardModeList.length - 1
+                            OnboardingDataList.onboardModeList.length - 1
                         ? AppString.btnFinish
                         : AppString.btnNext,
                     style: AppTextStyle.button),
                 SizedBox(width: 15.w),
-                const Icon(Icons.arrow_forward_sharp, color: Colors.white),
+                AppFunction.horizontalSpace(15),
+                Icon(Icons.arrow_forward_sharp, color: AppColors.white),
               ],
             ),
           ),

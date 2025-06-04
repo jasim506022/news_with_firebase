@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../res/app_colors.dart';
+import '../res/app_images.dart';
+import '../res/app_string.dart';
+import '../res/app_text_style.dart';
 
 class ErrorNullWidget extends StatelessWidget {
   const ErrorNullWidget({super.key});
@@ -9,21 +11,12 @@ class ErrorNullWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Image.asset(
-          height: 150,
-          "asset/app_image/empty_image.png",
-        ),
-        const SizedBox(
-          height: 10,
-        ),
-        Text(
-          "No News Avaiable",
-          style: GoogleFonts.poppins(
-              fontSize: 20,
-              fontWeight: FontWeight.w900,
-              color: AppColors.deepred),
-        )
+        Image.asset(height: 170.h, AppImages.emptyImageValue),
+        SizedBox(height: 10.h),
+        Text(AppString.noData, style: AppTextStyle.errorValue)
       ],
     );
   }

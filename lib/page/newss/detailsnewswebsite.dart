@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:newsapps/res/const.dart';
+import 'package:newsapps/res/app_constant.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import '../../res/app_colors.dart';
 
 class DetailsNewsWebPage extends StatefulWidget {
-  const DetailsNewsWebPage({super.key, required this.url});
-  final String url;
+  const DetailsNewsWebPage({
+    super.key,
+    // required this.url
+  });
+
+  // final String url;
 
   @override
   State<DetailsNewsWebPage> createState() => _DetailsNewsWebPageState();
@@ -19,11 +23,12 @@ class _DetailsNewsWebPageState extends State<DetailsNewsWebPage> {
   late WebViewController controller;
   bool loading = false;
   double progressValue = 0.0;
-
+  late String url;
+/*
   @override
   void initState() {
     super.initState();
-
+    url = ModalRoute.of(context)?.settings.arguments as String;
     loading = true;
 
     controller = WebViewController()
@@ -47,7 +52,39 @@ class _DetailsNewsWebPageState extends State<DetailsNewsWebPage> {
           },
         ),
       )
-      ..loadRequest(Uri.parse(widget.url));
+      ..loadRequest(Uri.parse(url));
+  }
+  */
+
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    url = ModalRoute.of(context)?.settings.arguments as String;
+    loading = true;
+
+    controller = WebViewController()
+      ..setJavaScriptMode(JavaScriptMode.unrestricted)
+      ..setBackgroundColor(const Color(0x00000000))
+      ..setNavigationDelegate(
+        NavigationDelegate(
+          onProgress: (int progress) {
+            setState(() {
+              progressValue = (progress / 100);
+            });
+          },
+          onPageStarted: (String url) {},
+          onPageFinished: (String url) {},
+          onWebResourceError: (WebResourceError error) {},
+          onNavigationRequest: (NavigationRequest request) {
+            if (request.url.startsWith('https://www.bd-pratidin.com/')) {
+              return NavigationDecision.prevent;
+            }
+            return NavigationDecision.navigate;
+          },
+        ),
+      )
+      ..loadRequest(Uri.parse(url));
+    super.didChangeDependencies();
   }
 
   @override
@@ -71,7 +108,7 @@ class _DetailsNewsWebPageState extends State<DetailsNewsWebPage> {
                 child: const Icon(IconlyLight.arrowLeft)),
             centerTitle: true,
             title: Text(
-              widget.url,
+              url,
               style: GoogleFonts.poppins(
                   textStyle: TextStyle(
                       color: AppColors.black,
@@ -157,7 +194,7 @@ class _DetailsNewsWebPageState extends State<DetailsNewsWebPage> {
                 ),
                 onTap: () async {
                   try {
-                    Share.share(widget.url, subject: 'Share The Url');
+                    Share.share(url, subject: 'Share The Url');
                   } catch (error) {
                     await globalMethod.errorDialog(
                         context: context, errorMessage: error.toString());
@@ -176,7 +213,7 @@ class _DetailsNewsWebPageState extends State<DetailsNewsWebPage> {
                             letterSpacing: 1,
                             fontWeight: FontWeight.w600))),
                 onTap: () async {
-                  if (!await launchUrl(Uri.parse(widget.url))) {
+                  if (!await launchUrl(Uri.parse(url))) {
                     throw Exception('Could not launch ${"url"}}');
                   }
                 },

@@ -2,36 +2,45 @@ import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:newsapps/page/newss/detailsnews.dart';
-import 'package:newsapps/page/newss/detailsnewswebsite.dart';
-import 'package:newsapps/res/app_routes.dart';
-import 'package:newsapps/res/const.dart';
-import 'package:newsapps/page/auth/log_in_page.dart';
-import 'package:newsapps/page/splash/splash_page.dart';
-import 'package:newsapps/page/newss/alltopnews.dart';
-import 'package:newsapps/page/news/cateogrylist.dart';
-import 'package:newsapps/page/news/searchpage.dart';
-import 'package:newsapps/page/home/home_page.dart';
-import 'package:newsapps/service/provider/auth_provider.dart';
-import 'package:newsapps/service/provider/bookmarksprovider.dart';
-import 'package:newsapps/service/provider/loadingprovider.dart';
-import 'package:newsapps/service/provider/news_provider.dart';
-import 'package:newsapps/service/provider/onboarding_provide.dart';
-import 'package:newsapps/service/provider/splash_provider.dart';
-import 'package:newsapps/service/provider/themeprovider.dart';
+import 'package:newsapps/page/auth/login_phone_number_page.dart';
+import 'package:newsapps/page/auth/sign_up_page.dart';
+import 'package:newsapps/page/auth/verify_code_page.dart';
+
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'model/news_model_.dart';
+
+import 'page/auth/log_in_page.dart';
+import 'page/home/home_page.dart';
+import 'page/news/category_list.dart';
+import 'page/news/categroy_page.dart';
+import 'page/news/searchpage.dart';
+import 'page/newss/all_top_news.dart';
 import 'page/newss/bookmarkspage.dart';
+import 'page/newss/detailsnews.dart';
+import 'page/newss/detailsnewswebsite.dart';
+import 'page/splash/splash_page.dart';
+import 'res/app_routes.dart';
+import 'res/app_constant.dart';
+import 'res/app_string.dart';
+import 'service/provider/auth_manager_provider.dart';
+import 'service/provider/bookmarksprovider.dart';
+import 'service/provider/loadingprovider.dart';
+import 'service/provider/news_provider.dart';
+import 'service/provider/onboarding_provide.dart';
+import 'service/provider/splash_provider.dart';
+import 'service/provider/themeprovider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   await Firebase.initializeApp();
-  sharedPreferences = await SharedPreferences.getInstance();
+  AppConstant.sharedPreferences = await SharedPreferences.getInstance();
   await FirebaseAppCheck.instance.activate(
-    androidProvider: AndroidProvider.debug,
+    androidProvider: AndroidProvider.playIntegrity,
+    // androidProvider: AndroidProvider.safetyNet,
   );
-  isViewd = sharedPreferences!.getInt("onBoard");
+  AppConstant.isViewd =
+      AppConstant.sharedPreferences!.getInt(AppString.onboardSharePrefer) ?? 0;
   runApp(const MyApp());
 }
 
@@ -49,11 +58,8 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(create: (context) => LoadingProvider()),
           ChangeNotifierProvider(create: (context) => SplashProvider()),
           ChangeNotifierProvider(create: (context) => OnboardingProvider()),
-          // ChangeNotifierProvider(
-          //   create: (context) => AuthProvider(),
-          // ),
-          ChangeNotifierProxyProvider<LoadingProvider, AuthProvider>(
-            create: (_) => AuthProvider(),
+          ChangeNotifierProxyProvider<LoadingProvider, AuthManageProvider>(
+            create: (_) => AuthManageProvider(),
             update: (_, loadingProvider, authProvider) {
               authProvider?.setLoadingProvider(
                   loadingProvider); // Inject LoadingProvider
@@ -64,29 +70,24 @@ class MyApp extends StatelessWidget {
         child: Consumer<ThemeProvider>(
           builder: (context, value, child) {
             return MaterialApp(
-              onGenerateRoute: (settings) {
-                if (settings.name == AppRoutes.newsDetailsPage) {
-                  final newsModel = settings.arguments as NewsModel;
-                  return MaterialPageRoute(
-                    builder: (context) => NewsDetailsPage(newsModel: newsModel),
-                  );
-                } else if (settings.name == AppRoutes.detailsNewsWebPage) {
-                  final url = settings.arguments as String;
-                  return MaterialPageRoute(
-                    builder: (context) => DetailsNewsWebPage(url: url),
-                  );
-                }
-              },
               debugShowCheckedModeBanner: false,
               theme: globalMethod.themeDate(value),
               home: const SplashPage(),
               routes: {
-                LoginPage.routeName: (context) => const LoginPage(),
+                AppRoutes.logInPage: (context) => const LoginPage(),
+                AppRoutes.signUpPage: (context) => const SignUpPage(),
+                AppRoutes.loginWithPhoneNumberPage: (context) =>
+                    const LoginPhoneNumberPage(),
+                AppRoutes.verifiyCodePage: (context) => const VerifyCodePage(),
                 SearchPage.routeName: (context) => const SearchPage(),
                 AppRoutes.homePage: (context) => const HomePage(),
                 AppRoutes.allNewsPage: (context) => const AllTopNews(),
-                CategoryList.routeName: (context) => const CategoryList(),
+                "/categoryList": (context) => const CategoryList(),
+                // AppRoutes.categoryName: (context) => const CateoryPage(),
                 BookmarskPage.routeName: (context) => const BookmarskPage(),
+                '/newsDetails': (context) => const NewsDetailsPage(),
+                '/etailsNewsWebPage': (context) => const DetailsNewsWebPage(),
+                '/categoryPage': (context) => const CateoryPage(),
               },
             );
           },

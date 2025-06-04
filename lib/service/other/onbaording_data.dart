@@ -1,9 +1,9 @@
-import '../model/onboard_model.dart';
-import '../res/app_colors.dart';
-import '../res/app_images.dart';
-import '../res/app_string.dart';
+import '../../model/onboard_model.dart';
+import '../../res/app_colors.dart';
+import '../../res/app_images.dart';
+import '../../res/app_string.dart';
 
-class OnbaordingDataList {
+class OnboardingDataList {
   static List<OnboardModel> onboardModeList = [
     OnboardModel(
         image: AppImages.pageOneImage,

@@ -37,7 +37,7 @@ class LoadingItem extends StatelessWidget {
       highlightColor: Colors.grey.shade400,
       child: SizedBox(
         height: 145,
-        width: width,
+        width: width * .9,
         child: Container(
           padding: const EdgeInsets.only(left: 6, right: 6, top: 6, bottom: 12),
           child: Column(
@@ -94,13 +94,13 @@ class LoadingItem extends StatelessWidget {
                               color: widgetShimmerColor,
                             ),
                             const SizedBox(
-                              width: 40,
+                              width: 20,
                             ),
                             Align(
                               alignment: Alignment.centerRight,
                               child: Container(
                                 height: 12,
-                                width: 40,
+                                width: 20,
                                 color: widgetShimmerColor,
                               ),
                             )

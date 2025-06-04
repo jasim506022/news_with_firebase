@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:newsapps/res/const.dart';
-import '../../model/bookmarksmodel.dart';
+import 'package:newsapps/res/app_constant.dart';
+import '../../model/bookmarks_model.dart';
 import '../other/database_service.dart';
 
 class BookmarksProvider with ChangeNotifier {
@@ -19,7 +19,7 @@ class BookmarksProvider with ChangeNotifier {
   Future delete({required String publishedAt}) async {
     final firebasedatabase = FirebaseFirestore.instance
         .collection("uses")
-        .doc(sharedPreferences!.getString("uid"))
+        .doc(AppConstant.sharedPreferences!.getString("uid"))
         .collection("news");
     firebasedatabase.doc(publishedAt).delete();
     await fetchAllNews();

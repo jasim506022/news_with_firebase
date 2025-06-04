@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:newsapps/res/app_string.dart';
 
+import '../res/app_function.dart';
+import '../res/app_string.dart';
 import '../res/app_text_style.dart';
 import '../res/app_colors.dart';
 
@@ -17,9 +18,7 @@ class AppLogoWidget extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(AppString.ju, style: AppTextStyle.logoTitleTextStyle),
-        SizedBox(
-          height: 5.h,
-        ),
+        AppFunction.verticalSpace(5),
         Container(
           padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 5.h),
           decoration: BoxDecoration(

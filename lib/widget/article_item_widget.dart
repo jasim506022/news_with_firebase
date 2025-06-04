@@ -1,15 +1,13 @@
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:newsapps/model/bookmarksmodel.dart';
-import 'package:newsapps/model/news_model_.dart';
-import 'package:newsapps/res/app_function.dart';
+
 import 'package:provider/provider.dart';
+import '../model/bookmarks_model.dart';
+import '../model/news_model_.dart';
+import '../res/app_function.dart';
 import '../res/app_text_style.dart';
 import '../res/app_colors.dart';
-import '../page/newss/detailsnews.dart';
-import '../page/newss/detailsnewswebsite.dart';
 import '../service/other/api_service.dart';
 
 class ArticleItemWidget extends StatefulWidget {
@@ -29,43 +27,35 @@ class ArticleItemWidget extends StatefulWidget {
 class _ArticleItemWidgetState extends State<ArticleItemWidget> {
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
-    dynamic newsmodelProvider = widget.isBookmarks == true
+    dynamic mdoel = widget.isBookmarks == true
         ? Provider.of<BookmarksModel>(context)
         : Provider.of<NewsModel>(context);
     return Card(
       color: Theme.of(context).cardColor,
       child: InkWell(
         onTap: () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) =>
-                    NewsDetailsPage(newsModel: newsmodelProvider),
-              ));
+          Navigator.pushNamed(context, '/newsDetails', arguments: mdoel);
         },
         onLongPress: () {
           widget.isDelete == true
               ? ApiServices.logOutDialog(
-                  context: context,
-                  isDelete: true,
-                  id: newsmodelProvider.publishedAt)
+                  context: context, isDelete: true, id: mdoel.publishedAt)
               : Container();
         },
         child: SizedBox(
           height: 130.h,
-          width: width,
+          width: 1.sw,
           child: Container(
             padding:
-                const EdgeInsets.only(left: 6, right: 6, top: 10, bottom: 12),
+                EdgeInsets.only(left: 6.w, right: 6.w, top: 10.h, bottom: 12.h),
             child: Column(
               children: [
                 Row(
                   children: [
                     ClipRRect(
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(12.r),
                         child: Hero(
-                          tag: newsmodelProvider.publishedAt,
+                          tag: mdoel.publishedAt,
                           child: FancyShimmerImage(
                             height: 100.h,
                             width: 100.h,
@@ -74,19 +64,17 @@ class _ArticleItemWidgetState extends State<ArticleItemWidget> {
                               image: AssetImage("asset/image/image.jpg"),
                               fit: BoxFit.fill,
                             ),
-                            imageUrl: newsmodelProvider.urlToImage,
+                            imageUrl: mdoel.urlToImage,
                           ),
                         )),
-                    const SizedBox(
-                      width: 15,
-                    ),
+                    SizedBox(width: 15.w),
                     Expanded(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            newsmodelProvider.title,
+                            mdoel.title,
                             overflow: TextOverflow.ellipsis,
                             maxLines: 3,
                             style: AppTextStyle.mediumBoldTextStyle(context),
@@ -97,23 +85,20 @@ class _ArticleItemWidgetState extends State<ArticleItemWidget> {
                               Expanded(
                                 flex: 5,
                                 child: Text(
-                                  newsmodelProvider.source,
+                                  mdoel.source,
                                   maxLines: 2,
-                                  style: newstextStyle,
+                                  style: AppTextStyle.newstextStyle,
                                 ),
                               ),
                               Expanded(
                                 flex: 2,
                                 child: InkWell(
                                   onTap: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              DetailsNewsWebPage(
-                                            url: newsmodelProvider.url,
-                                          ),
-                                        ));
+                                    Navigator.pushNamed(
+                                      context,
+                                      '/etailsNewsWebPage',
+                                      arguments: mdoel.url,
+                                    );
                                   },
                                   child: const Icon(
                                     Icons.link,
@@ -127,8 +112,8 @@ class _ArticleItemWidgetState extends State<ArticleItemWidget> {
                                 child: Row(
                                   children: [
                                     Container(
-                                      height: 10,
-                                      width: 10,
+                                      height: 10.h,
+                                      width: 10.h,
                                       decoration: BoxDecoration(
                                           color: AppColors.white,
                                           shape: BoxShape.circle,
@@ -139,35 +124,21 @@ class _ArticleItemWidgetState extends State<ArticleItemWidget> {
                                     const SizedBox(
                                       width: 6,
                                     ),
-                                    if (newsmodelProvider.readingTimeText ==
+                                    if (mdoel.readingTimeText ==
                                         "less than a minute")
                                       FittedBox(
-                                        child: Text(
-                                          "1 min ago",
-                                          maxLines: 2,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: GoogleFonts.poppins(
-                                              textStyle: TextStyle(
-                                                  color:
-                                                      AppColors.lightCardColor,
-                                                  fontSize: 13.sp,
-                                                  fontWeight:
-                                                      FontWeight.w600)), //
-                                        ),
+                                        child: Text("1 min ago",
+                                            maxLines: 2,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: AppTextStyle.newstextStyle),
                                       )
                                     else
                                       FittedBox(
                                         child: Text(
-                                          "${newsmodelProvider.readingTimeText} mins ago",
+                                          "${mdoel.readingTimeText} mins ago",
                                           maxLines: 2,
                                           overflow: TextOverflow.ellipsis,
-                                          style: GoogleFonts.poppins(
-                                              textStyle: TextStyle(
-                                                  color:
-                                                      AppColors.lightCardColor,
-                                                  fontSize: 13,
-                                                  fontWeight:
-                                                      FontWeight.w600)), //
+                                          style: AppTextStyle.newstextStyle, //
                                         ),
                                       ),
                                   ],

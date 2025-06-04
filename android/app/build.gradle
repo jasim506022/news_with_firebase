@@ -74,5 +74,6 @@ dependencies {
     implementation platform('com.google.firebase:firebase-bom:31.3.0')
     implementation 'com.google.firebase:firebase-analytics-ktx'
     implementation 'com.android.support:multidex:1.0.3'
+    implementation 'com.google.firebase:firebase-appcheck-playintegrity:17.0.0' // ✅ Add this
    
 }

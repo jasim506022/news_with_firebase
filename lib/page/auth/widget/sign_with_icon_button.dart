@@ -1,34 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import 'package:newsapps/res/app_text_style.dart';
+import '../../../res/app_colors.dart';
+import '../../../res/app_function.dart';
+import '../../../res/app_text_style.dart';
+import '../../../res/network_utilis.dart';
 
-import '../res/app_colors.dart';
-
-class SignWithIcon extends StatelessWidget {
-  const SignWithIcon({
+class SignInWithIconButton extends StatelessWidget {
+  const SignInWithIconButton({
     super.key,
     // required this.loading,
-    required this.text,
+    required this.label,
     required this.onTap,
-    required this.image,
+    required this.iconAssetPath,
   });
 
   // final LoadingProvider loading;
-  final String text;
+  final String label;
   final VoidCallback onTap;
-  final String image;
+  final String iconAssetPath;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: onTap,
+      onTap: () async => await NetworkUtils.executeWithInternetCheck(
+          action: onTap, context: context),
       child: Container(
         height: 60.h,
         decoration: BoxDecoration(
-            color: Colors.white,
+            color: AppColors.white,
             border: Border.all(color: AppColors.deepred, width: 2),
-            borderRadius: BorderRadius.circular(10)),
+            borderRadius: BorderRadius.circular(10.r)),
         child: Center(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -37,11 +39,11 @@ class SignWithIcon extends StatelessWidget {
               Image(
                 height: 30.h,
                 width: 30.h,
-                image: AssetImage(image),
+                image: AssetImage(iconAssetPath),
               ),
-              const SizedBox(width: 10),
+              AppFunction.horizontalSpace(15),
               Text(
-                text,
+                label,
                 style: AppTextStyle.button.copyWith(color: AppColors.black),
               ),
             ],

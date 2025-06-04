@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:newsapps/res/const.dart';
-import 'package:newsapps/model/bookmarksmodel.dart';
-import 'package:newsapps/widget/articlewidget.dart';
+import 'package:newsapps/model/bookmarks_model.dart';
+import 'package:newsapps/widget/article_item_widget.dart';
 import 'package:provider/provider.dart';
 import '../../service/provider/bookmarksprovider.dart';
 import '../../widget/loadingarticlewidget.dart';

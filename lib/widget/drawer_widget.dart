@@ -6,7 +6,6 @@ import 'package:newsapps/widget/app_logo_widget.dart';
 import 'package:provider/provider.dart';
 import '../res/app_text_style.dart';
 
-import '../page/news/cateogrylist.dart';
 import '../service/other/api_service.dart';
 import '../service/provider/themeprovider.dart';
 
@@ -35,7 +34,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 // globalMethod.applogo(),
-                AppLogoWidget(),
+                const AppLogoWidget(),
                 const SizedBox(
                   height: 5,
                 ),
@@ -78,7 +77,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
               title: 'News Category',
               icon: Icons.category,
               function: () {
-                Navigator.pushNamed(context, CategoryList.routeName);
+                Navigator.pushNamed(context, "/categoryList");
               }),
           drawableItemMethod(
               title: 'Bookmarks',

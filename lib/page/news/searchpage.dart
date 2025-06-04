@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:newsapps/res/app_text_style.dart';
 import 'package:newsapps/res/app_colors.dart';
-import 'package:newsapps/widget/articlewidget.dart';
+import 'package:newsapps/widget/article_item_widget.dart';
 import 'package:provider/provider.dart';
-import '../../res/const.dart';
 import '../../model/news_model_.dart';
 import '../../service/provider/news_provider.dart';
 

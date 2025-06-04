@@ -1,106 +1,85 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:newsapps/res/const.dart';
-import 'package:newsapps/page/home/home_page.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import 'package:pinput/pinput.dart';
 import 'package:provider/provider.dart';
 import '../../res/app_colors.dart';
 import '../../res/app_function.dart';
-import '../../res/app_routes.dart';
-import '../../service/provider/loadingprovider.dart';
-import '../../widget/roundbutton.dart';
+import '../../res/app_images.dart';
+import '../../res/app_string.dart';
+import '../../res/app_text_style.dart';
+import '../../service/provider/auth_manager_provider.dart';
+import 'widget/auth_button.dart';
+import 'widget/auth_intro_widget.dart';
 
-class VerifiyCodePage extends StatefulWidget {
-  const VerifiyCodePage({super.key, required this.verificationId});
-
-  final String verificationId;
+class VerifyCodePage extends StatefulWidget {
+  const VerifyCodePage({
+    super.key,
+  });
 
   @override
-  State<VerifiyCodePage> createState() => _VerifiyCodePageState();
+  State<VerifyCodePage> createState() => _VerifyCodePageState();
 }
 
-class _VerifiyCodePageState extends State<VerifiyCodePage> {
-  String pinNumber = "";
+class _VerifyCodePageState extends State<VerifyCodePage> {
+  late String verificationId;
+  String otpCode = "";
 
-  final auth = FirebaseAuth.instance;
+  @override
+  void didChangeDependencies() {
+    // Get the verification ID passed via route arguments.
+    final args = ModalRoute.of(context)?.settings.arguments;
+    if (args is String) {
+      verificationId = args;
+    } else {
+      verificationId = '';
+    }
+    super.didChangeDependencies();
+  }
+
   @override
   Widget build(BuildContext context) {
+    final authProvider =
+        Provider.of<AuthManageProvider>(context, listen: false);
+    // Theme for the PIN input (default).
     final defaultPinTheme = PinTheme(
-      width: 56,
-      height: 56,
-      textStyle: TextStyle(
-          color: AppColors.black,
-          fontSize: 20,
-          letterSpacing: 1,
-          fontWeight: FontWeight.w700),
+      width: 60.h,
+      height: 60.h,
+      textStyle: AppTextStyle.pinNumberTextStyle,
       decoration: BoxDecoration(
-        border: Border.all(color: const Color.fromRGBO(93, 92, 92, 1)),
+        border: Border.all(color: AppColors.grey),
         borderRadius: BorderRadius.circular(20),
       ),
     );
 
+    // Theme when the PIN input is focused.
     final focusedPinTheme = defaultPinTheme.copyDecorationWith(
       border: Border.all(color: AppColors.deepred, width: 2),
       borderRadius: BorderRadius.circular(8),
     );
 
+    // Theme after submitting the PIN.
     final submittedPinTheme = defaultPinTheme.copyWith(
-      textStyle: TextStyle(
-          color: AppColors.white,
-          fontSize: 20,
-          letterSpacing: 1,
-          fontWeight: FontWeight.w700),
-      decoration: defaultPinTheme.decoration?.copyWith(
-        color: AppColors.deepred,
-      ),
+      textStyle:
+          AppTextStyle.pinNumberTextStyle.copyWith(color: AppColors.white),
+      decoration:
+          defaultPinTheme.decoration?.copyWith(color: AppColors.deepred),
     );
     return Scaffold(
         extendBodyBehindAppBar: true,
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          leading: IconButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: const Icon(
-              Icons.arrow_back_ios_rounded,
-              color: Colors.black,
-            ),
-          ),
-          elevation: 0,
-        ),
-        body: Container(
-            margin: const EdgeInsets.only(left: 25, right: 25),
-            alignment: Alignment.center,
+        body: Center(
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 15.h),
             child: SingleChildScrollView(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Image.asset(
-                    'asset/image/otp.png',
-                    width: 150,
-                    height: 150,
-                  ),
-                  const SizedBox(
-                    height: 25,
-                  ),
-                  const Text(
-                    "Phone Verification",
-                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  const Text(
-                    "We need to register your phone without getting started!",
-                    style: TextStyle(
-                      fontSize: 16,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(
-                    height: 30,
-                  ),
+                  // Intro section with image, title, and subtitle.
+                  const AuthIntroWidget(
+                      imageAssetPath: AppImages.otpImage,
+                      title: AppString.phoneCodeVerificate,
+                      subTitle: AppString.phoneVerificationSubTitle),
+                  AppFunction.verticalSpace(30),
                   Pinput(
                     length: 6,
                     defaultPinTheme: defaultPinTheme,
@@ -108,47 +87,33 @@ class _VerifiyCodePageState extends State<VerifiyCodePage> {
                     submittedPinTheme: submittedPinTheme,
                     showCursor: true,
                     onCompleted: (pin) {
-                      pinNumber = pin;
+                      otpCode = pin;
                       setState(() {});
                     },
                   ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Consumer<LoadingProvider>(
-                    builder: (context, loadingProvider, child) {
-                      return RoundButton(
-                          text: "Verify Phone Number",
-                          loading: loadingProvider,
-                          onTap: () async {
-                            Provider.of<LoadingProvider>(context, listen: false)
-                                .setUploading(loading: true);
-                            final cendial = PhoneAuthProvider.credential(
-                                verificationId: widget.verificationId,
-                                smsCode: pinNumber);
-                            try {
-                              await auth.signInWithCredential(cendial);
-                              sharedPreferences!
-                                  .setString("uid", auth.currentUser!.uid);
-                              // ignore: use_build_context_synchronously
-                              Navigator.pushNamed(context, AppRoutes.homePage);
-                              // ignore: use_build_context_synchronously
-                              Provider.of<LoadingProvider>(context,
-                                      listen: false)
-                                  .setUploading(loading: false);
-
-                              AppFunction.toastMessage("Login Successfully");
-                            } catch (e) {
-                              AppFunction.toastMessage(e.toString());
-                              Provider.of<LoadingProvider>(context,
-                                      listen: false)
-                                  .setUploading(loading: false);
-                            }
-                          });
+                  AppFunction.verticalSpace(30),
+                  AuthButton(
+                    onPressed: () {
+                      if (otpCode.isEmpty) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text(AppString.checkVarificateCode),
+                          ),
+                        );
+                        return;
+                      }
+                      authProvider.verifyOtp(
+                        context: context,
+                        verificationId: verificationId,
+                        smsCode: otpCode,
+                      );
                     },
-                  )
+                    title: AppString.verifyPhoneNumber,
+                  ),
                 ],
               ),
-            )));
+            ),
+          ),
+        ));
   }
 }

@@ -2,14 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../res/app_colors.dart';
-import '../../../res/app_images.dart';
-import '../../../res/app_string.dart';
+import '../../../res/app_function.dart';
 import '../../../res/app_text_style.dart';
 
 class AuthIntroWidget extends StatelessWidget {
   const AuthIntroWidget({
     super.key,
+    required this.imageAssetPath,
+    required this.title,
+    required this.subTitle,
   });
+
+  final String imageAssetPath;
+  final String title;
+  final String subTitle;
 
   @override
   Widget build(BuildContext context) {
@@ -17,31 +23,27 @@ class AuthIntroWidget extends StatelessWidget {
       padding: EdgeInsets.symmetric(vertical: 25.h),
       child: Column(
         children: [
-          Image(
-            image: const AssetImage(AppImages.appIntroImage),
-            height: 150.h,
-            width: double.infinity,
-          ),
-          SizedBox(
-            height: 20.h,
-          ),
+          // Top image banner
+          Image.asset(imageAssetPath, height: 200.h, width: double.infinity),
+          AppFunction.verticalSpace(20),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(AppString.btnLogin, style: AppTextStyle.authTitle),
-              const SizedBox(
-                width: 10,
-              ),
+              Text(title, style: AppTextStyle.authTitle),
+              AppFunction.horizontalSpace(10),
               Icon(
                 Icons.person_2_outlined,
-                size: 35.h,
+                size: 35.r,
                 color: AppColors.pink,
               )
             ],
           ),
-          SizedBox(height: 7.h),
-          Text("Welcome to Jasim Uddin News",
-              style: AppTextStyle.authDescription),
+          AppFunction.verticalSpace(7),
+          Text(
+            subTitle,
+            style: AppTextStyle.authDescription,
+            textAlign: TextAlign.center,
+          ),
         ],
       ),
     );

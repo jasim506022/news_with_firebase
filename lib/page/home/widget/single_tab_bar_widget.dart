@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:newsapps/widget/error_widget.dart';
-import 'package:newsapps/widget/row_widget.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import 'package:provider/provider.dart';
-import '../../news/categroy_page.dart';
+import '../../../model/news_model_.dart';
+import '../../../widget/error_widget.dart';
+import '../../../widget/row_widget.dart';
 import '../../../service/provider/news_provider.dart';
-import '../../../widget/articlewidget.dart';
+import '../../../widget/article_item_widget.dart';
 import '../../../widget/loadingarticlewidget.dart';
 
 class SingleTabBarViewWidget extends StatelessWidget {
@@ -21,27 +23,33 @@ class SingleTabBarViewWidget extends StatelessWidget {
         RowWidget(
             title: text,
             onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => CateoryPage(
-                            categoryName: text,
-                          )));
+              Navigator.pushNamed(
+                context,
+                '/categoryPage',
+                arguments: text,
+              );
+
+              // Navigator.push(
+              //     context,
+              //     MaterialPageRoute(
+              //         builder: (context) => CateoryPage(
+              //               categoryName: text,
+              //             )));
             }),
-        const SizedBox(
-          height: 10,
-        ),
+        SizedBox(height: 10.h),
         Expanded(
-          child: FutureBuilder(
+          child: FutureBuilder<List<NewsModel>>(
             future: newsProvider.fetchAllNews(
                 category: text.toLowerCase(), pageSize: 10),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const LoadingArticleWidget();
               } else if (snapshot.hasError) {
-                return const ErrorNullWidget();
-              } else if (!snapshot.hasData) {
-                return const ErrorNullWidget();
+                return const ErrorNullWidget(); // Or a custom error display
+              } else if (!snapshot.hasData ||
+                  snapshot.data == null ||
+                  snapshot.data!.isEmpty) {
+                return const ErrorNullWidget(); // Also handles empty list
               }
 
               return ListView.builder(

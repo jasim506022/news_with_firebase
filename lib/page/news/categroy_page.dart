@@ -2,12 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:newsapps/model/news_model_.dart';
 import 'package:provider/provider.dart';
 import '../../service/other/api_service.dart';
-import '../../widget/articlewidget.dart';
+import '../../widget/article_item_widget.dart';
 import '../../widget/loadingarticlewidget.dart';
 
 class CateoryPage extends StatefulWidget {
-  const CateoryPage({super.key, required this.categoryName});
-  final String categoryName;
+  const CateoryPage({
+    super.key,
+    //  required this.categoryName
+  });
+  // final String categoryName;
 
   @override
   State<CateoryPage> createState() => _CateoryPageState();
@@ -21,14 +24,17 @@ class _CateoryPageState extends State<CateoryPage> {
   int limit = 10;
   bool _islimit = false;
 
+  late String categoryName;
+
   @override
   void initState() {
-    getNews();
     super.initState();
   }
 
   @override
   void didChangeDependencies() {
+    categoryName = ModalRoute.of(context)?.settings.arguments as String;
+    getNews();
     _scrollController.addListener(() async {
       if (limit == 80) {
         _islimit = true;
@@ -53,11 +59,10 @@ class _CateoryPageState extends State<CateoryPage> {
 
   Future<void> getNews() async {
     final fetchedNews = await ApiServices.getAllNews(
-        pageSize: limit, category: widget.categoryName.toLowerCase());
+        pageSize: limit, category: categoryName.toLowerCase());
     if (fetchedNews.length < limit) {
-      _islimit = true; // All data is fetched, hide the progress indicator
+      _islimit = true;
     }
-
     // Add the fetched news to the list
     setState(() {
       categoryList = fetchedNews;
@@ -68,7 +73,7 @@ class _CateoryPageState extends State<CateoryPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("${widget.categoryName} News"),
+          title: Text("$categoryName News"),
         ),
         body: categoryList.isEmpty
             ? const LoadingArticleWidget()

@@ -11,6 +11,8 @@ import 'package:intl/intl.dart';
 
 import 'package:newsapps/service/provider/themeprovider.dart';
 
+import '../service/other/api_service.dart';
+import 'app_string.dart';
 import 'app_text_style.dart';
 import 'app_colors.dart';
 
@@ -19,6 +21,94 @@ class AppFunction {
 
   static SizedBox verticalSpace(double height) {
     return SizedBox(height: height.h);
+  }
+
+  static SizedBox horizontalSpace(double width) {
+    return SizedBox(width: width.w);
+  }
+
+  static Future<bool?> exitApp(BuildContext context) {
+    return showDialog<bool>(
+        context: context,
+        builder: (context) => AlertDialogWidget(
+              title: AppString.exitDialogTitle,
+              icon: Icons.question_mark,
+              content: AppString.confirmExitMessage,
+              onConfirmPressed: () => Navigator.of(context).pop(true),
+              onCancelPressed: () => Navigator.of(context).pop(false),
+            ));
+  }
+
+  static void handleFirebaseAuthError(dynamic e) {
+    switch (e.code) {
+      case 'email-already-in-use':
+        AppFunction.toastMessage(
+            'This email is already registered. Please log in.');
+        break;
+      case 'invalid-email':
+        AppFunction.toastMessage(
+            'The email address format is invalid. Please check and try again.');
+        break;
+      case 'operation-not-allowed':
+        AppFunction.toastMessage('Email/password accounts are not enabled.');
+        break;
+      case 'weak-password':
+        AppFunction.toastMessage(
+            'Your password is too weak. Please choose a stronger one.');
+        break;
+      case 'user-disabled':
+        AppFunction.toastMessage(
+            'Your account has been disabled. Please contact support.');
+        break;
+      case 'user-not-found':
+        AppFunction.toastMessage(
+            'No user found with this email. Please register first.');
+        break;
+      case 'wrong-password':
+        AppFunction.toastMessage('Incorrect password. Please try again.');
+        break;
+      case 'account-exists-with-different-credential':
+        AppFunction.toastMessage(
+            'This account exists with a different sign-in method.');
+        break;
+      case 'invalid-credential':
+        AppFunction.toastMessage(
+            'Invalid or expired credential. Please try again.');
+        break;
+      case 'invalid-verification-code':
+        AppFunction.toastMessage('The verification code is invalid.');
+        break;
+      case 'invalid-verification-id':
+        AppFunction.toastMessage('The verification ID is invalid.');
+        break;
+      case 'too-many-requests':
+        AppFunction.toastMessage('Too many requests. Please try again later.');
+        break;
+      case 'network-request-failed':
+        AppFunction.toastMessage(
+            'Network error. Check your internet connection.');
+        break;
+      case 'expired-action-code':
+        AppFunction.toastMessage(
+            'The action code has expired. Please request a new one.');
+        break;
+      case 'invalid-action-code':
+        AppFunction.toastMessage(
+            'The action code is invalid. Please check the link.');
+        break;
+      case 'missing-verification-code':
+        AppFunction.toastMessage(
+            'Missing verification code. Please enter the code.');
+        break;
+      case 'requires-recent-login':
+        AppFunction.toastMessage(
+            'Please log in again to complete this action.');
+        break;
+      default:
+        AppFunction.toastMessage(
+            'Something went wrong. Please try again later. ${e.message}');
+        break;
+    }
   }
 
   // Widget errorMethod({required String error}) {
@@ -113,13 +203,17 @@ class AppFunction {
         primaryColor: themeProvider.getDarkTheme ? Colors.white : Colors.black);
   }
 
-  static toastMessage(String message) {
+  static void toastMessage(String message) {
     Fluttertoast.showToast(
-        msg: message,
-        gravity: ToastGravity.BOTTOM,
-        fontSize: 16.0.sh,
-        backgroundColor: AppColors.red,
-        textColor: Colors.white);
+      msg: message,
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      backgroundColor: AppColors.red,
+      textColor: Colors.white,
+      fontSize: 16.0,
+      // Add this to use native toast
+      webShowClose: false,
+    );
   }
 
   String formattedDatText(String publishArt) {

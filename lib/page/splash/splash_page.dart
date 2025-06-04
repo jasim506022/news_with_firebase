@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:newsapps/service/provider/splash_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -23,9 +24,9 @@ class _SplashPageState extends State<SplashPage> {
       return Scaffold(
         body: Center(
           child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1),
+            padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 1.h),
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(6),
+              borderRadius: BorderRadius.circular(6.r),
               color: AppColors.white,
             ),
             child: const AppLogoWidget(),

@@ -13,6 +13,15 @@ class AppString {
   static const String pageThreeDescription =
       "Stay ahead of the curve with real-time notifications for breaking stories.";
 
+  // Title
+  static const String authSubTitle = "Welcome to Jasim Uddin News";
+  static const String phoneVerificationTitle = "Phone Verification";
+  static const String phoneCodeVerificate = "Phone Code Verification";
+  static const String verifyPhoneNumber = "Verify Phone Number";
+  static const String dontHaveAnAccount = "Don't Have an Account";
+  static const String phoneVerificationSubTitle =
+      "We need to register your phone without getting started!";
+
   // Button
   static const btnSkip = "Skip";
   static const btnNext = "Next";
@@ -21,10 +30,14 @@ class AppString {
   static const btnSignUp = 'Sign Up';
   static const btnNo = 'No';
   static const btnYes = 'Yes';
+  static const btnSendCode = "Send the code";
+  static const btnLoginWithPhone = 'Login With Phone Number';
+  static const btnLoginWithGmail = 'Login With Gmail';
 
   static const noInternet = 'No Internet';
   static const noInternetMessage =
       'Please check your internet settings and try again.';
+  static const checkVarificateCode = 'Please enter the verification code.';
 
 // Validation
   // Email
@@ -78,6 +91,13 @@ class AppString {
   // 📌 Success & Toast Messages
   static const String successSignUpMessage = "Sign up successful!";
   static const String successSignInMessage = "Sign in successful!";
+  static const String loginFailMessage = "Login failed: user not found.";
+  static const String codeAutoRetrievalTimeout =
+      "Code auto-retrieval timeout. Please retry.";
+  static const String gogoleSigninCencelled =
+      "Google Sign-In was cancelled or failed.";
+  static const String googleSignFail =
+      "Google Sign-In failed. Please try again";
 
   // Auth
   static const alreadHaveAAcount = "Already Have a Account?";
@@ -88,8 +108,18 @@ class AppString {
   static const String topNews = "Top News";
   static const String seeAll = "See All";
   static const String allNews = "All News";
+  static const String countryCode = "+880";
 
   // Dialog
   static const String exitDialogTitle = "Exit Application";
   static const String confirmExitMessage = "Are you sure  want to exit?";
+
+  // Error
+  static const String noData = "No News Avaiable";
+
+  // ShareFerence
+  static const String onboardSharePrefer = "onboard";
+  static const String uidSharePrefer = "uid";
+  // Firebase
+  static const String userCollection = "users";
 }

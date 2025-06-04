@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:newsapps/res/const.dart';
+import 'package:newsapps/res/app_constant.dart';
 import 'package:newsapps/service/provider/news_provider.dart';
 import 'package:provider/provider.dart';
 
 import '../../res/app_colors.dart';
 import '../../service/other/api_service.dart';
-import '../../widget/articlewidget.dart';
+import '../../widget/article_item_widget.dart';
 import '../../widget/loadingarticlewidget.dart';
 
 class AllTopNews extends StatefulWidget {
@@ -55,7 +55,7 @@ class _AllTopNewsState extends State<AllTopNews> {
                   ),
                   Expanded(
                     child: ListView.builder(
-                      itemCount: 20,
+                      itemCount: 10,
                       scrollDirection: Axis.horizontal,
                       itemBuilder: (context, index) {
                         return Padding(

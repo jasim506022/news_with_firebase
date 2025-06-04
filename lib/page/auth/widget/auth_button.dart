@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
 import '../../../res/app_text_style.dart';
+import '../../../res/network_utilis.dart';
 import '../../../service/provider/loadingprovider.dart';
 
 class AuthButton extends StatelessWidget {
@@ -23,7 +24,8 @@ class AuthButton extends StatelessWidget {
         height: 55.h,
         width: double.infinity,
         child: ElevatedButton(
-          onPressed: onPressed,
+          onPressed: () => NetworkUtils.executeWithInternetCheck(
+              action: onPressed, context: context),
           child: loadingProvider.isLoading
               ? const Center(child: CircularProgressIndicator())
               : Text(title, style: AppTextStyle.button),

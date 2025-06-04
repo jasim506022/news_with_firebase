@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:newsapps/res/const.dart';
+import 'package:newsapps/res/app_string.dart';
+
+import '../../res/app_routes.dart';
+import '../../res/app_constant.dart';
+import '../other/onbaording_data.dart';
 
 class OnboardingProvider with ChangeNotifier {
   int _currentIndex = 0;
@@ -8,15 +12,15 @@ class OnboardingProvider with ChangeNotifier {
 
   PageController pageController = PageController(initialPage: 0);
 
-  /// Update page index and notify listeners
+  /// Update the current page index and notify listeners
   void updatePageIndex(int index) {
     _currentIndex = index;
     notifyListeners();
   }
 
-  /// Move to next page
+  /// Move to the next page, or finish onboarding if it's the last page
   void nextPage(BuildContext context) async {
-    if (_currentIndex == 2) {
+    if (_currentIndex == OnboardingDataList.onboardModeList.length - 1) {
       await completeOnboarding(context);
     } else {
       _currentIndex++;
@@ -27,19 +31,12 @@ class OnboardingProvider with ChangeNotifier {
       );
       notifyListeners();
     }
-    // notifyListeners();
   }
 
-  /// Save onboarding completion in SharedPreferences
+  /// Complete onboarding: save status and navigate to login page
   Future<void> completeOnboarding(BuildContext context) async {
-    await sharedPreferences!.setInt("onBoard", 0);
-    Navigator.pushReplacementNamed(context, "/LoginDetailsPage");
+    Navigator.pushReplacementNamed(context, AppRoutes.logInPage);
+    await AppConstant.sharedPreferences!
+        .setInt(AppString.onboardSharePrefer, 1);
   }
 }
-
-/*
-why use currenIndex Final;
-
-*/
-
-

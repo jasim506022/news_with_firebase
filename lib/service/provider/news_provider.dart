@@ -4,9 +4,8 @@ import '../../model/news_model_.dart';
 import '../other/api_service.dart';
 
 class NewsProvider with ChangeNotifier {
-  List<NewsModel> _newsList = [];
-
-  List<NewsModel> get newsList => _newsList;
+  // Add Try Catch Example
+  // Okay
 
   Future<List<NewsModel>> fetchAllTopNews({required int page}) async {
     try {
@@ -16,11 +15,24 @@ class NewsProvider with ChangeNotifier {
     }
   }
 
+  Future<void> loadNews() async {
+    final result = await ApiServices.fetchAllTopNews(page: 1);
+    totalPages =
+        result.length; // from "news" key in the Map returned by the API
+    notifyListeners();
+  }
+
+  List<NewsModel> _newsList = [];
+
+  List<NewsModel> get newsList => _newsList;
+
   int _currentindex = 0;
 
   bool _isSearch = false;
 
   bool get isSearch => _isSearch;
+
+  int totalPages = 1;
 
   void setSearch(bool isSearch) {
     _isSearch = isSearch;

@@ -1,21 +1,18 @@
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:newsapps/model/bookmarksmodel.dart';
-import 'package:newsapps/page/newss/detailsnewswebsite.dart';
+import 'package:newsapps/model/bookmarks_model.dart';
 import 'package:newsapps/service/other/database_service.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
-import '../../res/const.dart';
+import '../../res/app_constant.dart';
 import '../../res/app_colors.dart';
 import '../../service/provider/bookmarksprovider.dart';
 
 class NewsDetailsPage extends StatefulWidget {
   const NewsDetailsPage({
     super.key,
-    required this.newsModel,
   });
-  final dynamic newsModel;
 
   @override
   State<NewsDetailsPage> createState() => _NewsDetailsPageState();
@@ -28,11 +25,11 @@ class _NewsDetailsPageState extends State<NewsDetailsPage> {
   @override
   void initState() {
     super.initState();
-    newsModel = widget.newsModel;
   }
 
   @override
   void didChangeDependencies() {
+    newsModel = ModalRoute.of(context)?.settings.arguments as dynamic;
     final List<BookmarksModel> bookmarkList =
         Provider.of<BookmarksProvider>(context).getbookimarNewList;
     if (bookmarkList.isEmpty) {
@@ -155,7 +152,6 @@ class _NewsDetailsPageState extends State<NewsDetailsPage> {
                                     DatabaseService.uploadFirebase(
                                         id: newsModel!.publishedAt,
                                         newsmodel: newsModel);
-
                                     setState(() {
                                       isBooking = true;
                                     });
@@ -229,13 +225,19 @@ class _NewsDetailsPageState extends State<NewsDetailsPage> {
                           Expanded(
                             child: InkWell(
                               onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => DetailsNewsWebPage(
-                                        url: newsModel!.url,
-                                      ),
-                                    ));
+                                Navigator.pushNamed(
+                                  context,
+                                  '/etailsNewsWebPage',
+                                  arguments: newsModel!.url,
+                                );
+
+                                // Navigator.push(
+                                //     context,
+                                //     MaterialPageRoute(
+                                //       builder: (context) => DetailsNewsWebPage(
+                                //         url: newsModel!.url,
+                                //       ),
+                                //     ));
                               },
                               child: const Icon(
                                 Icons.link,

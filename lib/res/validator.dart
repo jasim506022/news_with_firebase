@@ -51,4 +51,18 @@ class Validators {
     if (trimmedValue.length > 50) return AppString.nameTooLong;
     return _namePattern.hasMatch(trimmedValue) ? null : AppString.nameInvalid;
   }
+
+  /// *** Validation a Phone Number
+  static String? validatePhoneNumber(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Phone number is required';
+    }
+    final trimedValue = value.trim();
+
+    final phoneRegExp = RegExp(r'^(1)[0-9]{9}$');
+    if (!phoneRegExp.hasMatch(trimedValue)) {
+      return 'Enter a valid  phone number without 0 (e.g., 1712345678)';
+    }
+    return null;
+  }
 }

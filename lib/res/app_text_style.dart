@@ -49,7 +49,7 @@ class AppTextStyle {
   // Input Fields & Hints
   static TextStyle get hintText => GoogleFonts.poppins(
         fontSize: 15.sp,
-        color: AppColors.gray,
+        color: AppColors.grey,
         fontWeight: FontWeight.normal,
       );
 
@@ -66,30 +66,37 @@ class AppTextStyle {
         fontSize: 15.sp,
         fontWeight: FontWeight.w700,
       );
-  static TextStyle get authTitle => GoogleFonts.roboto(
-      color: AppColors.black,
+  static TextStyle get authTitle => GoogleFonts.poppins(
+      color: AppColors.red,
       fontSize: 28.sp,
-      fontWeight: FontWeight.w900,
-      height: 1.3,
-      letterSpacing: 1.2);
+      letterSpacing: 1.2,
+      fontWeight: FontWeight.w800);
 
-  static TextStyle get authDescription => GoogleFonts.roboto(
-      color: AppColors.black.withOpacity(.8),
-      fontSize: 17.sp,
-      fontWeight: FontWeight.normal,
-      height: 1.6,
-      letterSpacing: 1.2);
+  static TextStyle get authDescription => GoogleFonts.poppins(
+      color: AppColors.black,
+      fontSize: 20.sp,
+      letterSpacing: 1.1,
+      fontWeight: FontWeight.normal);
+
+  static TextStyle get errorValue => GoogleFonts.poppins(
+      fontSize: 20.sp, fontWeight: FontWeight.w900, color: AppColors.deepred);
+
+  static TextStyle newstextStyle = GoogleFonts.poppins(
+      textStyle: TextStyle(
+          color: AppColors.lightCardColor,
+          fontSize: 13.sp,
+          fontWeight: FontWeight.w600));
+
+  static TextStyle get pinNumberTextStyle => GoogleFonts.poppins(
+      color: AppColors.black,
+      fontSize: 22.sp,
+      letterSpacing: 1,
+      fontWeight: FontWeight.w700);
 }
 
 TextStyle tabunselectedLabelStyle = GoogleFonts.poppins(
     textStyle: TextStyle(
         color: AppColors.white, fontSize: 15.sp, fontWeight: FontWeight.w600));
-
-TextStyle newstextStyle = GoogleFonts.poppins(
-    textStyle: TextStyle(
-        color: AppColors.lightCardColor,
-        fontSize: 13.sp,
-        fontWeight: FontWeight.w600));
 
 TextStyle tabLabelStyle = GoogleFonts.poppins(
     textStyle: TextStyle(

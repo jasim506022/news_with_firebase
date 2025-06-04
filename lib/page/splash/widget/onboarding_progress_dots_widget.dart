@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
 import '../../../res/app_colors.dart';
-import '../../../service/onbaording_data_list.dart';
+import '../../../service/other/onbaording_data.dart';
 import '../../../service/provider/onboarding_provide.dart';
 
 class OnboardingProgressDotsWidget extends StatelessWidget {
@@ -17,7 +17,7 @@ class OnboardingProgressDotsWidget extends StatelessWidget {
         return SizedBox(
           height: 10.h,
           child: ListView.builder(
-            itemCount: OnbaordingDataList.onboardModeList.length,
+            itemCount: OnboardingDataList.onboardModeList.length,
             shrinkWrap: true,
             scrollDirection: Axis.horizontal,
             itemBuilder: (context, index) {
@@ -27,7 +27,7 @@ class OnboardingProgressDotsWidget extends StatelessWidget {
                   Container(
                     height: 8.h,
                     width: 8.h,
-                    margin: const EdgeInsets.symmetric(horizontal: 3),
+                    margin: EdgeInsets.symmetric(horizontal: 3.w),
                     decoration: BoxDecoration(
                       color: onboardingProvider.currentIndex == index
                           ? AppColors.red

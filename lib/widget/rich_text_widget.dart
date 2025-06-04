@@ -9,6 +9,7 @@ class RichTextWidget extends StatelessWidget {
   /// - [normalText] is the non-clickable portion of the text.
   /// - [highlightedText] is the tappable portion of the text.
   /// - [onTap] is the function executed when the highlighted text is tapped.
+
   const RichTextWidget({
     super.key,
     required this.normalText,

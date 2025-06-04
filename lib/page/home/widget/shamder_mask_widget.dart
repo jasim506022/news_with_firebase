@@ -1,15 +1,15 @@
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:newsapps/widget/error_widget.dart';
 import 'package:provider/provider.dart';
 
 import '../../../service/provider/news_provider.dart';
+import '../../../widget/error_widget.dart';
+import '../../../loading/loading_shader_mask_widget.dart';
 import '../../../widget/shader_mask_widget.dart';
-import '../../../widget/shimmer_auth_widget.dart';
 
-class TopNewsWidget extends StatelessWidget {
-  const TopNewsWidget({super.key});
+class ShamderMaskWidget extends StatelessWidget {
+  const ShamderMaskWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +21,7 @@ class TopNewsWidget extends StatelessWidget {
           future: newsProvider.fetchAllTopNews(page: 2),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return const ShimmerAutoWidget();
+              return const LoadingShaderMaskWidget();
             } else if (snapshot.hasError) {
               return const ErrorNullWidget();
             }

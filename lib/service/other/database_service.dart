@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:newsapps/res/const.dart';
+import 'package:newsapps/res/app_constant.dart';
 
-import '../../model/bookmarksmodel.dart';
+import '../../model/bookmarks_model.dart';
 import '../../model/news_model_.dart';
 
 class DatabaseService {
@@ -11,7 +11,7 @@ class DatabaseService {
       {required String id, required NewsModel newsmodel}) async {
     await db
         .collection("uses")
-        .doc(sharedPreferences!.getString("uid"))
+        .doc("KOxquftZOGTeY2d6wxmjMzJkUtj1")
         .collection("news")
         .doc(id)
         .set(newsmodel.toMap());
@@ -20,7 +20,7 @@ class DatabaseService {
   static Future<List<BookmarksModel>> allBookmarks() async {
     final snapshot = await db
         .collection("uses")
-        .doc(sharedPreferences!.getString("uid"))
+        .doc(AppConstant.sharedPreferences!.getString("uid"))
         .collection("news")
         .get();
     final bookmarkData =

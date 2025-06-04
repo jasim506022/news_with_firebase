@@ -7,14 +7,13 @@ import '../../res/app_function.dart';
 import '../../res/app_routes.dart';
 import '../../res/app_string.dart';
 import '../../res/app_text_style.dart';
-import '../../res/const.dart';
-import '../../service/other/api_service.dart';
-import '../../widget/drawerwidget.dart';
+import '../../res/app_constant.dart';
+import '../../widget/drawer_widget.dart';
 import '../../widget/row_widget.dart';
 
-import 'widget/singletabbarwidget.dart';
+import 'widget/single_tab_bar_widget.dart';
 import '../news/searchpage.dart';
-import 'widget/top_news_widget.dart';
+import 'widget/shamder_mask_widget.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -24,8 +23,10 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage>
     with SingleTickerProviderStateMixin {
+  // Understand TabController
   late TabController tabController;
 
+// Understand Inistate and Dispose (Why use this)
   @override
   void initState() {
     tabController = TabController(length: 7, vsync: this);
@@ -43,31 +44,20 @@ class _HomePageState extends State<HomePage>
     return PopScope(
       canPop: false,
       onPopInvoked: (didPop) async {
-        bool shouldPop = await showDialog<bool>(
-              context: context,
-              builder: (context) => AlertDialogWidget(
-                title: AppString.exitDialogTitle,
-                icon: Icons.question_mark,
-                content: AppString.confirmExitMessage,
-                onConfirmPressed: () => Navigator.of(context).pop(true),
-                onCancelPressed: () => Navigator.of(context).pop(false),
-              ),
-            ) ??
-            false;
+        bool shouldPop = await AppFunction.exitApp(context) ?? false;
         if (shouldPop) SystemNavigator.pop();
       },
       child: Scaffold(
         appBar: AppBar(
-          title: const Text("${AppString.ju} ${AppString.news}"),
-          actions: [
-            Padding(
-                padding: EdgeInsets.all(8.0.r),
-                child: IconButton(
-                    onPressed: () =>
-                        Navigator.pushNamed(context, SearchPage.routeName),
-                    icon: const Icon(IconlyLight.search)))
-          ],
-        ),
+            title: const Text("${AppString.ju} ${AppString.news}"),
+            actions: [
+              Padding(
+                  padding: EdgeInsets.all(8.0.r),
+                  child: IconButton(
+                      onPressed: () =>
+                          Navigator.pushNamed(context, SearchPage.routeName),
+                      icon: const Icon(IconlyLight.search)))
+            ]),
         drawer: const DrawerWidget(),
         body: Padding(
           padding: EdgeInsets.symmetric(horizontal: 20.r),
@@ -76,12 +66,14 @@ class _HomePageState extends State<HomePage>
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               AppFunction.verticalSpace(8),
+              // Top News
               RowWidget(
                   title: AppString.topNews,
                   onTap: () =>
                       Navigator.pushNamed(context, AppRoutes.allNewsPage)),
               AppFunction.verticalSpace(10),
-              const TopNewsWidget(),
+
+              const ShamderMaskWidget(),
               AppFunction.verticalSpace(10),
               Text(AppString.allNews,
                   style: AppTextStyle.titleTextSTyle(context)),
