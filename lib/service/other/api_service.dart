@@ -2,14 +2,10 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
 import 'package:newsapps/res/app_function.dart';
 import 'package:newsapps/res/app_routes.dart';
-import 'package:newsapps/res/app_string.dart';
 import 'package:newsapps/res/app_constant.dart';
 import 'package:newsapps/service/provider/bookmarksprovider.dart';
 import 'package:provider/provider.dart';
@@ -21,15 +17,17 @@ class ApiServices {
   static final firebaseAuth = FirebaseAuth.instance;
   static final firebaseFirestore = FirebaseFirestore.instance;
 
-// Okay
-  static Future<List<NewsModel>> fetchAllTopNews({required int page}) async {
-    try {
-      var uri = Uri.https(baseurl, "v2/everything", {
-        "q": "bitcoin",
-        "pageSize": "10",
-        "page": page.toString(),
-      });
+  /// Fetches top news articles from the News API.
+  ///
+  /// Throws an [Exception] if the request fails or if parsing fails.
+  static Future<List<NewsModel>> fetchTopNews({required int page}) async {
+    final uri = Uri.https(AppConstant.baseurl, "v2/everything", {
+      "q": "bitcoin",
+      "pageSize": "10",
+      "page": page.toString(),
+    });
 
+    try {
       try {
         final response = await http.get(uri, headers: {"X-Api-Key": apiKey});
         if (response.statusCode == 200) {
@@ -47,36 +45,11 @@ class ApiServices {
     }
   }
 
-  // Okay
-  static Future<List<NewsModel>> totalPage({required int page}) async {
-    try {
-      var uri = Uri.https(baseurl, "v2/everything", {
-        "q": "bitcoin",
-        // "pageSize": "10",
-        "page": page.toString(),
-      });
-
-      try {
-        final response = await http.get(uri, headers: {"X-Api-Key": apiKey});
-        if (response.statusCode == 200) {
-          final data = jsonDecode(response.body);
-          List articles = data['articles'];
-          return articles.map((e) => NewsModel.fromMap(e)).toList();
-        } else {
-          throw Exception("Failed to load news");
-        }
-      } catch (e) {
-        throw Exception("Error fetching news: $e");
-      }
-    } catch (error) {
-      throw error.toString();
-    }
-  }
-
-  static Future<List<NewsModel>> getAllNews(
+  /// Fetches news articles from a specific category using the News API.
+  static Future<List<NewsModel>> fetchNewsByCategory(
       {required int pageSize, required String category}) async {
     try {
-      var uri = Uri.https(baseurl, "v2/top-headlines", {
+      var uri = Uri.https(AppConstant.baseurl, "v2/top-headlines", {
         "country": "us",
         "pageSize": pageSize.toString(),
         "category": category,
@@ -100,9 +73,35 @@ class ApiServices {
     }
   }
 
+  // Okay
+  static Future<List<NewsModel>> totalPage({required int page}) async {
+    try {
+      var uri = Uri.https(AppConstant.baseurl, "v2/everything", {
+        "q": "bitcoin",
+        // "pageSize": "10",
+        "page": page.toString(),
+      });
+
+      try {
+        final response = await http.get(uri, headers: {"X-Api-Key": apiKey});
+        if (response.statusCode == 200) {
+          final data = jsonDecode(response.body);
+          List articles = data['articles'];
+          return articles.map((e) => NewsModel.fromMap(e)).toList();
+        } else {
+          throw Exception("Failed to load news");
+        }
+      } catch (e) {
+        throw Exception("Error fetching news: $e");
+      }
+    } catch (error) {
+      throw error.toString();
+    }
+  }
+
   static Future<List<NewsModel>> searchNewsItem({required String q}) async {
     try {
-      var uri = Uri.https(baseurl, "v2/top-headlines", {
+      var uri = Uri.https(AppConstant.baseurl, "v2/top-headlines", {
         "q": q,
       });
 
@@ -175,74 +174,5 @@ class ApiServices {
     newsProvider.delete(publishedAt: id);
     AppFunction.toastMessage("Delete Sucessfully");
     Navigator.pop(context);
-  }
-}
-
-class AlertDialogWidget extends StatelessWidget {
-  const AlertDialogWidget(
-      {super.key,
-      required this.title,
-      required this.icon,
-      required this.content,
-      this.onCancelPressed,
-      required this.onConfirmPressed});
-
-  final String title;
-  final IconData icon;
-  final String content;
-  final VoidCallback? onCancelPressed;
-  final VoidCallback onConfirmPressed;
-
-  @override
-  Widget build(BuildContext context) {
-    return AlertDialog(
-      title: Row(children: [
-        Text(title),
-        SizedBox(width: 10.w),
-        Container(
-            padding: EdgeInsets.all(5.r),
-            decoration:
-                BoxDecoration(color: AppColors.red, shape: BoxShape.circle),
-            child: Icon(icon, color: AppColors.white))
-      ]),
-      content: Text(content),
-      actions: <Widget>[
-        OutlinedTextButtonWidget(
-            color: Colors.green,
-            title: AppString.btnYes,
-            onPressed: onConfirmPressed),
-        OutlinedTextButtonWidget(
-            color: AppColors.red,
-            title: AppString.btnNo,
-            onPressed: onCancelPressed ?? () => Navigator.of(context).pop())
-      ],
-    );
-  }
-}
-
-class OutlinedTextButtonWidget extends StatelessWidget {
-  const OutlinedTextButtonWidget({
-    super.key,
-    required this.onPressed,
-    required this.color,
-    required this.title,
-  });
-
-  final VoidCallback onPressed;
-  final Color color;
-  final String title;
-
-  @override
-  Widget build(BuildContext context) {
-    return TextButton(
-        style: TextButton.styleFrom(
-            side: BorderSide(
-              color: color,
-              width: 2.h,
-            ),
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8.r))),
-        onPressed: onPressed,
-        child: Text(title, style: AppTextStyle.button.copyWith(color: color)));
   }
 }

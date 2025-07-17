@@ -31,7 +31,7 @@ class AppTextStyle {
       color: AppColors.white, fontWeight: FontWeight.bold, fontSize: 15.sp);
 
 // Using for  tite
-  static TextStyle titleTextSTyle(BuildContext context) {
+  static TextStyle titleTextStyle(BuildContext context) {
     return GoogleFonts.poppins(
         textStyle: TextStyle(
             color: Theme.of(context).primaryColor,

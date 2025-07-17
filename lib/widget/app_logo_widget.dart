@@ -6,6 +6,11 @@ import '../res/app_string.dart';
 import '../res/app_text_style.dart';
 import '../res/app_colors.dart';
 
+/// Widget displaying the app logo consisting of a main title
+/// and a styled subtitle badge.
+///
+/// Uses custom text styles and responsive sizing for consistent UI.
+
 class AppLogoWidget extends StatelessWidget {
   const AppLogoWidget({
     super.key,
@@ -22,7 +27,7 @@ class AppLogoWidget extends StatelessWidget {
         Container(
           padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 5.h),
           decoration: BoxDecoration(
-              color: AppColors.red, borderRadius: BorderRadius.circular(10)),
+              color: AppColors.red, borderRadius: BorderRadius.circular(10.r)),
           child: Text(AppString.news, style: AppTextStyle.logoSubTitleStyle),
         )
       ],

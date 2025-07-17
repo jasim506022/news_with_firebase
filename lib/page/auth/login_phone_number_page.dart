@@ -92,7 +92,7 @@ class _LoginPhoneNumberPageState extends State<LoginPhoneNumberPage> {
           AppFunction.horizontalSpace(10),
           Text(
             AppString.countryCode,
-            style: AppTextStyle.titleTextSTyle(context),
+            style: AppTextStyle.titleTextStyle(context),
           ),
           Text(
             "|",

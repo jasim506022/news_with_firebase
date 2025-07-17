@@ -79,15 +79,16 @@ class MyApp extends StatelessWidget {
                 AppRoutes.loginWithPhoneNumberPage: (context) =>
                     const LoginPhoneNumberPage(),
                 AppRoutes.verifiyCodePage: (context) => const VerifyCodePage(),
-                SearchPage.routeName: (context) => const SearchPage(),
+                AppRoutes.searchPage: (context) => const SearchPage(),
                 AppRoutes.homePage: (context) => const HomePage(),
                 AppRoutes.allNewsPage: (context) => const AllTopNews(),
-                "/categoryList": (context) => const CategoryList(),
+                AppRoutes.categoryListPage: (context) => const CategoryList(),
                 // AppRoutes.categoryName: (context) => const CateoryPage(),
-                BookmarskPage.routeName: (context) => const BookmarskPage(),
-                '/newsDetails': (context) => const NewsDetailsPage(),
-                '/etailsNewsWebPage': (context) => const DetailsNewsWebPage(),
-                '/categoryPage': (context) => const CateoryPage(),
+                AppRoutes.bookmarksPage: (context) => const BookmarskPage(),
+                AppRoutes.newsDetailsPage: (context) => const NewsDetailsPage(),
+                AppRoutes.detailsNewsWebPage: (context) =>
+                    const DetailsNewsWebPage(),
+                AppRoutes.categoryName: (context) => const CateoryPage(),
               },
             );
           },

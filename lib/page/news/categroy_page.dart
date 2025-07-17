@@ -3,7 +3,7 @@ import 'package:newsapps/model/news_model_.dart';
 import 'package:provider/provider.dart';
 import '../../service/other/api_service.dart';
 import '../../widget/article_item_widget.dart';
-import '../../widget/loadingarticlewidget.dart';
+import '../../loading/loading_articles_list_widget.dart';
 
 class CateoryPage extends StatefulWidget {
   const CateoryPage({
@@ -58,7 +58,7 @@ class _CateoryPageState extends State<CateoryPage> {
   }
 
   Future<void> getNews() async {
-    final fetchedNews = await ApiServices.getAllNews(
+    final fetchedNews = await ApiServices.fetchNewsByCategory(
         pageSize: limit, category: categoryName.toLowerCase());
     if (fetchedNews.length < limit) {
       _islimit = true;

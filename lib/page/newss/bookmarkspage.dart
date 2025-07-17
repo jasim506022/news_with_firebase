@@ -3,10 +3,10 @@ import 'package:newsapps/model/bookmarks_model.dart';
 import 'package:newsapps/widget/article_item_widget.dart';
 import 'package:provider/provider.dart';
 import '../../service/provider/bookmarksprovider.dart';
-import '../../widget/loadingarticlewidget.dart';
+import '../../loading/loading_articles_list_widget.dart';
 
 class BookmarskPage extends StatefulWidget {
-  static const routeName = "/BookmarksPage";
+  // static const routeName = "/BookmarksPage";
   const BookmarskPage({super.key});
 
   @override

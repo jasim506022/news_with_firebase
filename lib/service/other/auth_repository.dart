@@ -125,6 +125,14 @@ class AuthRepository {
     }
   }
 
-  // Log out user
-  Future<void> signOut() async => await firebaseAuth.signOut();
+  /// Signs out the current user from Firebase Authentication.
+  /// Catches errors, handles them, and rethrows for further handling if needed.
+  static Future<void> signOut() async {
+    try {
+      await firebaseAuth.signOut();
+    } catch (e) {
+      AppFunction.handleFirebaseAuthError(e);
+      rethrow;
+    }
+  }
 }

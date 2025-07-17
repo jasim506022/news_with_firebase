@@ -33,6 +33,7 @@ class AppString {
   static const btnSendCode = "Send the code";
   static const btnLoginWithPhone = 'Login With Phone Number';
   static const btnLoginWithGmail = 'Login With Gmail';
+  static const String btnSeeAll = "See All";
 
   static const noInternet = 'No Internet';
   static const noInternetMessage =
@@ -78,7 +79,6 @@ class AppString {
   static const String searchHint = "Search...........";
 
   // 📌 Form Field Labels
-
   static const String emailLabel = "Email";
   static const String passwordLabel = "Password";
   static const String nameLabel = "Name";
@@ -99,20 +99,32 @@ class AppString {
   static const String googleSignFail =
       "Google Sign-In failed. Please try again";
 
+  // App Bar
+  static const String homeAppBarTitle = "Home";
+  static const String newCategoryTitle = 'News Category';
+  static const String bookmarkTitle = 'Bookmarks';
+
   // Auth
   static const alreadHaveAAcount = "Already Have a Account?";
+
+  // title
+  static const String topNews = "Top News";
+  static const String allNews = "All News";
 
   // Other
   static const String news = "News";
   static const String ju = "JU";
-  static const String topNews = "Top News";
-  static const String seeAll = "See All";
-  static const String allNews = "All News";
+  static const String dart = "Dark";
+
   static const String countryCode = "+880";
 
   // Dialog
   static const String exitDialogTitle = "Exit Application";
   static const String confirmExitMessage = "Are you sure  want to exit?";
+  static const String confirmLogoutMessage =
+      "Are you want to login in this App'";
+
+  static const String logOut = 'Logout';
 
   // Error
   static const String noData = "No News Avaiable";
@@ -122,4 +134,8 @@ class AppString {
   static const String uidSharePrefer = "uid";
   // Firebase
   static const String userCollection = "users";
+  // condition check
+  static const String lessThanaMinute = "less than a minute";
+  static const String oneMinuteAgo = "1 min ago";
+  static const String minutesAgo = "mins ago";
 }

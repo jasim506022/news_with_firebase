@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 import '../../res/app_colors.dart';
 import '../../service/other/api_service.dart';
 import '../../widget/article_item_widget.dart';
-import '../../widget/loadingarticlewidget.dart';
+import '../../loading/loading_articles_list_widget.dart';
 
 class AllTopNews extends StatefulWidget {
   const AllTopNews({super.key});
@@ -104,7 +104,7 @@ class _AllTopNewsState extends State<AllTopNews> {
             ),
             Expanded(
               child: FutureBuilder(
-                future: ApiServices.fetchAllTopNews(
+                future: ApiServices.fetchTopNews(
                     page: newsProvider.currentindex + 1),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {

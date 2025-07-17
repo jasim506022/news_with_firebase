@@ -1,23 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../res/app_function.dart';
 import '../res/app_images.dart';
 import '../res/app_string.dart';
 import '../res/app_text_style.dart';
 
-class ErrorNullWidget extends StatelessWidget {
-  const ErrorNullWidget({super.key});
+/// A reusable widget to show a placeholder UI when no data is available.
+/// Typically used in empty list or error states.
+
+class NoDataPlaceholder extends StatelessWidget {
+  const NoDataPlaceholder({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisSize: MainAxisSize.min,
       children: [
         Image.asset(height: 170.h, AppImages.emptyImageValue),
-        SizedBox(height: 10.h),
+        AppFunction.verticalSpace(10),
         Text(AppString.noData, style: AppTextStyle.errorValue)
       ],
     );
   }
 }
+
+/*
+mainAxisSize: MainAxisSize.min,
+*/

@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 import '../../model/profile_model.dart';
 import '../../res/app_constant.dart';
@@ -138,6 +137,16 @@ class AuthManageProvider with ChangeNotifier {
       AppFunction.handleFirebaseAuthError(e);
     } finally {
       _loadingProvider?.setUploading(loading: false);
+    }
+  }
+
+  /// Signs out the current user using [AuthRepository].
+  /// Catches and handles Firebase authentication errors gracefully.
+  Future<void> logOut() async {
+    try {
+      await AuthRepository.signOut();
+    } catch (e) {
+      AppFunction.handleFirebaseAuthError(e);
     }
   }
 }

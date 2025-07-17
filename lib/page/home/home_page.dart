@@ -8,12 +8,19 @@ import '../../res/app_routes.dart';
 import '../../res/app_string.dart';
 import '../../res/app_text_style.dart';
 import '../../res/app_constant.dart';
-import '../../widget/drawer_widget.dart';
-import '../../widget/row_widget.dart';
+import '../drawer/app_drawer.dart';
+import '../../widget/section_header_widget.dart';
 
-import 'widget/single_tab_bar_widget.dart';
-import '../news/searchpage.dart';
-import 'widget/shamder_mask_widget.dart';
+import 'widget/category_news_tab_view.dart';
+import 'widget/top_news_swiper.dart';
+
+/// The main home screen of the app.
+///
+/// It includes:
+/// - An app bar with a search button
+/// - A navigation drawer
+/// - A top news section
+/// - Category-based tabbed news section
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -23,19 +30,21 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage>
     with SingleTickerProviderStateMixin {
-  // Understand TabController
-  late TabController tabController;
+  /// Controls which tab (category) is currently selected.
+  late TabController _tabController;
 
-// Understand Inistate and Dispose (Why use this)
   @override
   void initState() {
-    tabController = TabController(length: 7, vsync: this);
     super.initState();
+    // Initialize the tab controller with the number of categories
+    _tabController =
+        TabController(length: AppConstant.categoryLength, vsync: this);
   }
 
   @override
   void dispose() {
-    tabController.dispose();
+    // Always dispose controllers to free resources
+    _tabController.dispose();
     super.dispose();
   }
 
@@ -44,55 +53,56 @@ class _HomePageState extends State<HomePage>
     return PopScope(
       canPop: false,
       onPopInvoked: (didPop) async {
-        bool shouldPop = await AppFunction.exitApp(context) ?? false;
-        if (shouldPop) SystemNavigator.pop();
+        // Show confirmation dialog before exiting the app
+        bool shouldExit =
+            await AppFunction.showExitConfirmationDialog(context) ?? false;
+        if (shouldExit) SystemNavigator.pop();
       },
       child: Scaffold(
-        appBar: AppBar(
-            title: const Text("${AppString.ju} ${AppString.news}"),
-            actions: [
-              Padding(
-                  padding: EdgeInsets.all(8.0.r),
-                  child: IconButton(
-                      onPressed: () =>
-                          Navigator.pushNamed(context, SearchPage.routeName),
-                      icon: const Icon(IconlyLight.search)))
-            ]),
-        drawer: const DrawerWidget(),
+        appBar: _buildAppBar(),
+        drawer: AppDrawer(),
         body: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20.r),
+          padding: EdgeInsets.symmetric(horizontal: 20.w),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               AppFunction.verticalSpace(8),
-              // Top News
-              RowWidget(
+
+              // Section header for "Top News" with a "See All" button
+              SectionHeaderRow(
                   title: AppString.topNews,
                   onTap: () =>
                       Navigator.pushNamed(context, AppRoutes.allNewsPage)),
               AppFunction.verticalSpace(10),
 
-              const ShamderMaskWidget(),
+              // Swiper (carousel) showing top news headlines
+              const TopNewsSwiper(),
               AppFunction.verticalSpace(10),
+
+              /// "All News" title
               Text(AppString.allNews,
-                  style: AppTextStyle.titleTextSTyle(context)),
+                  style: AppTextStyle.titleTextStyle(context)),
               AppFunction.verticalSpace(10),
+
+              // Scrollable tab bar showing all news categories
               SizedBox(
                   height: 40.sp,
                   child: TabBar(
                       isScrollable: true,
-                      controller: tabController,
-                      tabs: categories
+                      controller: _tabController,
+                      tabs: AppConstant.categories
                           .map((category) => Tab(text: category))
                           .toList())),
               AppFunction.verticalSpace(15),
+
+              // Displays news content based on the selected category tab
               Expanded(
                   child: TabBarView(
-                      controller: tabController,
-                      children: categories
+                      controller: _tabController,
+                      children: AppConstant.categories
                           .map((category) =>
-                              SingleTabBarViewWidget(text: category))
+                              CategoryNewsTabView(categoryLabel: category))
                           .toList())),
             ],
           ),
@@ -100,8 +110,36 @@ class _HomePageState extends State<HomePage>
       ),
     );
   }
+
+  /// Creates the AppBar with a title and search icon button.
+  AppBar _buildAppBar() {
+    return AppBar(title: const Text(AppString.homeAppBarTitle), actions: [
+      Padding(
+          padding: EdgeInsets.all(8.0.r),
+          child: IconButton(
+              onPressed: () =>
+                  Navigator.pushNamed(context, AppRoutes.searchPage),
+              icon: const Icon(IconlyLight.search)))
+    ]);
+  }
 }
 
+
+
+
+
 /*
-Why use false in provider listen
+1. Which comments use // or // where and why 
+2. Why is best than it 
+1.  bool shouldExit =
+            await AppFunction.showExitConfirmationDialog(context) ?? false;
+        if (shouldExit) SystemNavigator.pop();
+        2. final shouldExit = await AppFunction.showExitConfirmationDialog(context);
+if (shouldExit ?? false) SystemNavigator.pop();
+
+3.
+*/
+
+/*
+flutter concise, readable maintainable, efficient and easy way to understand others programmer and also good name variable , class and method . also add good comments for understand . if change anything where and why change
 */

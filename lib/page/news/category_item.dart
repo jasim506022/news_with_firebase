@@ -27,7 +27,7 @@ class CategoryItem extends StatelessWidget {
               Column(
                 children: [
                   Text(categoryModel.name,
-                      style: AppTextStyle.titleTextSTyle(context)
+                      style: AppTextStyle.titleTextStyle(context)
                           .copyWith(color: AppColors.white)),
                   AppFunction.verticalSpace(10),
                   ClipRRect(

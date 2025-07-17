@@ -11,7 +11,7 @@ import 'package:intl/intl.dart';
 
 import 'package:newsapps/service/provider/themeprovider.dart';
 
-import '../service/other/api_service.dart';
+import '../widget/confirmation_dialog.dart';
 import 'app_string.dart';
 import 'app_text_style.dart';
 import 'app_colors.dart';
@@ -27,15 +27,18 @@ class AppFunction {
     return SizedBox(width: width.w);
   }
 
-  static Future<bool?> exitApp(BuildContext context) {
+  /// Displays a confirmation dialog before exiting the app.
+  ///
+  /// Returns `true` if the user confirms exit, otherwise `false`.
+  static Future<bool?> showExitConfirmationDialog(BuildContext context) {
     return showDialog<bool>(
         context: context,
-        builder: (context) => AlertDialogWidget(
-              title: AppString.exitDialogTitle,
-              icon: Icons.question_mark,
-              content: AppString.confirmExitMessage,
-              onConfirmPressed: () => Navigator.of(context).pop(true),
-              onCancelPressed: () => Navigator.of(context).pop(false),
+        builder: (context) => ConfirmationDialog(
+              dialogTitle: AppString.exitDialogTitle,
+              dialogIcon: Icons.question_mark,
+              message: AppString.confirmExitMessage,
+              onConfirm: () => Navigator.of(context).pop(true),
+              onCancel: () => Navigator.of(context).pop(false),
             ));
   }
 

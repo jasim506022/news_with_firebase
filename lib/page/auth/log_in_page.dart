@@ -69,7 +69,8 @@ class _LoginPageState extends State<LoginPage> {
         canPop: false,
         onPopInvoked: (didPop) async {
           // Show confirmation dialog before exiting the app.
-          bool shouldPop = await AppFunction.exitApp(context) ?? false;
+          bool shouldPop =
+              await AppFunction.showExitConfirmationDialog(context) ?? false;
           if (shouldPop) SystemNavigator.pop();
         },
         child: Scaffold(

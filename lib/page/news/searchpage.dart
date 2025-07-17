@@ -8,7 +8,6 @@ import '../../model/news_model_.dart';
 import '../../service/provider/news_provider.dart';
 
 class SearchPage extends StatefulWidget {
-  static const routeName = "/Searchpage";
   const SearchPage({super.key});
 
   @override
@@ -49,7 +48,7 @@ class _SearchPageState extends State<SearchPage> {
                   controller: _searchEditController,
                   textInputAction: TextInputAction.search,
                   keyboardType: TextInputType.text,
-                  style: AppTextStyle.titleTextSTyle(context),
+                  style: AppTextStyle.titleTextStyle(context),
                   onSubmitted: (value) async {
                     searchList = await newsProvider.fetchASearchNews(
                         q: _searchEditController.text);
