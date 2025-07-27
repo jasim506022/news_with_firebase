@@ -37,9 +37,7 @@ class _ArticleItemWidgetState extends State<ArticleItemWidget> {
   @override
   Widget build(BuildContext context) {
     // Select model type based on isBookmarks flag
-    dynamic model = widget.isBookmarks == true
-        ? Provider.of<BookmarksModel>(context)
-        : Provider.of<NewsModel>(context);
+    dynamic model = Provider.of<NewsModel>(context);
     return Card(
       color: Theme.of(context).cardColor,
       child: InkWell(
@@ -104,18 +102,7 @@ class _ArticleItemWidgetState extends State<ArticleItemWidget> {
             ),
             Expanded(
               flex: 2,
-              child: InkWell(
-                onTap: () => Navigator.pushNamed(
-                  context,
-                  AppRoutes.detailsNewsWebPage,
-                  arguments: model.url,
-                ),
-                child: const Icon(
-                  Icons.link,
-                  color: Colors.red,
-                  size: 25,
-                ),
-              ),
+              child: AppFunction.gotwebsiteMethod(context, model.url),
             ),
             Expanded(
               flex: 5,

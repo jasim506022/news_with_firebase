@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-
+/*
 class BookmarksModel with ChangeNotifier {
   final String? kid;
   final String id;
@@ -52,3 +52,5 @@ class BookmarksModel with ChangeNotifier {
   }
 
 }
+
+*/

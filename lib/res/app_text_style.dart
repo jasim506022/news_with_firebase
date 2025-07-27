@@ -15,17 +15,24 @@ class AppTextStyle {
           fontSize: 17.sp,
           fontWeight: FontWeight.w900));
 
+// title
   static TextStyle get titleLargeTextStyle => GoogleFonts.poppins(
       textStyle: TextStyle(
           color: AppColors.white,
           fontSize: 25.sp,
           fontWeight: FontWeight.w800));
 
+//
   static TextStyle mediumBoldTextStyle(BuildContext context) =>
       GoogleFonts.poppins(
           color: Theme.of(context).primaryColor,
           fontWeight: FontWeight.bold,
           fontSize: 15.sp);
+//
+  static TextStyle mediumTextStyle(BuildContext context) => GoogleFonts.poppins(
+      color: Theme.of(context).primaryColor,
+      fontWeight: FontWeight.normal,
+      fontSize: 15.sp);
 
   static TextStyle get button => GoogleFonts.poppins(
       color: AppColors.white, fontWeight: FontWeight.bold, fontSize: 15.sp);
@@ -92,6 +99,31 @@ class AppTextStyle {
       fontSize: 22.sp,
       letterSpacing: 1,
       fontWeight: FontWeight.w700);
+
+  //
+  static TextStyle get authTextStyle => GoogleFonts.poppins(
+        textStyle: TextStyle(
+          color: AppColors.lightCardColor,
+          fontSize: 14.sp,
+          fontWeight: FontWeight.w600,
+        ),
+      );
+  //
+  static TextStyle get sourceTextStyle => GoogleFonts.poppins(
+        textStyle: TextStyle(
+          color: AppColors.deepred,
+          fontSize: 15.sp,
+          fontWeight: FontWeight.w700,
+        ),
+      );
+
+  //
+  static TextStyle appBarTextStyle = GoogleFonts.poppins(
+      textStyle: TextStyle(
+          color: AppColors.black,
+          fontSize: 16.sp,
+          letterSpacing: 1,
+          fontWeight: FontWeight.w700));
 }
 
 TextStyle tabunselectedLabelStyle = GoogleFonts.poppins(
@@ -101,10 +133,3 @@ TextStyle tabunselectedLabelStyle = GoogleFonts.poppins(
 TextStyle tabLabelStyle = GoogleFonts.poppins(
     textStyle: TextStyle(
         color: AppColors.white, fontSize: 15.sp, fontWeight: FontWeight.w800));
-
-TextStyle appBarTextStyle = GoogleFonts.poppins(
-    textStyle: TextStyle(
-        color: AppColors.black,
-        fontSize: 16,
-        letterSpacing: 1,
-        fontWeight: FontWeight.w800));

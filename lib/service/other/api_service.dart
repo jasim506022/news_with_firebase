@@ -99,21 +99,28 @@ class ApiServices {
     }
   }
 
-  static Future<List<NewsModel>> searchNewsItem({required String q}) async {
+  /// Fetches news articles matching the search query [query].
+  ///
+  /// Sends an HTTP GET request to the news API's `top-headlines` endpoint,
+  /// including the search parameter. Returns a list of [NewsModel].
+  ///
+  /// Throws a [String] with the error message if the request or parsing fails.
+
+  static Future<List<NewsModel>> fetchNewsByQuery({required String q}) async {
     try {
-      var uri = Uri.https(AppConstant.baseurl, "v2/top-headlines", {
-        "q": q,
-      });
+      final uri = Uri.https(AppConstant.baseurl, "v2/top-headlines", {"q": q});
+      // Perform the GET request with the API key in headers
+      var response = await http
+          .get(uri, headers: {"X-Api-Key": apiKey}); // use final not use var
+      // Decode the JSON response body
+      final Map<String, dynamic> responseData = jsonDecode(response.body);
+// Extract the articles list; use empty list fallback to avoid null errors
+      final List<dynamic> articlesJson = responseData['articles'] ?? [];
 
-      var response = await http.get(uri, headers: {"X-Api-Key": apiKey});
-      Map data = jsonDecode(response.body);
-
-      List tempList = [];
-
-      for (var v in data['articles']) {
-        tempList.add(v);
-      }
-      return NewsModel.snapchatTopNewsList(tempList);
+      // Map JSON articles to a list of NewsModel objects
+      final List<NewsModel> articles =
+          NewsModel.snapchatTopNewsList(articlesJson);
+      return articles;
     } catch (error) {
       throw error.toString();
     }
@@ -176,3 +183,27 @@ class ApiServices {
     Navigator.pop(context);
   }
 }
+
+
+/*
+Search Defference
+static Future<List<NewsModel>> searchNewsItem({required String q}) async {
+    try {
+      var uri = Uri.https(AppConstant.baseurl, "v2/top-headlines", {
+        "q": q,
+      });
+
+      var response = await http.get(uri, headers: {"X-Api-Key": apiKey});
+      Map data = jsonDecode(response.body);
+
+      List tempList = [];
+
+      for (var v in data['articles']) {
+        tempList.add(v);
+      }
+      return NewsModel.snapchatTopNewsList(tempList);
+    } catch (error) {
+      throw error.toString();
+    }
+  }
+*/

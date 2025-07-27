@@ -10,8 +10,10 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
 import 'package:newsapps/service/provider/themeprovider.dart';
+import 'package:share_plus/share_plus.dart';
 
 import '../widget/confirmation_dialog.dart';
+import 'app_routes.dart';
 import 'app_string.dart';
 import 'app_text_style.dart';
 import 'app_colors.dart';
@@ -27,6 +29,35 @@ class AppFunction {
     return SizedBox(width: width.w);
   }
 
+//
+  static InkWell gotwebsiteMethod(BuildContext context, dynamic arguments,
+      [Color? color]) {
+    return InkWell(
+      onTap: () => Navigator.pushNamed(
+        context,
+        AppRoutes.detailsNewsWebPage,
+        arguments: arguments,
+      ),
+      child: Icon(
+        Icons.link,
+        color: color ?? Colors.red,
+        size: 25,
+      ),
+    );
+  }
+
+//
+  static Container cirledate() {
+    return Container(
+      height: 10,
+      width: 10,
+      decoration: BoxDecoration(
+          color: AppColors.white,
+          shape: BoxShape.circle,
+          border: Border.all(width: 3, color: AppColors.deepred)),
+    );
+  }
+
   /// Displays a confirmation dialog before exiting the app.
   ///
   /// Returns `true` if the user confirms exit, otherwise `false`.
@@ -40,6 +71,21 @@ class AppFunction {
               onConfirm: () => Navigator.of(context).pop(true),
               onCancel: () => Navigator.of(context).pop(false),
             ));
+  }
+
+//
+  static Future<void> shareUrlWithErrorDialog({
+    required BuildContext context,
+    required String url,
+  }) async {
+    try {
+      Share.share(url, subject: AppString.shareTheUrl);
+    } catch (error) {
+      showDialog(
+        context: context,
+        builder: (context) => ErrorDialog(title: error.toString()),
+      );
+    }
   }
 
   static void handleFirebaseAuthError(dynamic e) {
@@ -241,38 +287,31 @@ class AppFunction {
           style: GoogleFonts.poppins(textStyle: tabLabelStyle),
         ));
   }
+}
 
-  Future<void> errorDialog(
-      {required String errorMessage, required BuildContext context}) async {
-    await showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          content: Text(errorMessage),
-          title: const Row(
-            children: [
-              Icon(
-                IconlyBold.danger,
-                color: Colors.red,
-              ),
-              SizedBox(
-                width: 8,
-              ),
-              Text('An error occured'),
-            ],
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                if (Navigator.canPop(context)) {
-                  Navigator.pop(context);
-                }
-              },
-              child: const Text('Ok'),
-            ),
-          ],
-        );
-      },
+class ErrorDialog extends StatelessWidget {
+  const ErrorDialog({
+    super.key,
+    required this.title,
+  });
+  final String title;
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: const Row(
+        children: [
+          Icon(Icons.error, color: Colors.red),
+          SizedBox(width: 8),
+          Text('Error'),
+        ],
+      ),
+      content: Text(title),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.of(context).pop(),
+          child: const Text('OK'),
+        ),
+      ],
     );
   }
 }

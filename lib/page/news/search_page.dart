@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:newsapps/res/app_text_style.dart';
-import 'package:newsapps/res/app_colors.dart';
-import 'package:newsapps/widget/article_item_widget.dart';
+
 import 'package:provider/provider.dart';
 import '../../model/news_model_.dart';
+import '../../res/app_colors.dart';
+import '../../res/app_string.dart';
+import '../../res/app_text_style.dart';
 import '../../service/provider/news_provider.dart';
+import '../../widget/article_item_widget.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
@@ -31,14 +33,10 @@ class _SearchPageState extends State<SearchPage> {
   Widget build(BuildContext context) {
     final newsProvider = Provider.of<NewsProvider>(context, listen: true);
     return GestureDetector(
-      onTap: () {
-        FocusScope.of(context).unfocus();
-      },
+      onTap: () => FocusScope.of(context).unfocus(),
       child: SafeArea(
         child: Scaffold(
-          appBar: AppBar(
-            title: Text("JU News"),
-          ),
+          appBar: AppBar(title: const Text(AppString.homeAppBarTitle)),
           body: Column(
             children: [
               Padding(
@@ -50,12 +48,12 @@ class _SearchPageState extends State<SearchPage> {
                   keyboardType: TextInputType.text,
                   style: AppTextStyle.titleTextStyle(context),
                   onSubmitted: (value) async {
-                    searchList = await newsProvider.fetchASearchNews(
-                        q: _searchEditController.text);
+                    searchList = await newsProvider.fetchSearchResults(
+                        query: _searchEditController.text);
                   },
                   onChanged: (value) async {
-                    searchList = await newsProvider.fetchASearchNews(
-                        q: _searchEditController.text);
+                    searchList = await newsProvider.fetchSearchResults(
+                        query: _searchEditController.text);
                     newsProvider.setSearch(true);
                   },
                   decoration: InputDecoration(
@@ -97,6 +95,10 @@ class _SearchPageState extends State<SearchPage> {
                               BorderSide(color: AppColors.red, width: 1))),
                 ),
               ),
+              if (_searchEditController.text.isEmpty)
+                Flexible(
+                    child: Center(
+                        child: Image.asset("asset/image/nonewsitemfound.png"))),
               if (newsProvider.isSearch && searchList!.isEmpty)
                 Flexible(
                     child: Center(

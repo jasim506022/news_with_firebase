@@ -1,3 +1,5 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
@@ -36,6 +38,19 @@ class _HomePageState extends State<HomePage>
   @override
   void initState() {
     super.initState();
+
+    final FirebaseAuth auth = FirebaseAuth.instance;
+
+    User? user = auth.currentUser;
+
+    if (user != null) {
+      String uid = user.uid;
+      AppConstant.sharedPreferences!.setString(AppString.uidSharePrefer, uid);
+      print('User UID: $uid');
+    } else {
+      print('No user is currently signed in.');
+    }
+
     // Initialize the tab controller with the number of categories
     _tabController =
         TabController(length: AppConstant.categoryLength, vsync: this);

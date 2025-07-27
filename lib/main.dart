@@ -13,11 +13,11 @@ import 'page/auth/log_in_page.dart';
 import 'page/home/home_page.dart';
 import 'page/news/category_list.dart';
 import 'page/news/categroy_page.dart';
-import 'page/news/searchpage.dart';
+import 'page/news/search_page.dart';
 import 'page/newss/all_top_news.dart';
 import 'page/newss/bookmarkspage.dart';
-import 'page/newss/detailsnews.dart';
-import 'page/newss/detailsnewswebsite.dart';
+import 'page/newss/news_detail_page.dart';
+import 'page/newss/details_news_website.dart';
 import 'page/splash/splash_page.dart';
 import 'res/app_routes.dart';
 import 'res/app_constant.dart';
@@ -58,6 +58,8 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(create: (context) => LoadingProvider()),
           ChangeNotifierProvider(create: (context) => SplashProvider()),
           ChangeNotifierProvider(create: (context) => OnboardingProvider()),
+          ChangeNotifierProvider(
+              create: (context) => WebViewProgressProvider()),
           ChangeNotifierProxyProvider<LoadingProvider, AuthManageProvider>(
             create: (_) => AuthManageProvider(),
             update: (_, loadingProvider, authProvider) {

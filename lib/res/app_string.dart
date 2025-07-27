@@ -138,4 +138,13 @@ class AppString {
   static const String lessThanaMinute = "less than a minute";
   static const String oneMinuteAgo = "1 min ago";
   static const String minutesAgo = "mins ago";
+  static const String description = "Description";
+  static const String content = "Content";
+
+  // title
+  static const String openInBrowser = "Open IN Browser";
+  static const String refresh = "Refresh";
+  static const String share = "Share";
+  static const String shareTheUrl = 'Share The Url';
+  static const String moreOption = "More Option";
 }
