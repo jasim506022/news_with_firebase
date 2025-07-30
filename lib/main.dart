@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:newsapps/page/auth/login_phone_number_page.dart';
 import 'package:newsapps/page/auth/sign_up_page.dart';
 import 'package:newsapps/page/auth/verify_code_page.dart';
+import 'package:newsapps/service/provider/search_provider.dart';
 
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -13,7 +14,7 @@ import 'page/auth/log_in_page.dart';
 import 'page/home/home_page.dart';
 import 'page/news/category_list.dart';
 import 'page/news/categroy_page.dart';
-import 'page/news/search_page.dart';
+import 'page/search/search_page.dart';
 import 'page/newss/all_top_news.dart';
 import 'page/newss/bookmarkspage.dart';
 import 'page/newss/news_detail_page.dart';
@@ -58,6 +59,7 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(create: (context) => LoadingProvider()),
           ChangeNotifierProvider(create: (context) => SplashProvider()),
           ChangeNotifierProvider(create: (context) => OnboardingProvider()),
+          ChangeNotifierProvider(create: (context) => SearchProvider()),
           ChangeNotifierProvider(
               create: (context) => WebViewProgressProvider()),
           ChangeNotifierProxyProvider<LoadingProvider, AuthManageProvider>(

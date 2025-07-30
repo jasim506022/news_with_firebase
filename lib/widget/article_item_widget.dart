@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:provider/provider.dart';
-import '../model/bookmarks_model.dart';
 import '../model/news_model_.dart';
 import '../res/app_function.dart';
 import '../res/app_routes.dart';
@@ -19,12 +18,8 @@ import 'safe_network_image.dart';
 class ArticleItemWidget extends StatefulWidget {
   const ArticleItemWidget({
     super.key,
-    this.isBookmarks = false,
     this.isDelete = false,
   });
-
-  /// If true, the widget expects a [BookmarksModel] from Provider.
-  final bool isBookmarks;
 
   /// If true, long-press triggers a delete dialog.
   final bool isDelete;

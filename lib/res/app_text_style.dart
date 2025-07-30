@@ -124,6 +124,12 @@ class AppTextStyle {
           fontSize: 16.sp,
           letterSpacing: 1,
           fontWeight: FontWeight.w700));
+
+  static TextStyle noResultsTextStyle = GoogleFonts.bebasNeue(
+      fontSize: 30.sp,
+      fontWeight: FontWeight.w800,
+      color: AppColors.red,
+      letterSpacing: 1.2);
 }
 
 TextStyle tabunselectedLabelStyle = GoogleFonts.poppins(

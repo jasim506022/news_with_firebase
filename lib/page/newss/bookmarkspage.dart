@@ -68,7 +68,6 @@ class _BookmarskPageState extends State<BookmarskPage> {
                 return ChangeNotifierProvider.value(
                     value: snapshot.data![index],
                     child: const ArticleItemWidget(
-                      isBookmarks: true,
                       isDelete: true,
                     ));
               },

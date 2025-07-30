@@ -103,6 +103,7 @@ class AppString {
   static const String homeAppBarTitle = "Home";
   static const String newCategoryTitle = 'News Category';
   static const String bookmarkTitle = 'Bookmarks';
+  static const String searchPage = 'Search';
 
   // Auth
   static const alreadHaveAAcount = "Already Have a Account?";
@@ -147,4 +148,9 @@ class AppString {
   static const String share = "Share";
   static const String shareTheUrl = 'Share The Url';
   static const String moreOption = "More Option";
+
+  static const String kSearchPromptMessage =
+      "Please search news to find easily.";
+  static const String kNoResultsMessage =
+      "No news found. Try searching with different keywords.";
 }

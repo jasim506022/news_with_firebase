@@ -6,7 +6,7 @@ class AppImages {
 
   // App Intro Image
   static const String appIntroImage = "asset/image/newj.png";
-  static const String emptyImage = "asset/image/image.jpg";
+  static const String emptyImage = "asset/image/error/image.jpg";
   static const String phoneIntroImage = 'asset/image/phonenumber.png';
   static const String otpImage = 'asset/image/otp.png';
 
@@ -27,4 +27,6 @@ class AppImages {
   // button
   static const String phoneIcon = "asset/image/phone.png";
   static const String gmailIcon = "asset/image/gmail.png";
+  // error
+  static const String emptyNewsImage = "asset/image/error/empy_news.png";
 }

@@ -22,7 +22,8 @@ class CustomTextFormField extends StatefulWidget {
       this.decoration,
       this.label,
       this.maxLength,
-      this.style});
+      this.style,
+      this.isDecoration = false});
   final String hintText;
   final TextEditingController controller;
   final bool autofocus;
@@ -37,6 +38,7 @@ class CustomTextFormField extends StatefulWidget {
 
   final InputDecoration? decoration;
   final TextStyle? style;
+  final bool? isDecoration;
 
   final String? label;
   final int? maxLength;
@@ -99,6 +101,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
             decoration: AppsFunction.textFieldInputDecoration(
                 isEnable: widget.enabled,
                 hintText: widget.hintText,
+                isDecoration: widget.isDecoration!,
                 isShowPassword: widget.hasPasswordToggle,
                 obscureText: _obscureText,
                 onPasswordToggle: widget.hasPasswordToggle
@@ -118,26 +121,33 @@ class AppsFunction {
       required String hintText,
       bool obscureText = false,
       bool isEnable = true,
-      VoidCallback? onPasswordToggle}) {
+      VoidCallback? onPasswordToggle,
+      bool isDecoration = false}) {
     // ✅ More specific type}
     return InputDecoration(
         // Background color changes based on enabled state
 
         fillColor: isEnable
-            ? AppColors.searchLightColor
+            ? AppColors.white
             : AppColors
                 .red, //AppColors.searchLightColor : ThemeUtils.textFieldColor,
         filled: true,
         hintText: hintText,
         // Border styling: No border, rounded corners
         border: OutlineInputBorder(
-            borderSide: BorderSide.none,
+            borderSide: isDecoration
+                ? const BorderSide(color: Colors.black54, width: 1)
+                : BorderSide.none,
             borderRadius: BorderRadius.circular(15.r)),
         enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide.none,
+            borderSide: isDecoration
+                ? const BorderSide(color: Colors.black54, width: 1)
+                : BorderSide.none,
             borderRadius: BorderRadius.circular(15.r)),
         focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide.none,
+            borderSide: isDecoration
+                ? const BorderSide(color: Colors.black54, width: 1)
+                : BorderSide.none,
             borderRadius: BorderRadius.circular(15.r)),
         // Adds password visibility toggle if needed
         suffixIcon: isShowPassword

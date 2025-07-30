@@ -81,22 +81,4 @@ class NewsProvider with ChangeNotifier {
   List<NewsModel> get getNewsList {
     return _newsList;
   }
-
-  /// Fetches a list of news articles matching the search query.
-  ///
-  /// This method calls the API service to retrieve news items based on
-  /// the provided search keyword [query]. The internal `_searchResults`
-  /// list is updated accordingly.
-  ///
-  /// Returns a [Future] containing the list of matching [NewsModel] objects.
-  Future<List<NewsModel>> fetchSearchResults({
-    required String query,
-  }) async {
-    try {
-      _newsList = await ApiServices.fetchNewsByQuery(q: query);
-      return _newsList;
-    } catch (e) {
-      rethrow;
-    }
-  }
 }
