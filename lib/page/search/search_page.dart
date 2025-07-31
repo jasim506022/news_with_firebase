@@ -50,12 +50,16 @@ class _SearchPageState extends State<SearchPage> {
               ),
               // Show a prompt message when the input is empty
               if (_searchController.text.isEmpty)
-                const NoResultsWidget(
-                  title: AppString.kSearchPromptMessage,
+                const Flexible(
+                  child: NoResultsWidget(
+                    title: AppString.kSearchPromptMessage,
+                  ),
                 ),
               // Show a "not found" message when the search is done but results are empty
               if (isSearchingEmpty)
-                const NoResultsWidget(title: AppString.kSearchPromptMessage),
+                const Flexible(
+                    child:
+                        NoResultsWidget(title: AppString.kSearchPromptMessage)),
               // Show the list of search results
               if (searchProvider.searchResults.isNotEmpty)
                 Expanded(

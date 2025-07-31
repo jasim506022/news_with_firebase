@@ -16,7 +16,7 @@ import 'page/news/category_list.dart';
 import 'page/news/categroy_page.dart';
 import 'page/search/search_page.dart';
 import 'page/newss/all_top_news.dart';
-import 'page/newss/bookmarkspage.dart';
+import 'page/newss/bookmarks_page.dart';
 import 'page/newss/news_detail_page.dart';
 import 'page/newss/details_news_website.dart';
 import 'page/splash/splash_page.dart';
@@ -88,7 +88,7 @@ class MyApp extends StatelessWidget {
                 AppRoutes.allNewsPage: (context) => const AllTopNews(),
                 AppRoutes.categoryListPage: (context) => const CategoryList(),
                 // AppRoutes.categoryName: (context) => const CateoryPage(),
-                AppRoutes.bookmarksPage: (context) => const BookmarskPage(),
+                AppRoutes.bookmarksPage: (context) => const BookmarksPage(),
                 AppRoutes.newsDetailsPage: (context) => const NewsDetailsPage(),
                 AppRoutes.detailsNewsWebPage: (context) =>
                     const DetailsNewsWebPage(),

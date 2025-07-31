@@ -148,9 +148,19 @@ class AppString {
   static const String share = "Share";
   static const String shareTheUrl = 'Share The Url';
   static const String moreOption = "More Option";
+  static const String bookmarks = 'Bookmarks';
 
   static const String kSearchPromptMessage =
       "Please search news to find easily.";
   static const String kNoResultsMessage =
       "No news found. Try searching with different keywords.";
+  static const String kNoBookmarksFound = "No bookmarks found.";
+  static const String kAnErrorOccured = "An error occurred.";
+
+  static const String kDeleteAllBookmarksTitle = "Delete All Bookmarks?";
+  static const String kDeleteAllBookmarksMessage =
+      "This action will remove all saved bookmarks. Do you want to continue?";
+
+  static const String kRemovedFromBookmarks = "Removed from Bookmarks";
+  static const String kAddedtoBookmarks = "Added to Bookmarks";
 }

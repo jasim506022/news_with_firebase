@@ -178,7 +178,7 @@ class ApiServices {
 
   static deletebooks(String id, BuildContext context) {
     final newsProvider = Provider.of<BookmarksProvider>(context, listen: false);
-    newsProvider.delete(publishedAt: id);
+    newsProvider.deleteBookmark(publishedAt: id);
     AppFunction.toastMessage("Delete Sucessfully");
     Navigator.pop(context);
   }

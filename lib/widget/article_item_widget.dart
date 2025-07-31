@@ -18,11 +18,10 @@ import 'safe_network_image.dart';
 class ArticleItemWidget extends StatefulWidget {
   const ArticleItemWidget({
     super.key,
-    this.isDelete = false,
   });
 
   /// If true, long-press triggers a delete dialog.
-  final bool isDelete;
+  // final bool isDelete;
 
   @override
   State<ArticleItemWidget> createState() => _ArticleItemWidgetState();
@@ -39,12 +38,7 @@ class _ArticleItemWidgetState extends State<ArticleItemWidget> {
         onTap: () => Navigator.pushNamed(context, AppRoutes.newsDetailsPage,
             arguments: model),
         // Show delete dialog on long press if enabled
-        onLongPress: () {
-          widget.isDelete == true
-              ? ApiServices.logOutDialog(
-                  context: context, isDelete: true, id: model.publishedAt)
-              : null;
-        },
+
         child: Container(
           height: 130.h,
           width: 1.sw,

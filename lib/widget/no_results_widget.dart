@@ -15,9 +15,8 @@ class NoResultsWidget extends StatelessWidget {
   final String title;
   @override
   Widget build(BuildContext context) {
-    return Flexible(
-        child: Center(
-            child: Stack(
+    return Center(
+        child: Stack(
       children: [
         // Background image indicating empty results or no content
         Image.asset(AppImages.emptyNewsImage),
@@ -34,6 +33,6 @@ class NoResultsWidget extends StatelessWidget {
           ),
         ),
       ],
-    )));
+    ));
   }
 }
