@@ -24,7 +24,7 @@ import 'res/app_routes.dart';
 import 'res/app_constant.dart';
 import 'res/app_string.dart';
 import 'service/provider/auth_manager_provider.dart';
-import 'service/provider/bookmarksprovider.dart';
+import 'service/provider/bookmarks_provider.dart';
 import 'service/provider/loadingprovider.dart';
 import 'service/provider/news_provider.dart';
 import 'service/provider/onboarding_provide.dart';

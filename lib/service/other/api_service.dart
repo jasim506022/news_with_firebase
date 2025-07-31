@@ -7,7 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:newsapps/res/app_function.dart';
 import 'package:newsapps/res/app_routes.dart';
 import 'package:newsapps/res/app_constant.dart';
-import 'package:newsapps/service/provider/bookmarksprovider.dart';
+import 'package:newsapps/service/provider/bookmarks_provider.dart';
 import 'package:provider/provider.dart';
 import '../../res/app_text_style.dart';
 import '../../res/app_colors.dart';

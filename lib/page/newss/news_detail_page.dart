@@ -1,20 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:newsapps/res/app_function.dart';
-import 'package:newsapps/res/app_string.dart';
-import 'package:newsapps/res/app_text_style.dart';
+
 import 'package:provider/provider.dart';
-import 'package:share_plus/share_plus.dart';
 import '../../model/news_model_.dart';
-import '../../res/app_constant.dart';
 import '../../res/app_colors.dart';
-import '../../service/provider/bookmarksprovider.dart';
+import '../../res/app_function.dart';
+import '../../res/app_string.dart';
+import '../../res/app_text_style.dart';
+import '../../service/provider/bookmarks_provider.dart';
 import '../../widget/safe_network_image.dart';
 
+/// Displays detailed view of a news article, including image, content,
+/// author/source info, and options to bookmark/share.
 class NewsDetailsPage extends StatefulWidget {
-  const NewsDetailsPage({
-    super.key,
-  });
+  const NewsDetailsPage({super.key});
 
   @override
   State<NewsDetailsPage> createState() => _NewsDetailsPageState();
@@ -22,16 +21,11 @@ class NewsDetailsPage extends StatefulWidget {
 
 class _NewsDetailsPageState extends State<NewsDetailsPage> {
   late final NewsModel newsModel;
-
   bool _isInit = true;
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   void didChangeDependencies() {
+    // Load the news article from route arguments only once
     if (_isInit) {
       newsModel = ModalRoute.of(context)!.settings.arguments as NewsModel;
       _isInit = false;
@@ -44,29 +38,32 @@ class _NewsDetailsPageState extends State<NewsDetailsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(AppString.homeAppBarTitle),
-        elevation: 1.15,
+        title: const Text(AppString.newsDetails),
       ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
+            // Why this need
+            // mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               AppFunction.verticalSpace(10),
 
-              ///  the news article title text.
+              /// News article title
               Text(
                 newsModel.title,
                 style: AppTextStyle.titleTextStyle(context)
                     .copyWith(fontSize: 22.sp),
               ),
               AppFunction.verticalSpace(10),
+              // Author and source row
               _buildAuthorSourceRow(),
               AppFunction.verticalSpace(5),
+              // Image, bookmark, and share buttons
               _buildImageAndActions(),
               AppFunction.verticalSpace(10),
+              // Content section header and body
               Text(AppString.content,
                   style: AppTextStyle.titleTextStyle(context)),
               AppFunction.verticalSpace(5),
@@ -76,6 +73,7 @@ class _NewsDetailsPageState extends State<NewsDetailsPage> {
                 style: AppTextStyle.mediumTextStyle(context),
               ),
               AppFunction.verticalSpace(10),
+              // Description section header and body
               Text(AppString.description,
                   style: AppTextStyle.titleTextStyle(context)),
               AppFunction.verticalSpace(5),
@@ -89,6 +87,31 @@ class _NewsDetailsPageState extends State<NewsDetailsPage> {
     );
   }
 
+  /// Builds the row that displays the author and source of the news article.
+  /// Shows empty space if author or source is missing.
+  Row _buildAuthorSourceRow() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        if (newsModel.author.isNotEmpty)
+          Expanded(
+            child: Text(newsModel.author, style: AppTextStyle.authTextStyle),
+          )
+        else
+          const SizedBox.shrink(),
+        AppFunction.horizontalSpace(8),
+        if (newsModel.source.isNotEmpty)
+          Text(newsModel.source,
+              overflow: TextOverflow.ellipsis,
+              style: AppTextStyle.sourceTextStyle)
+        else
+          const SizedBox.shrink(),
+      ],
+    );
+  }
+
+  /// Builds the news image with bookmark and share buttons overlay.
+  /// Bookmark button toggles the saved state of the article.
   SizedBox _buildImageAndActions() {
     return SizedBox(
       height: .35.sh,
@@ -104,17 +127,18 @@ class _NewsDetailsPageState extends State<NewsDetailsPage> {
               width: 1.sw,
               child: Stack(
                 children: [
+                  // News image with rounded corners and hero animation
                   ClipRRect(
                       borderRadius: BorderRadius.circular(15),
                       child: Hero(
                           tag: newsModel.publishedAt,
                           child: SafeNetworkImage(
                             height: 240,
-                            width: 1,
                             isWidthFull: true,
                             imageUrl: newsModel.urlToImage,
                             boxFit: BoxFit.fill,
                           ))),
+                  // Bookmark button at bottom-right
                   Positioned(
                       bottom: 0,
                       right: 10,
@@ -124,13 +148,17 @@ class _NewsDetailsPageState extends State<NewsDetailsPage> {
                             .isBookmarked(newsModel.publishedAt);
                         return _buildIconButton(
                             onTap: () async {
-                              showLoadingDialog(context,
-                                  message: isBookmarked
-                                      ? "unsave BookMark"
-                                      : "Saving bookmark...");
+                              // Show loading while toggling bookmark state
+                              AppFunction.showLoadingDialog(
+                                context,
+                                message: isBookmarked
+                                    ? AppString.kRemovieBookmark
+                                    : AppString.kSavingBookmark,
+                              );
                               await bookmarksProvider.toggleBookmark(
                                   newsModel: newsModel);
 
+                              if (!context.mounted) return;
                               Navigator.of(context).pop();
                             },
                             isBookmarked: isBookmarked,
@@ -152,6 +180,7 @@ class _NewsDetailsPageState extends State<NewsDetailsPage> {
                 ],
               ),
             ),
+            // Row for website button and date
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
@@ -177,28 +206,6 @@ class _NewsDetailsPageState extends State<NewsDetailsPage> {
           ],
         ),
       ),
-    );
-  }
-
-  /// Builds the row displaying author and source if available.
-  Row _buildAuthorSourceRow() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        if (newsModel.author.isNotEmpty)
-          Expanded(
-            child: Text(newsModel.author, style: AppTextStyle.authTextStyle),
-          )
-        else
-          const SizedBox.shrink(),
-        AppFunction.horizontalSpace(8),
-        if (newsModel.source.isNotEmpty)
-          Text(newsModel.source,
-              overflow: TextOverflow.ellipsis,
-              style: AppTextStyle.sourceTextStyle)
-        else
-          const SizedBox.shrink(),
-      ],
     );
   }
 
@@ -235,29 +242,7 @@ class _NewsDetailsPageState extends State<NewsDetailsPage> {
   }
 }
 
-void showLoadingDialog(BuildContext context, {String? message}) {
-  showDialog(
-    context: context,
-    barrierDismissible: false, // Prevent dismiss on outside touch
-    builder: (context) {
-      return Dialog(
-        backgroundColor: Colors.white,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-        child: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const CircularProgressIndicator(),
-              const SizedBox(width: 20),
-              Text(message ?? 'Loading...'),
-            ],
-          ),
-        ),
-      );
-    },
-  );
-}
+
 
 
 /*

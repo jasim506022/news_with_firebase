@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../model/news_model_.dart';
 import '../../res/app_string.dart';
-import '../../service/provider/bookmarksprovider.dart';
+import '../../service/provider/bookmarks_provider.dart';
 import '../../widget/article_item_widget.dart';
 import '../../widget/confirmation_dialog.dart';
 import '../../widget/no_results_widget.dart';

@@ -88,6 +88,29 @@ class AppFunction {
     }
   }
 
+  static void showLoadingDialog(BuildContext context, {String? message}) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => Dialog(
+        backgroundColor: AppColors.white,
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.r)),
+        child: Padding(
+          padding: EdgeInsets.all(20.r),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const CircularProgressIndicator(),
+              horizontalSpace(20),
+              Text(message ?? AppString.kLoading),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
   static void handleFirebaseAuthError(dynamic e) {
     switch (e.code) {
       case 'email-already-in-use':

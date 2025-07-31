@@ -101,6 +101,7 @@ class AppString {
 
   // App Bar
   static const String homeAppBarTitle = "Home";
+  static const String newsDetails = "News Details";
   static const String newCategoryTitle = 'News Category';
   static const String bookmarkTitle = 'Bookmarks';
   static const String searchPage = 'Search';
@@ -149,6 +150,9 @@ class AppString {
   static const String shareTheUrl = 'Share The Url';
   static const String moreOption = "More Option";
   static const String bookmarks = 'Bookmarks';
+  static const String kLoading = 'Loading...';
+  static const String kRemovieBookmark = "Removing Bookmark...";
+  static const String kSavingBookmark = "Saving Bookmark...";
 
   static const String kSearchPromptMessage =
       "Please search news to find easily.";

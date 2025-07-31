@@ -24,11 +24,13 @@ class SafeNetworkImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Helper to validate the image URL format
     bool isValidUrl(String? url) {
       if (url == null || url.isEmpty) return false;
       return url.startsWith('http://') || url.startsWith('https://');
     }
 
+// Placeholder shown when URL is invalid or image loading fails
     final placeholder = Image(
       image: const AssetImage(AppImages.emptyImage),
       height: height.h,
@@ -36,7 +38,7 @@ class SafeNetworkImage extends StatelessWidget {
       fit: BoxFit.fill,
     );
 
-    // Show network image with shimmer effect
+    // Return network image with shimmer effect if URL valid, else placeholder
     return isValidUrl(imageUrl)
         ? FancyShimmerImage(
             imageUrl: imageUrl,
