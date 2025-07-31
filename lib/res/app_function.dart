@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -41,7 +40,7 @@ class AppFunction {
       child: Icon(
         Icons.link,
         color: color ?? Colors.red,
-        size: 25,
+        size: 25.h,
       ),
     );
   }
@@ -88,9 +87,12 @@ class AppFunction {
     }
   }
 
+  /// Displays a modal loading dialog with a spinner and optional message.
+  /// Prevents user from dismissing it by tapping outside.
   static void showLoadingDialog(BuildContext context, {String? message}) {
     showDialog(
       context: context,
+      // Prevents dismiss on outside tap
       barrierDismissible: false,
       builder: (context) => Dialog(
         backgroundColor: AppColors.white,
