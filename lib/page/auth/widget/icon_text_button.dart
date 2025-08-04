@@ -6,8 +6,11 @@ import '../../../res/app_function.dart';
 import '../../../res/app_text_style.dart';
 import '../../../res/network_utilis.dart';
 
-class SignInWithIconButton extends StatelessWidget {
-  const SignInWithIconButton({
+/// A button widget that displays an icon alongside a label,
+/// typically used for third-party sign-in options (e.g., Google, Phone).
+/// Includes internet connectivity check before executing the tap action.
+class IconTextButton extends StatelessWidget {
+  const IconTextButton({
     super.key,
     // required this.loading,
     required this.label,

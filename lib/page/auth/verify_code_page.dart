@@ -10,8 +10,9 @@ import '../../res/app_string.dart';
 import '../../res/app_text_style.dart';
 import '../../service/provider/auth_manager_provider.dart';
 import 'widget/auth_button.dart';
-import 'widget/auth_intro_widget.dart';
+import 'widget/auth_header_section.dart';
 
+/// Login page allowing users to sign in with their phone number (OTP flow).
 class VerifyCodePage extends StatefulWidget {
   const VerifyCodePage({
     super.key,
@@ -39,6 +40,7 @@ class _VerifyCodePageState extends State<VerifyCodePage> {
 
   @override
   Widget build(BuildContext context) {
+    // Access the authentication provider (non-listening)
     final authProvider =
         Provider.of<AuthManageProvider>(context, listen: false);
     // Theme for the PIN input (default).
@@ -74,11 +76,11 @@ class _VerifyCodePageState extends State<VerifyCodePage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  // Intro section with image, title, and subtitle.
-                  const AuthIntroWidget(
+                  /// Header with image and page title/subtitle.
+                  const AuthHeaderSection(
                       imageAssetPath: AppImages.otpImage,
                       title: AppString.phoneCodeVerificate,
-                      subTitle: AppString.phoneVerificationSubTitle),
+                      subtitle: AppString.phoneVerificationSubTitle),
                   AppFunction.verticalSpace(30),
                   Pinput(
                     length: 6,
@@ -108,7 +110,7 @@ class _VerifyCodePageState extends State<VerifyCodePage> {
                         smsCode: otpCode,
                       );
                     },
-                    title: AppString.verifyPhoneNumber,
+                    label: AppString.verifyPhoneNumber,
                   ),
                 ],
               ),

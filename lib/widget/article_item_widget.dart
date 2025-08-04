@@ -8,37 +8,25 @@ import '../res/app_routes.dart';
 import '../res/app_string.dart';
 import '../res/app_text_style.dart';
 import '../res/app_colors.dart';
-import '../service/other/api_service.dart';
 import 'safe_network_image.dart';
 
 /// Displays a news article or bookmarked item card.
 /// Tapping opens details; long press triggers deletion if enabled.
-///
-/// Uses Provider to access either [NewsModel] or [BookmarksModel] depending on [isBookmarks].
-class ArticleItemWidget extends StatefulWidget {
+
+class ArticleItemWidget extends StatelessWidget {
   const ArticleItemWidget({
     super.key,
   });
 
-  /// If true, long-press triggers a delete dialog.
-  // final bool isDelete;
-
-  @override
-  State<ArticleItemWidget> createState() => _ArticleItemWidgetState();
-}
-
-class _ArticleItemWidgetState extends State<ArticleItemWidget> {
   @override
   Widget build(BuildContext context) {
     // Select model type based on isBookmarks flag
-    dynamic model = Provider.of<NewsModel>(context);
+    var model = Provider.of<NewsModel>(context);
     return Card(
       color: Theme.of(context).cardColor,
       child: InkWell(
         onTap: () => Navigator.pushNamed(context, AppRoutes.newsDetailsPage,
             arguments: model),
-        // Show delete dialog on long press if enabled
-
         child: Container(
           height: 130.h,
           width: 1.sw,

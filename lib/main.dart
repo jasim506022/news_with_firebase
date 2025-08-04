@@ -18,7 +18,7 @@ import 'page/search/search_page.dart';
 import 'page/newss/all_top_news.dart';
 import 'page/newss/bookmarks_page.dart';
 import 'page/newss/news_detail_page.dart';
-import 'page/web/details_news_website.dart';
+import 'page/web/web_view_news_page.dart';
 import 'page/splash/splash_page.dart';
 import 'res/app_routes.dart';
 import 'res/app_constant.dart';

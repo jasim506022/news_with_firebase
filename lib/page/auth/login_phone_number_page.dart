@@ -9,9 +9,9 @@ import '../../res/app_string.dart';
 import '../../res/app_text_style.dart';
 import '../../res/validator.dart';
 import '../../service/provider/auth_manager_provider.dart';
-import '../../widget/custom_text_form_field.dart';
+import '../../widget/custom_text_field.dart';
 import 'widget/auth_button.dart';
-import 'widget/auth_intro_widget.dart';
+import 'widget/auth_header_section.dart';
 
 /// Login page allowing users to sign in with their phone number (OTP flow).
 
@@ -23,21 +23,22 @@ class LoginPhoneNumberPage extends StatefulWidget {
 }
 
 class _LoginPhoneNumberPageState extends State<LoginPhoneNumberPage> {
-  // Controller to handle phone number input.
+  // Controllers to manage phone input fields.
   final _phoneController = TextEditingController();
 
+  // Form key to validate the form inputs.
   final _formKey = GlobalKey<FormState>();
 
   @override
   void dispose() {
-    // Form key to validate input.
+    // Clean up controllers when the widget is removed from the tree.
     _phoneController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    // Get AuthProvider once to avoid duplication.
+    // Access the authentication provider (non-listening)
     final authProvider =
         Provider.of<AuthManageProvider>(context, listen: false);
     return GestureDetector(
@@ -51,11 +52,11 @@ class _LoginPhoneNumberPageState extends State<LoginPhoneNumberPage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    // Intro section with image, title, and subtitle.
-                    const AuthIntroWidget(
+                    /// Header with image and page title/subtitle
+                    const AuthHeaderSection(
                       imageAssetPath: AppImages.phoneIntroImage,
                       title: AppString.phoneVerificationTitle,
-                      subTitle: AppString.phoneVerificationSubTitle,
+                      subtitle: AppString.phoneVerificationSubTitle,
                     ),
                     AppFunction.verticalSpace(30),
                     // Form to input the phone number.
@@ -70,7 +71,7 @@ class _LoginPhoneNumberPageState extends State<LoginPhoneNumberPage> {
                               phoneNumber: _phoneController.text,
                               context: context);
                         },
-                        title: AppString.btnSendCode),
+                        label: AppString.btnSendCode),
                     AppFunction.verticalSpace(50),
                   ],
                 ),
@@ -100,7 +101,7 @@ class _LoginPhoneNumberPageState extends State<LoginPhoneNumberPage> {
           ),
           AppFunction.horizontalSpace(10),
           Expanded(
-              child: CustomTextFormField(
+              child: CustomTextField(
                   textInputAction: TextInputAction.done,
                   textInputType: TextInputType.phone,
                   hintText: AppString.phoneHint,

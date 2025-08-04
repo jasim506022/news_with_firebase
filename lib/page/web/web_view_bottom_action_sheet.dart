@@ -9,7 +9,9 @@ import '../../res/app_string.dart';
 import '../../res/app_text_style.dart';
 
 /// A modal bottom sheet providing additional WebView actions:
-/// Share, Open in Browser, and Refresh.
+/// - Share the URL
+/// - Open the URL in an external browser
+/// - Reload the current web page
 class WebViewBottomActionsSheet extends StatelessWidget {
   const WebViewBottomActionsSheet(
       {super.key, required this.url, required this.controller});
@@ -26,7 +28,7 @@ class WebViewBottomActionsSheet extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          // Drag handle bar
+          // Small handle bar at the top of the modal
           AppFunction.verticalSpace(10),
           Container(
             height: 7.h,
@@ -45,14 +47,14 @@ class WebViewBottomActionsSheet extends StatelessWidget {
           ),
           AppFunction.verticalSpace(20),
           // Action: Share
-          _buildListTile(
+          _buildActionTile(
               context: context,
               icon: Icons.share,
               title: AppString.share,
               onTap: () => AppFunction.shareUrlWithErrorDialog(
                   context: context, url: url)),
           // Action: Open in browser
-          _buildListTile(
+          _buildActionTile(
             context: context,
             icon: Icons.open_in_browser,
             title: AppString.openInBrowser,
@@ -68,7 +70,7 @@ class WebViewBottomActionsSheet extends StatelessWidget {
             },
           ),
           // Action: Refresh
-          _buildListTile(
+          _buildActionTile(
             context: context,
             icon: Icons.refresh,
             title: AppString.refresh,
@@ -86,7 +88,7 @@ class WebViewBottomActionsSheet extends StatelessWidget {
   }
 
   /// Builds a reusable ListTile for each action option
-  ListTile _buildListTile(
+  ListTile _buildActionTile(
       {required String title,
       required IconData icon,
       required VoidCallback onTap,

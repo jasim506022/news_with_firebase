@@ -5,9 +5,9 @@ class AppImages {
   static const String pageThreeImage = "asset/image/onboard/pagethree.png";
 
   // App Intro Image
-  static const String appIntroImage = "asset/image/newj.png";
+  static const String appIntroImage = "asset/auth/newj.png";
   static const String emptyImage = "asset/image/error/image.jpg";
-  static const String phoneIntroImage = 'asset/image/phonenumber.png';
+  static const String phoneIntroImage = 'asset/auth/phonenumber.png';
   static const String otpImage = 'asset/image/otp.png';
 
   // Image Image
@@ -25,8 +25,8 @@ class AppImages {
   static const String health = "${baseCategory}Health.png";
 
   // button
-  static const String phoneIcon = "asset/image/phone.png";
-  static const String gmailIcon = "asset/image/gmail.png";
+  static const String phoneIcon = "asset/auth/phone.png";
+  static const String gmailIcon = "asset/auth/gmail.png";
   // error
   static const String emptyNewsImage = "asset/image/error/empy_news.png";
 }

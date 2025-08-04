@@ -68,6 +68,11 @@ class AppString {
   static const String nameTooLong = "Name cannot exceed 50 characters.";
   static const String nameInvalid = "Name can only contain letters and spaces.";
 
+  // Name
+  static const String emptyPhone = 'Phone number is required';
+  static const String validatePhoneNumber =
+      'Enter a valid  phone number without 0 (e.g., 1712345678)';
+
   static String doYouwantSignout = "Do you want to sign out?";
 
   // 📌 Hint Texts (For Input Fields)

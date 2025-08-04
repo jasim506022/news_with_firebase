@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../../model/profile_model.dart';
@@ -18,14 +17,16 @@ class AuthManageProvider with ChangeNotifier {
     _loadingProvider = loadingProvider;
   }
 
-  Future<void> registerUser(
+  /// Handles user registration, profile creation, and post-sign-up navigation
+  Future<void> registerNewUser(
       {required String email,
       required String password,
       required String name,
       required BuildContext context}) async {
-    await _withLoading(() async {
+    await _executeWithLoading(() async {
+      // Reload current user (safety check, often optional during registration)
       await AuthRepository.firebaseAuth.currentUser?.reload();
-      User? user =
+      var user =
           await AuthRepository.registerUser(email: email, password: password);
 
       if (user == null) {
@@ -33,18 +34,19 @@ class AuthManageProvider with ChangeNotifier {
         return;
       }
 
-      // ✅ Build user profile model
+      // Create user profile data
       ProfileModel profileModel = ProfileModel(
         uid: user.uid,
         name: name,
         email: email,
         createdAt: Timestamp.now(),
       );
-      // ✅ Save profile to Firestore
+      // Save user profile to Firestore
       await AuthRepository.createUserProfile(
           uid: user.uid, profileModel: profileModel);
 
       if (!context.mounted) return;
+      // Navigate to home screen with success message
       await _navigateAfterSignIn(
         user.uid,
         context,
@@ -53,12 +55,17 @@ class AuthManageProvider with ChangeNotifier {
     });
   }
 
-  Future<void> loginUser({
+  /// Authenticates a user using email and password.
+  ///
+  /// - Shows loading during the process.
+  /// - Displays an error toast if login fails.
+  /// - Navigates to the next screen on success.
+  Future<void> loginWithEmailAndPassword({
     required String email,
     required String password,
     required BuildContext context,
   }) async {
-    await _withLoading(() async {
+    await _executeWithLoading(() async {
       final user =
           await AuthRepository.loginUser(email: email, password: password);
 
@@ -75,7 +82,7 @@ class AuthManageProvider with ChangeNotifier {
     required String phoneNumber,
     required BuildContext context,
   }) async {
-    await _withLoading(() async {
+    await _executeWithLoading(() async {
       final verificationId = await AuthRepository.requestPhoneVerification(
         context: context,
         phoneNumber: phoneNumber,
@@ -91,7 +98,7 @@ class AuthManageProvider with ChangeNotifier {
   Future<void> loginWithGoogle({
     required BuildContext context,
   }) async {
-    await _withLoading(() async {
+    await _executeWithLoading(() async {
       final uid = await AuthRepository.signInWithGoogle();
       if (uid != null) {
         if (!context.mounted) return;
@@ -105,7 +112,7 @@ class AuthManageProvider with ChangeNotifier {
     required String smsCode,
     required BuildContext context,
   }) async {
-    await _withLoading(() async {
+    await _executeWithLoading(() async {
       final uid = await AuthRepository.verifySmsCode(
         verificationId: verificationId,
         smsCode: smsCode,
@@ -118,23 +125,30 @@ class AuthManageProvider with ChangeNotifier {
     });
   }
 
-  /// Shared navigation + success message after sign-in
+  /// Handles post-sign-in tasks: storing UID, showing success message, and navigating to home screen.
   Future<void> _navigateAfterSignIn(String uid, BuildContext context,
       [String message = AppString.successSignInMessage]) async {
+    // Save the user ID to shared preferences
     await AppConstant.sharedPreferences!
         .setString(AppString.uidSharePrefer, uid);
     AppFunction.toastMessage(message);
     if (!context.mounted) return;
+    // Navigate to the home page, replacing the sign-in screen
     Navigator.pushReplacementNamed(context, AppRoutes.homePage);
   }
 
-  //Helper to wrap all async methods Loading toggling
-  Future<void> _withLoading(Future<void> Function() action) async {
+  /// Executes an asynchronous action while toggling the loading state.
+  ///
+  /// - Sets `loading` to `true` before the action.
+  /// - Catches any exceptions and delegates error handling.
+  /// - Resets `loading` to `false` in all cases (finally).
+  Future<void> _executeWithLoading(
+      Future<void> Function() asyncOperation) async {
     _loadingProvider?.setUploading(loading: true);
     try {
-      await action();
-    } catch (e) {
-      AppFunction.handleFirebaseAuthError(e);
+      await asyncOperation();
+    } catch (error) {
+      AppFunction.handleFirebaseAuthError(error);
     } finally {
       _loadingProvider?.setUploading(loading: false);
     }

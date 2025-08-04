@@ -5,17 +5,19 @@ import '../../../res/app_colors.dart';
 import '../../../res/app_function.dart';
 import '../../../res/app_text_style.dart';
 
-class AuthIntroWidget extends StatelessWidget {
-  const AuthIntroWidget({
+/// A reusable widget that displays an intro section with an image, title, and subtitle.
+/// Commonly used on authentication screens like login or signup.
+class AuthHeaderSection extends StatelessWidget {
+  const AuthHeaderSection({
     super.key,
     required this.imageAssetPath,
     required this.title,
-    required this.subTitle,
+    required this.subtitle,
   });
 
   final String imageAssetPath;
   final String title;
-  final String subTitle;
+  final String subtitle;
 
   @override
   Widget build(BuildContext context) {
@@ -24,8 +26,15 @@ class AuthIntroWidget extends StatelessWidget {
       child: Column(
         children: [
           // Top image banner
-          Image.asset(imageAssetPath, height: 200.h, width: double.infinity),
+          Image.asset(
+            imageAssetPath,
+            height: 200.h,
+            width: double.infinity,
+            fit: BoxFit.contain,
+          ),
+          // Why need boxFit.Contain
           AppFunction.verticalSpace(20),
+          // Title with icon
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -38,9 +47,11 @@ class AuthIntroWidget extends StatelessWidget {
               )
             ],
           ),
+
           AppFunction.verticalSpace(7),
+          // Subtitle
           Text(
-            subTitle,
+            subtitle,
             style: AppTextStyle.authDescription,
             textAlign: TextAlign.center,
           ),
