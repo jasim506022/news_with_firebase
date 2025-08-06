@@ -13,8 +13,27 @@ class AuthManageProvider with ChangeNotifier {
   LoadingProvider? _loadingProvider;
 
   /// Set the external loading  (for showing loading indicators)
-  void setLoadingProvider(LoadingProvider loadingProvider) {
-    _loadingProvider = loadingProvider;
+  void setLoadingProvider(LoadingProvider loadingProvider) =>
+      _loadingProvider = loadingProvider;
+
+  Future<void> getUser() async {
+    var snapshot = await FirebaseFirestore.instance
+        .collection(AppString.userCollection)
+        .doc(
+            AppConstants.sharedPreferences!.getString(AppString.uidSharePrefer))
+        .get();
+
+    if (snapshot.exists) {
+      final profileModel = ProfileModel.fromMap(snapshot.data()!);
+      print(profileModel.email);
+      await AppConstants.sharedPreferences!
+          .setString(AppString.nameSharePrefer, profileModel.name!);
+      await AppConstants.sharedPreferences!
+          .setString(AppString.emailSharePrefer, profileModel.email!);
+
+      await AppConstants.sharedPreferences!
+          .setBool(AppString.setDataShareprefer, true);
+    } else {}
   }
 
   /// Handles user registration, profile creation, and post-sign-up navigation
@@ -89,7 +108,7 @@ class AuthManageProvider with ChangeNotifier {
       );
 
       if (verificationId != null && context.mounted) {
-        Navigator.pushNamed(context, AppRoutes.verifiyCodePage,
+        Navigator.pushNamed(context, AppRoutes.verifyCodePage,
             arguments: verificationId);
       }
     });
@@ -129,8 +148,10 @@ class AuthManageProvider with ChangeNotifier {
   Future<void> _navigateAfterSignIn(String uid, BuildContext context,
       [String message = AppString.successSignInMessage]) async {
     // Save the user ID to shared preferences
-    await AppConstant.sharedPreferences!
+    await AppConstants.sharedPreferences!
         .setString(AppString.uidSharePrefer, uid);
+    await AppConstants.sharedPreferences!
+        .setBool(AppString.setDataShareprefer, false);
     AppFunction.toastMessage(message);
     if (!context.mounted) return;
     // Navigate to the home page, replacing the sign-in screen
@@ -156,9 +177,24 @@ class AuthManageProvider with ChangeNotifier {
 
   /// Signs out the current user using [AuthRepository].
   /// Catches and handles Firebase authentication errors gracefully.
-  Future<void> logOut() async {
+  Future<void> logOut(BuildContext context) async {
     try {
       await AuthRepository.signOut();
+      Navigator.pushNamedAndRemoveUntil(
+        context,
+        AppRoutes.signInPage,
+        (route) => false,
+      );
+      await AppConstants.sharedPreferences!
+          .setBool(AppString.setDataShareprefer, false);
+      await AppConstants.sharedPreferences!
+          .setString(AppString.uidSharePrefer, "");
+
+      await AppConstants.sharedPreferences!
+          .setString(AppString.nameSharePrefer, "");
+
+      await AppConstants.sharedPreferences!
+          .setString(AppString.emailSharePrefer, "");
     } catch (e) {
       AppFunction.handleFirebaseAuthError(e);
     }

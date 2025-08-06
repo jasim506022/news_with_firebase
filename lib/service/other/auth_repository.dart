@@ -116,7 +116,7 @@ class AuthRepository {
 
       final User? user =
           (await firebaseAuth.signInWithCredential(credential)).user;
-      AppConstant.sharedPreferences!.setString("uid", user!.uid);
+      AppConstants.sharedPreferences!.setString("uid", user!.uid);
 
       return user.uid;
     } catch (e) {

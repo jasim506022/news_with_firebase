@@ -6,6 +6,14 @@ import '../other/api_service.dart';
 class NewsProvider with ChangeNotifier {
   List<NewsModel> _newsList = [];
 
+  bool _isLoading = false;
+  bool _isEndReached = false;
+  int _limit = 10;
+
+  List<NewsModel> get newsList => _newsList;
+  bool get isLoading => _isLoading;
+  bool get isEndReached => _isEndReached;
+
   /// Fetches top news from the API for the given page.
   ///
   /// Throws an exception if an error occurs during fetch.
@@ -39,46 +47,69 @@ class NewsProvider with ChangeNotifier {
     }
   }
 
-  Future<void> loadNews() async {
-    final result = await ApiServices.fetchTopNews(page: 1);
-    totalPages =
-        result.length; // from "news" key in the Map returned by the API
+  Future<void> fetchNewsByCategorya({
+    required String category,
+    bool isLoadMore = false,
+  }) async {
+    if (_isLoading || _isEndReached) return;
+
+    _isLoading = true;
+    notifyListeners();
+
+    try {
+      if (isLoadMore) _limit += 10;
+
+      final fetched = await ApiServices.fetchNewsByCategory(
+        pageSize: _limit,
+        category: category.toLowerCase(),
+      );
+
+      _newsList = fetched;
+      _isEndReached = fetched.length < _limit;
+    } catch (e) {
+      rethrow;
+    }
+
+    _isLoading = false;
     notifyListeners();
   }
 
-  List<NewsModel> get newsList => _newsList;
-
-  int _currentindex = 0;
-
-  bool _isSearch = false;
-
-  bool get isSearch => _isSearch;
-
-  int totalPages = 1;
-
-  void setSearch(bool isSearch) {
-    _isSearch = isSearch;
-    notifyListeners();
+  void reset() {
+    _limit = 10;
+    _newsList = [];
+    _isEndReached = false;
+    _isLoading = false;
   }
 
-  int get currentindex => _currentindex;
+  // Future<void> loadNews() async {
+  //   final result = await ApiServices.fetchTopNews(page: 1);
+  //   totalPages =
+  //       result.length; // from "news" key in the Map returned by the API
+  //   notifyListeners();
+  // }
 
+  /// Index of the current page being viewed.
+  int _currentIndex = 0;
+
+  /// Getter for [_currentIndex].
+  int get currentindex => _currentIndex;
+
+  /// Sets the current index to [index] and notifies listeners.
   void setCurrentIndex(int index) {
-    _currentindex = index;
+    _currentIndex = index;
     notifyListeners();
   }
 
-  addCurrentIndex() {
-    _currentindex++;
+  /// Increments the current index by 1 and notifies listeners.
+
+  void addCurrentIndex() {
+    _currentIndex++;
     notifyListeners();
   }
 
+  /// Decrements the current index by 1 and notifies listeners.
   removeCurrentIndex() {
-    _currentindex--;
+    _currentIndex--;
     notifyListeners();
-  }
-
-  List<NewsModel> get getNewsList {
-    return _newsList;
   }
 }

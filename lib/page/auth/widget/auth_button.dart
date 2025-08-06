@@ -29,7 +29,7 @@ class AuthButton extends StatelessWidget {
                     action: onPressed, context: context),
                 child: loadingProvider.isLoading
                     ? const Center(child: CircularProgressIndicator())
-                    : Text(label, style: AppTextStyle.button),
+                    : Text(label, style: AppTextStyle.buttonTextStyle()),
               ),
             ));
   }

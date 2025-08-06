@@ -30,7 +30,7 @@ class RichTextWidget extends StatelessWidget {
       ),
       TextSpan(
         text: highlightedText,
-        style: AppTextStyle.button.copyWith(
+        style: AppTextStyle.buttonTextStyle().copyWith(
             decoration: TextDecoration.underline, color: AppColors.red),
         recognizer: TapGestureRecognizer()
           ..onTap = () async => await NetworkUtils.executeWithInternetCheck(

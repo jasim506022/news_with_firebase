@@ -12,7 +12,8 @@ class DatabaseService {
       {required String id, required NewsModel newsmodel}) async {
     await db
         .collection("uses")
-        .doc(AppConstant.sharedPreferences!.getString(AppString.uidSharePrefer))
+        .doc(
+            AppConstants.sharedPreferences!.getString(AppString.uidSharePrefer))
         .collection("news")
         .doc(id)
         .set(newsmodel.toMap());
@@ -21,7 +22,7 @@ class DatabaseService {
   static Future<List<NewsModel>> fetchAllBookmarks() async {
     final snapshot = await db
         .collection("uses")
-        .doc(AppConstant.sharedPreferences!.getString("uid"))
+        .doc(AppConstants.sharedPreferences!.getString("uid"))
         .collection("news")
         .get();
     final bookmarkData =
@@ -32,7 +33,7 @@ class DatabaseService {
   static Future<void> deleteBookmark({required String publishedAt}) async {
     final firebasedatabase = FirebaseFirestore.instance
         .collection("uses")
-        .doc(AppConstant.sharedPreferences!.getString("uid"))
+        .doc(AppConstants.sharedPreferences!.getString("uid"))
         .collection("news");
     firebasedatabase.doc(publishedAt).delete();
   }
@@ -41,7 +42,7 @@ class DatabaseService {
     try {
       final bookmarksRef = FirebaseFirestore.instance
           .collection('uses')
-          .doc(AppConstant.sharedPreferences!.getString("uid"))
+          .doc(AppConstants.sharedPreferences!.getString("uid"))
           .collection("news");
 
       final snapshot = await bookmarksRef.get();

@@ -1,9 +1,11 @@
 import 'package:shared_preferences/shared_preferences.dart';
 import 'app_function.dart';
 
-class AppConstant {
+class AppConstants {
   static SharedPreferences? sharedPreferences;
-  static int isViewd = 0;
+  static bool isOnboardingViewed = false;
+
+  // bool isSet = true;
 
   static int categoryLength = 7;
   static String baseurl = "newsapi.org";

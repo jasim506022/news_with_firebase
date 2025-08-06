@@ -47,7 +47,8 @@ class IconTextButton extends StatelessWidget {
               AppFunction.horizontalSpace(15),
               Text(
                 label,
-                style: AppTextStyle.button.copyWith(color: AppColors.black),
+                style: AppTextStyle.buttonTextStyle()
+                    .copyWith(color: AppColors.black),
               ),
             ],
           ),

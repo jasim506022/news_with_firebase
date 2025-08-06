@@ -32,7 +32,7 @@ class CategoryNewsTabView extends StatelessWidget {
             title: categoryLabel,
             onTap: () => Navigator.pushNamed(
                   context,
-                  AppRoutes.categoryName,
+                  AppRoutes.categoryPage,
                   arguments: categoryLabel,
                 )),
         AppFunction.verticalSpace(10),

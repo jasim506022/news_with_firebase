@@ -8,7 +8,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
-import 'package:newsapps/service/provider/themeprovider.dart';
+import 'package:newsapps/service/provider/theme_mode_provider.dart';
 import 'package:share_plus/share_plus.dart';
 
 import '../widget/confirmation_dialog.dart';
@@ -189,7 +189,7 @@ class AppFunction {
   //   return ErrorWidget;
   // }
 
-  ThemeData themeDate(ThemeProvider themeProvider) {
+  ThemeData themeDate(ThemeModeProvider themeProvider) {
     var isDark = themeProvider.getDarkTheme;
     return ThemeData(
         dialogTheme: DialogTheme(
@@ -208,12 +208,12 @@ class AppFunction {
           ),
         ),
         tabBarTheme: TabBarTheme(
-          labelStyle: tabLabelStyle,
+          labelStyle: AppTextStyle.buttonTextStyle(),
           tabAlignment: TabAlignment.start,
           dividerColor: Colors.transparent,
           indicatorColor: Colors.transparent,
           indicatorSize: TabBarIndicatorSize.tab,
-          unselectedLabelStyle: tabunselectedLabelStyle,
+          // unselectedLabelStyle: AppTextStyle.mediumTextStyle(context),
           labelColor: Colors.white,
           unselectedLabelColor: isDark ? AppColors.white : AppColors.black,
           indicator: BoxDecoration(
@@ -296,21 +296,6 @@ class AppFunction {
     DateTime publishDate =
         DateFormat("yyyy-MM-dd hh:mm:ss").parse(formattedDate);
     return "${publishDate.day}/${publishDate.month}/${publishDate.year} on ${publishDate.hour}:${publishDate.minute}";
-  }
-
-  ElevatedButton paginationButton(
-      {required Function function, required String text}) {
-    return ElevatedButton(
-        onPressed: () {
-          function();
-        },
-        style: ElevatedButton.styleFrom(
-          backgroundColor: AppColors.deepred,
-        ),
-        child: Text(
-          text,
-          style: GoogleFonts.poppins(textStyle: tabLabelStyle),
-        ));
   }
 }
 

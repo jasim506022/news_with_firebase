@@ -113,7 +113,7 @@ class _LoginPageState extends State<LoginPage> {
                     label: AppString.btnLoginWithPhone,
                     onTap: () => Navigator.pushNamed(
                           context,
-                          AppRoutes.loginWithPhoneNumberPage,
+                          AppRoutes.loginWithPhonePage,
                         )),
                 AppFunction.verticalSpace(15),
                 // Alternative login option: Gmail.

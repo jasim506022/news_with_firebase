@@ -139,6 +139,10 @@ class AppString {
   // ShareFerence
   static const String onboardSharePrefer = "onboard";
   static const String uidSharePrefer = "uid";
+  static const String nameSharePrefer = "name";
+  static const String emailSharePrefer = "email";
+  static const String setDataShareprefer = "setData";
+  static const String themeStatusSharePrefer = 'themestatus';
   // Firebase
   static const String userCollection = "users";
   // condition check
@@ -172,4 +176,5 @@ class AppString {
 
   static const String kRemovedFromBookmarks = "Removed from Bookmarks";
   static const String kAddedtoBookmarks = "Added to Bookmarks";
+  static const String pre = 'Pre';
 }

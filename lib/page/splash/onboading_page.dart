@@ -35,7 +35,8 @@ class OnboardingPage extends StatelessWidget {
               TextButton(
                 onPressed: () => onboardingProvider.completeOnboarding(context),
                 child: Text(AppString.btnSkip,
-                    style: AppTextStyle.button.copyWith(color: buttonColor)),
+                    style: AppTextStyle.buttonTextStyle()
+                        .copyWith(color: buttonColor)),
               ),
             ],
           ),

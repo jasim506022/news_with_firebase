@@ -32,7 +32,7 @@ class CategoryList extends StatelessWidget {
                     ? Navigator.pushNamed(context, AppRoutes.allNewsPage)
                     : Navigator.pushNamed(
                         context,
-                        '/categoryPage',
+                        AppRoutes.categoryPage,
                         arguments: categoryModel.name,
                       );
               },

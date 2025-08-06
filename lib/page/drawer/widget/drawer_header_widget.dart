@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:newsapps/res/app_constant.dart';
+import 'package:newsapps/res/app_string.dart';
 
 import '../../../res/app_colors.dart';
 import '../../../res/app_function.dart';
@@ -21,12 +23,17 @@ class DrawerHeaderWidget extends StatelessWidget {
         children: [
           const AppLogoWidget(),
           AppFunction.verticalSpace(10),
-          Text("Jasim Uddin", style: AppTextStyle.titleTextStyle(context)),
+          Text(
+              AppConstants.sharedPreferences!
+                  .getString(AppString.nameSharePrefer)!,
+              style: AppTextStyle.titleTextStyle(context)),
           AppFunction.verticalSpace(2),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text("jasimrony50@gmail.com",
+              Text(
+                  AppConstants.sharedPreferences!
+                      .getString(AppString.emailSharePrefer)!,
                   style: AppTextStyle.mediumBoldTextStyle(context)),
               Icon(Icons.arrow_drop_down, color: AppColors.black),
             ],

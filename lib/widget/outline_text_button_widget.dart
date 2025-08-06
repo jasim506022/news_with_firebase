@@ -28,6 +28,7 @@ class OutlinedTextButtonWidget extends StatelessWidget {
           ),
         ),
         onPressed: onPressed,
-        child: Text(title, style: AppTextStyle.button.copyWith(color: color)));
+        child: Text(title,
+            style: AppTextStyle.buttonTextStyle().copyWith(color: color)));
   }
 }

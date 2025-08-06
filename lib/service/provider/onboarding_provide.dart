@@ -35,8 +35,8 @@ class OnboardingProvider with ChangeNotifier {
 
   /// Complete onboarding: save status and navigate to login page
   Future<void> completeOnboarding(BuildContext context) async {
-    Navigator.pushReplacementNamed(context, AppRoutes.logInPage);
-    await AppConstant.sharedPreferences!
+    Navigator.pushReplacementNamed(context, AppRoutes.signInPage);
+    await AppConstants.sharedPreferences!
         .setInt(AppString.onboardSharePrefer, 1);
   }
 }

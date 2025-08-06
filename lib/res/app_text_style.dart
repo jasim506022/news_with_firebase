@@ -2,9 +2,45 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'app_colors.dart';
-// import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+/// A utility class that defines consistent text styles used across the app.
 class AppTextStyle {
+  /// Returns the style for AppBar titles.
+  ///
+  /// - Bold, large font.
+  /// - Uses the primary theme color.
+  static TextStyle appBarTitle(BuildContext context) => GoogleFonts.poppins(
+        fontSize: 20.sp,
+        fontWeight: FontWeight.w900,
+        letterSpacing: 1,
+        color: Theme.of(context).primaryColor,
+      );
+
+  /// Returns the style for dialog titles.
+  ///
+  /// - Bold and slightly smaller than AppBar title.
+  static TextStyle dialogTitle(BuildContext context) => GoogleFonts.poppins(
+        fontSize: 18.sp,
+        fontWeight: FontWeight.bold,
+        color: Theme.of(context).primaryColor,
+      );
+
+  /// Returns the general medium text style.
+  ///
+  /// - Normal weight.
+  /// - Standard body font size.
+  static TextStyle bodyMedium(BuildContext context) => GoogleFonts.poppins(
+      color: Theme.of(context).primaryColor,
+      fontWeight: FontWeight.normal,
+      fontSize: 15.sp);
+
+  /// Returns the style used for buttons.
+  ///
+  /// - Bold, white-colored text (typically for use on colored buttons).
+  /// - Uses a fixed color for high contrast.
+  static TextStyle buttonTextStyle() => GoogleFonts.poppins(
+      color: AppColors.white, fontWeight: FontWeight.bold, fontSize: 15.sp);
+
   static TextStyle get logoTitleTextStyle => GoogleFonts.pacifico(
       textStyle: TextStyle(
           color: AppColors.red, fontSize: 35.sp, fontWeight: FontWeight.w900));
@@ -29,13 +65,6 @@ class AppTextStyle {
           fontWeight: FontWeight.bold,
           fontSize: 15.sp);
 //
-  static TextStyle mediumTextStyle(BuildContext context) => GoogleFonts.poppins(
-      color: Theme.of(context).primaryColor,
-      fontWeight: FontWeight.normal,
-      fontSize: 15.sp);
-
-  static TextStyle get button => GoogleFonts.poppins(
-      color: AppColors.white, fontWeight: FontWeight.bold, fontSize: 15.sp);
 
 // Using for  tite
   static TextStyle titleTextStyle(BuildContext context) {
@@ -131,11 +160,3 @@ class AppTextStyle {
       color: AppColors.red,
       letterSpacing: 1.2);
 }
-
-TextStyle tabunselectedLabelStyle = GoogleFonts.poppins(
-    textStyle: TextStyle(
-        color: AppColors.white, fontSize: 15.sp, fontWeight: FontWeight.w600));
-
-TextStyle tabLabelStyle = GoogleFonts.poppins(
-    textStyle: TextStyle(
-        color: AppColors.white, fontSize: 15.sp, fontWeight: FontWeight.w800));

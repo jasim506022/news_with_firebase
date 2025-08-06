@@ -36,7 +36,7 @@ class NextActionButton extends StatelessWidget {
                             OnboardingDataList.onboardModeList.length - 1
                         ? AppString.btnFinish
                         : AppString.btnNext,
-                    style: AppTextStyle.button),
+                    style: AppTextStyle.buttonTextStyle()),
                 SizedBox(width: 15.w),
                 AppFunction.horizontalSpace(15),
                 Icon(Icons.arrow_forward_sharp, color: AppColors.white),

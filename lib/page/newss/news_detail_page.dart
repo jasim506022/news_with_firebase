@@ -70,7 +70,7 @@ class _NewsDetailsPageState extends State<NewsDetailsPage> {
               Text(
                 newsModel.content,
                 textAlign: TextAlign.justify,
-                style: AppTextStyle.mediumTextStyle(context),
+                style: AppTextStyle.bodyMedium(context),
               ),
               AppFunction.verticalSpace(10),
               // Description section header and body
@@ -79,7 +79,7 @@ class _NewsDetailsPageState extends State<NewsDetailsPage> {
               AppFunction.verticalSpace(5),
               Text(newsModel.description,
                   textAlign: TextAlign.justify,
-                  style: AppTextStyle.mediumTextStyle(context)),
+                  style: AppTextStyle.bodyMedium(context)),
             ],
           ),
         ),

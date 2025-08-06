@@ -21,7 +21,7 @@ class ApiServices {
   ///
   /// Throws an [Exception] if the request fails or if parsing fails.
   static Future<List<NewsModel>> fetchTopNews({required int page}) async {
-    final uri = Uri.https(AppConstant.baseurl, "v2/everything", {
+    final uri = Uri.https(AppConstants.baseurl, "v2/everything", {
       "q": "bitcoin",
       "pageSize": "10",
       "page": page.toString(),
@@ -49,7 +49,7 @@ class ApiServices {
   static Future<List<NewsModel>> fetchNewsByCategory(
       {required int pageSize, required String category}) async {
     try {
-      var uri = Uri.https(AppConstant.baseurl, "v2/top-headlines", {
+      var uri = Uri.https(AppConstants.baseurl, "v2/top-headlines", {
         "country": "us",
         "pageSize": pageSize.toString(),
         "category": category,
@@ -76,7 +76,7 @@ class ApiServices {
   // Okay
   static Future<List<NewsModel>> totalPage({required int page}) async {
     try {
-      var uri = Uri.https(AppConstant.baseurl, "v2/everything", {
+      var uri = Uri.https(AppConstants.baseurl, "v2/everything", {
         "q": "bitcoin",
         // "pageSize": "10",
         "page": page.toString(),
@@ -108,7 +108,7 @@ class ApiServices {
 
   static Future<List<NewsModel>> fetchNewsByQuery({required String q}) async {
     try {
-      final uri = Uri.https(AppConstant.baseurl, "v2/top-headlines", {"q": q});
+      final uri = Uri.https(AppConstants.baseurl, "v2/top-headlines", {"q": q});
       // Perform the GET request with the API key in headers
       var response = await http
           .get(uri, headers: {"X-Api-Key": apiKey}); // use final not use var
@@ -150,21 +150,22 @@ class ApiServices {
             TextButton(
               style: TextButton.styleFrom(
                 foregroundColor: AppColors.red,
-                textStyle: tabLabelStyle,
+                textStyle: AppTextStyle.buttonTextStyle(),
               ),
               child: const Text('Yes'),
               onPressed: () {
                 isDelete == true
                     ? deletebooks(id!, context)
                     : firebaseAuth.signOut().then((value) {
-                        Navigator.pushNamed(context, AppRoutes.logInPage);
+                        Navigator.pushNamed(context, AppRoutes.signInPage);
                         AppFunction.toastMessage("Logout Sucessfully");
                       }).onError((error, stackTrace) {});
               },
             ),
             TextButton(
               style: TextButton.styleFrom(
-                  foregroundColor: AppColors.red, textStyle: tabLabelStyle),
+                  foregroundColor: AppColors.red,
+                  textStyle: AppTextStyle.buttonTextStyle()),
               child: const Text('No'),
               onPressed: () {
                 Navigator.of(context).pop();

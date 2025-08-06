@@ -1,14 +1,15 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 
 import '../../res/app_function.dart';
 import '../../res/app_routes.dart';
 import '../../res/app_string.dart';
 import '../../res/app_text_style.dart';
 import '../../res/app_constant.dart';
+import '../../service/provider/auth_manager_provider.dart';
 import '../drawer/app_drawer.dart';
 import '../../widget/section_header_widget.dart';
 
@@ -38,18 +39,19 @@ class _HomePageState extends State<HomePage>
   void initState() {
     super.initState();
 
-    final FirebaseAuth auth = FirebaseAuth.instance;
+    /// Retrieve flag from SharedPreferences to check if user data is already set.
+    var setData =
+        AppConstants.sharedPreferences!.getBool(AppString.setDataShareprefer);
 
-    User? user = auth.currentUser;
+    /// If data is not yet set in shared preferences
+    if (setData == false) {
+      final authProvider =
+          Provider.of<AuthManageProvider>(context, listen: false);
 
-    if (user != null) {
-      String uid = user.uid;
-      AppConstant.sharedPreferences!.setString(AppString.uidSharePrefer, uid);
-    } else {}
-
-    // Initialize the tab controller with the number of categories
+      authProvider.getUser();
+    }
     _tabController =
-        TabController(length: AppConstant.categoryLength, vsync: this);
+        TabController(length: AppConstants.categoryLength, vsync: this);
   }
 
   @override
@@ -102,7 +104,7 @@ class _HomePageState extends State<HomePage>
                   child: TabBar(
                       isScrollable: true,
                       controller: _tabController,
-                      tabs: AppConstant.categories
+                      tabs: AppConstants.categories
                           .map((category) => Tab(text: category))
                           .toList())),
               AppFunction.verticalSpace(15),
@@ -111,7 +113,7 @@ class _HomePageState extends State<HomePage>
               Expanded(
                   child: TabBarView(
                       controller: _tabController,
-                      children: AppConstant.categories
+                      children: AppConstants.categories
                           .map((category) =>
                               CategoryNewsTabView(categoryLabel: category))
                           .toList())),
@@ -152,5 +154,6 @@ if (shouldExit ?? false) SystemNavigator.pop();
 */
 
 /*
+setInstatw Future problem
 flutter concise, readable maintainable, efficient and easy way to understand others programmer and also good name variable , class and method . also add good comments for understand . if change anything where and why change
 */
