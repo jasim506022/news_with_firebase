@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:newsapps/service/provider/splash_provider.dart';
 import 'package:provider/provider.dart';
 
 import '../../res/app_colors.dart';
+import '../../service/provider/splash_provider.dart';
 import '../../widget/app_logo_widget.dart';
 
+/// SplashPage displays the app logo and handles navigation to main pages after splash.
+///
+/// Uses SplashProvider to determine the next screen.
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});
 
@@ -16,9 +19,9 @@ class SplashPage extends StatefulWidget {
 class _SplashPageState extends State<SplashPage> {
   @override
   Widget build(BuildContext context) {
-    return Consumer<SplashProvider>(builder: (context, splashProvider, child) {
+    return Consumer<SplashProvider>(builder: (context, splashProvider, _) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        splashProvider.isMainPages(context); // ✅ Called after widget builds
+        splashProvider.navigateToNextScreen(context);
       });
 
       return Scaffold(

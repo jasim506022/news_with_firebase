@@ -1,27 +1,35 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-import '../../page/auth/log_in_page.dart';
-import '../../page/home/home_page.dart';
-import '../../page/splash/onboading_page.dart';
 import '../../res/app_constant.dart';
+import '../../res/app_routes.dart';
 
 class SplashProvider with ChangeNotifier {
-  final auth = FirebaseAuth.instance;
+  final _auth = FirebaseAuth.instance;
 
-  void isMainPages(BuildContext context) {
-    Future.delayed(const Duration(seconds: 2), () {
-      var route = auth.currentUser != null
-          ? const HomePage()
-          : AppConstants.isOnboardingViewed == false
-              ? const OnboardingPage()
-              : const LoginPage();
+  /// Navigate to the appropriate next screen after splash delay.
+  ///
+  /// Checks if user is logged in, onboarding viewed, then navigates accordingly.
+  Future<void> navigateToNextScreen(BuildContext context) async {
+    // Wait 2 seconds to show splash screen.
+    await Future.delayed(const Duration(seconds: 2));
 
-      Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) => route,
-          ));
-    });
+    // Decide which page to navigate to next.
+    final bool isLoggedIn = _auth.currentUser != null;
+    final bool isOnboardingViewed = AppConstants.isOnboardingViewed;
+
+    String nextRouteName;
+
+    if (isLoggedIn) {
+      nextRouteName = AppRoutes.homePage;
+    } else if (!isOnboardingViewed) {
+      nextRouteName = AppRoutes.onboardingPage;
+    } else {
+      nextRouteName = AppRoutes.signInPage;
+    }
+
+    // Navigate by route name to ensure proper navigation stack management.
+    if (!context.mounted) return;
+    Navigator.pushReplacementNamed(context, nextRouteName);
   }
 }

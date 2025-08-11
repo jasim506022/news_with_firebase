@@ -6,20 +6,22 @@ import '../../res/app_constant.dart';
 import '../other/onbaording_data.dart';
 
 class OnboardingProvider with ChangeNotifier {
+  // Tracks the current onboarding page index.
   int _currentIndex = 0;
-
+// Exposes the current page index.
   int get currentIndex => _currentIndex;
 
-  PageController pageController = PageController(initialPage: 0);
+  // Controller for the onboarding PageView.
+  final PageController pageController = PageController(initialPage: 0);
 
-  /// Update the current page index and notify listeners
+  /// Updates the current page index and notifies listeners to rebuild UI.
   void updatePageIndex(int index) {
     _currentIndex = index;
     notifyListeners();
   }
 
-  /// Move to the next page, or finish onboarding if it's the last page
-  void nextPage(BuildContext context) async {
+  /// Advances to the next onboarding page, or completes onboarding if on the last page.
+  Future<void> nextPage(BuildContext context) async {
     if (_currentIndex == OnboardingDataList.onboardModeList.length - 1) {
       await completeOnboarding(context);
     } else {
@@ -33,10 +35,14 @@ class OnboardingProvider with ChangeNotifier {
     }
   }
 
-  /// Complete onboarding: save status and navigate to login page
+  /// Marks onboarding as complete and navigates to the sign-in page.
   Future<void> completeOnboarding(BuildContext context) async {
-    Navigator.pushReplacementNamed(context, AppRoutes.signInPage);
+// Save onboarding completion status in shared preferences.
     await AppConstants.sharedPreferences!
         .setBool(AppString.onboardSharePrefer, true);
+
+    // Navigate and replace onboarding screen with the sign-in screen.
+    if (!context.mounted) return;
+    Navigator.pushReplacementNamed(context, AppRoutes.signInPage);
   }
 }

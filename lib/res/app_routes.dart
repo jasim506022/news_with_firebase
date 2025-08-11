@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:newsapps/page/splash/onboading_page.dart';
 
 // Pages
 import '../page/auth/log_in_page.dart';
@@ -15,6 +16,10 @@ import '../page/search/search_page.dart';
 import '../page/web/web_view_news_page.dart';
 
 class AppRoutes {
+  // Splash and  onboardingPage
+
+  static const String onboardingPage = "/onboarding";
+
   // Auth-related routes
   static const String signInPage = "/signIn";
   static const String signUpPage = "/signUp";
@@ -50,6 +55,7 @@ class AppRoutes {
     newsDetailsPage: (_) => const NewsDetailsPage(),
     detailsNewsWebPage: (_) => const WebViewNewsPage(),
     categoryPage: (_) => const CategoryPage(),
+    onboardingPage: (_) => const OnboardingPage()
   };
 }
 

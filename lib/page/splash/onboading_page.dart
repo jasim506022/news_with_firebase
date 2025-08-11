@@ -10,19 +10,25 @@ import '../../service/other/onbaording_data.dart';
 import '../../service/provider/onboarding_provide.dart';
 import 'widget/onboarding_page_content_widget.dart';
 
+/// OnboardingPage displays a sequence of onboarding screens with alternating background colors.
+///
+/// Uses [OnboardingProvider] to manage page state and navigation.
+
 class OnboardingPage extends StatelessWidget {
   const OnboardingPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Consumer<OnboardingProvider>(
-      builder: (context, onboardingProvider, child) {
-        // Decide alternating colors based on current index
-        final isEvenIndex = onboardingProvider.currentIndex % 2 == 0;
+      builder: (context, provider, child) {
+        // Determine if current onboarding page index is even or odd for UI styling.
+        final isEvenIndex = provider.currentIndex % 2 == 0;
+
+        // Set background color based on page parity.
         final backgroundColor = isEvenIndex ? AppColors.white : AppColors.pink;
 
-        // 🆕 Changed buttonColor to use new deepBlue color when odd
-        final buttonColor =
+        // Button color toggles between primary color (for even pages) and white (for odd pages).
+        final buttonTextColor =
             isEvenIndex ? Theme.of(context).primaryColor : AppColors.white;
 
         return Scaffold(
@@ -31,24 +37,25 @@ class OnboardingPage extends StatelessWidget {
             backgroundColor: backgroundColor,
             automaticallyImplyLeading: false,
             actions: [
-              // This now shows "Skip"
+              /// Skip button to exit onboarding early
               TextButton(
-                onPressed: () => onboardingProvider.completeOnboarding(context),
+                onPressed: () => provider.completeOnboarding(context),
                 child: Text(AppString.btnSkip,
                     style: AppTextStyle.buttonTextStyle()
-                        .copyWith(color: buttonColor)),
+                        .copyWith(color: buttonTextColor)),
               ),
             ],
           ),
           body: Padding(
             padding: EdgeInsets.symmetric(horizontal: 20.w),
             child: PageView.builder(
-              controller: onboardingProvider.pageController,
+              controller: provider.pageController,
               itemCount: OnboardingDataList.onboardModeList.length,
-              onPageChanged: onboardingProvider.updatePageIndex,
+              onPageChanged: provider.updatePageIndex,
               itemBuilder: (context, index) {
-                return OnboardingPageContentWidget(
-                    onboardModel: OnboardingDataList.onboardModeList[index]);
+                final onboardModel = OnboardingDataList.onboardModeList[index];
+                // Display each onboarding page content
+                return OnboardingPageContentWidget(onboardModel: onboardModel);
               },
             ),
           ),

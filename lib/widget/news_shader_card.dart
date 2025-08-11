@@ -98,8 +98,8 @@ class NewsShaderCard extends StatelessWidget {
               child: Text(
                 news.datetoshow,
                 overflow: TextOverflow.ellipsis,
-                style: AppTextStyle.mediumBoldTextStyle(context)
-                    .copyWith(color: AppColors.white),
+                style: AppTextStyle.bodyMedium(context).copyWith(
+                    color: AppColors.white, fontWeight: FontWeight.bold),
               ),
             ),
           ],

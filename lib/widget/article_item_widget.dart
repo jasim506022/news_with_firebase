@@ -64,7 +64,8 @@ class ArticleItemWidget extends StatelessWidget {
           model.title,
           overflow: TextOverflow.ellipsis,
           maxLines: 3,
-          style: AppTextStyle.mediumBoldTextStyle(context),
+          style: AppTextStyle.bodyMedium(context)
+              .copyWith(fontWeight: FontWeight.bold),
         ),
         AppFunction.verticalSpace(8),
         Row(

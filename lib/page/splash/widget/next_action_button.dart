@@ -10,16 +10,27 @@ import '../../../res/app_text_style.dart';
 import '../../../service/other/onbaording_data.dart';
 import '../../../service/provider/onboarding_provide.dart';
 
+/// A button widget that advances the onboarding sequence.
+///
+/// Shows "Next" or "Finish" based on current onboarding page.
+/// Button color alternates depending on current page index parity.
+
 class NextActionButton extends StatelessWidget {
   const NextActionButton({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Consumer<OnboardingProvider>(
-      builder: (context, onboardingProvider, child) {
-        final isEvenIndex = onboardingProvider.currentIndex % 2 == 0;
+      builder: (context, provider, _) {
+        // Determine parity of current onboarding page index for styling.
+        final bool isEvenIndex = provider.currentIndex % 2 == 0;
+
+        // Check if this is the last onboarding page.
+        final bool isLastPage = provider.currentIndex ==
+            OnboardingDataList.onboardModeList.length - 1;
+
         return InkWell(
-          onTap: () => onboardingProvider.nextPage(context),
+          onTap: () => provider.nextPage(context),
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: 30.w, vertical: 15.h),
             decoration: BoxDecoration(
@@ -31,13 +42,8 @@ class NextActionButton extends StatelessWidget {
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text(
-                    onboardingProvider.currentIndex ==
-                            OnboardingDataList.onboardModeList.length - 1
-                        ? AppString.btnFinish
-                        : AppString.btnNext,
+                Text(isLastPage ? AppString.btnFinish : AppString.btnNext,
                     style: AppTextStyle.buttonTextStyle()),
-                SizedBox(width: 15.w),
                 AppFunction.horizontalSpace(15),
                 Icon(Icons.arrow_forward_sharp, color: AppColors.white),
               ],

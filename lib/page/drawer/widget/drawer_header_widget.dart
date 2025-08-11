@@ -34,7 +34,8 @@ class DrawerHeaderWidget extends StatelessWidget {
               Text(
                   AppConstants.sharedPreferences!
                       .getString(AppString.emailSharePrefer)!,
-                  style: AppTextStyle.mediumBoldTextStyle(context)),
+                  style: AppTextStyle.bodyMedium(context)
+                      .copyWith(fontWeight: FontWeight.w900)),
               Icon(Icons.arrow_drop_down, color: AppColors.black),
             ],
           ),

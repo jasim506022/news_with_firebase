@@ -26,7 +26,8 @@ class RichTextWidget extends StatelessWidget {
         text: TextSpan(children: [
       TextSpan(
         text: "$normalText ",
-        style: AppTextStyle.mediumBoldTextStyle(context),
+        style: AppTextStyle.bodyMedium(context)
+            .copyWith(fontWeight: FontWeight.bold),
       ),
       TextSpan(
         text: highlightedText,

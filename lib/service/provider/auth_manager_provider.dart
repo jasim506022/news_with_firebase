@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import '../../model/profile_model.dart';
@@ -25,7 +26,9 @@ class AuthManageProvider with ChangeNotifier {
 
     if (snapshot.exists) {
       final profileModel = ProfileModel.fromMap(snapshot.data()!);
-      print(profileModel.email);
+      if (kDebugMode) {
+        print(profileModel.email);
+      }
       await AppConstants.sharedPreferences!
           .setString(AppString.nameSharePrefer, profileModel.name!);
       await AppConstants.sharedPreferences!
@@ -181,6 +184,7 @@ class AuthManageProvider with ChangeNotifier {
     try {
       await AuthRepository.signOut();
       Navigator.pushNamedAndRemoveUntil(
+        // ignore: use_build_context_synchronously
         context,
         AppRoutes.signInPage,
         (route) => false,

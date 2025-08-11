@@ -11,6 +11,11 @@ import '../../../service/provider/onboarding_provide.dart';
 import 'next_action_button.dart';
 import 'onboarding_progress_dots_widget.dart';
 
+/// Widget displaying the content of a single onboarding page.
+///
+/// Shows image, progress indicator, title, description, and navigation button.
+/// Adapts styles based on the current onboarding page index.
+
 class OnboardingPageContentWidget extends StatelessWidget {
   const OnboardingPageContentWidget({super.key, required this.onboardModel});
 
@@ -19,23 +24,27 @@ class OnboardingPageContentWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<OnboardingProvider>(
-      builder: (context, onboardingProvider, child) {
+      builder: (context, provider, _) {
+        // Determine if current page index is even or odd for styling.
+        final bool isEvenIndex = provider.currentIndex % 2 == 0;
         return Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            // Display onboarding image with fixed height and fill fit.
             Image.asset(
               onboardModel.image,
               height: 300.h,
               fit: BoxFit.fill,
             ),
             AppFunction.verticalSpace(10),
+            // Indicator dots showing current onboarding progress.
             const OnboardingProgressDotsWidget(),
             Text(
               onboardModel.title,
               textAlign: TextAlign.center,
               style: AppTextStyle.titleLargeTextStyle.copyWith(
-                color: onboardingProvider.currentIndex % 2 == 0
+                color: isEvenIndex
                     ? Theme.of(context).primaryColor
                     : AppColors.white,
               ),
@@ -43,8 +52,10 @@ class OnboardingPageContentWidget extends StatelessWidget {
             Text(
               onboardModel.description,
               textAlign: TextAlign.center,
-              style: AppTextStyle.mediumBoldTextStyle(context),
+              style: AppTextStyle.bodyMedium(context)
+                  .copyWith(fontWeight: FontWeight.w900),
             ),
+            // Button for moving to next onboarding action.
             const NextActionButton(),
             AppFunction.verticalSpace(20),
           ],

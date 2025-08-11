@@ -30,8 +30,11 @@ class SectionHeaderRow extends StatelessWidget {
           onTap: onTap,
           child: Row(
             children: [
-              Text(AppString.btnSeeAll,
-                  style: AppTextStyle.mediumBoldTextStyle(context)),
+              Text(
+                AppString.btnSeeAll,
+                style: AppTextStyle.bodyMedium(context)
+                    .copyWith(fontWeight: FontWeight.bold),
+              ),
               AppFunction.horizontalSpace(4),
               Icon(Icons.arrow_forward_ios, size: 14.sp),
             ],

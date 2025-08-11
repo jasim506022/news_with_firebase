@@ -5,6 +5,13 @@ import 'app_colors.dart';
 
 /// A utility class that defines consistent text styles used across the app.
 class AppTextStyle {
+  // title Larget Text Style
+  static TextStyle get titleLargeTextStyle => GoogleFonts.poppins(
+      textStyle: TextStyle(
+          color: AppColors.white,
+          fontSize: 25.sp,
+          fontWeight: FontWeight.w800));
+
   /// Returns the style for AppBar titles.
   ///
   /// - Bold, large font.
@@ -51,19 +58,6 @@ class AppTextStyle {
           fontSize: 17.sp,
           fontWeight: FontWeight.w900));
 
-// title
-  static TextStyle get titleLargeTextStyle => GoogleFonts.poppins(
-      textStyle: TextStyle(
-          color: AppColors.white,
-          fontSize: 25.sp,
-          fontWeight: FontWeight.w800));
-
-//
-  static TextStyle mediumBoldTextStyle(BuildContext context) =>
-      GoogleFonts.poppins(
-          color: Theme.of(context).primaryColor,
-          fontWeight: FontWeight.bold,
-          fontSize: 15.sp);
 //
 
 // Using for  tite
