@@ -13,7 +13,7 @@ class SplashProvider with ChangeNotifier {
     Future.delayed(const Duration(seconds: 2), () {
       var route = auth.currentUser != null
           ? const HomePage()
-          : AppConstants.isOnboardingViewed == 0
+          : AppConstants.isOnboardingViewed == false
               ? const OnboardingPage()
               : const LoginPage();
 

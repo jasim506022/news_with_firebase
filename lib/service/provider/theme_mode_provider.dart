@@ -4,7 +4,6 @@ import '../../res/app_constant.dart';
 import '../../res/app_string.dart';
 
 /// A ChangeNotifier that manages and persists the app's theme mode
-
 class ThemeModeProvider with ChangeNotifier {
   /// Current theme state (true = dark mode)
   bool _isDarkMode = false;

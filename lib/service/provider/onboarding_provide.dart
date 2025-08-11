@@ -37,6 +37,6 @@ class OnboardingProvider with ChangeNotifier {
   Future<void> completeOnboarding(BuildContext context) async {
     Navigator.pushReplacementNamed(context, AppRoutes.signInPage);
     await AppConstants.sharedPreferences!
-        .setInt(AppString.onboardSharePrefer, 1);
+        .setBool(AppString.onboardSharePrefer, true);
   }
 }

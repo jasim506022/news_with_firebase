@@ -2,19 +2,15 @@ import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
-import 'package:newsapps/service/provider/theme_mode_provider.dart';
 import 'package:share_plus/share_plus.dart';
 
 import '../widget/confirmation_dialog.dart';
 import 'app_routes.dart';
 import 'app_string.dart';
-import 'app_text_style.dart';
 import 'app_colors.dart';
 
 class AppFunction {
@@ -188,9 +184,9 @@ class AppFunction {
   // Widget errorMethod({required String error}) {
   //   return ErrorWidget;
   // }
-
+/*
   ThemeData themeDate(ThemeModeProvider themeProvider) {
-    var isDark = themeProvider.getDarkTheme;
+    var isDark = themeProvider.isDarkTheme;
     return ThemeData(
         dialogTheme: DialogTheme(
           backgroundColor: isDark ? AppColors.cardDark : AppColors.white,
@@ -236,7 +232,7 @@ class AppFunction {
         ),
         appBarTheme: AppBarTheme(
             iconTheme: IconThemeData(
-                color: themeProvider.getDarkTheme
+                color: themeProvider.isDarkTheme
                     ? AppColors.white
                     : AppColors.black),
             backgroundColor: themeProvider.getDarkTheme
@@ -277,6 +273,7 @@ class AppFunction {
         primaryColor: themeProvider.getDarkTheme ? Colors.white : Colors.black);
   }
 
+*/
   static void toastMessage(String message) {
     Fluttertoast.showToast(
       msg: message,

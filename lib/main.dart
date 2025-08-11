@@ -12,7 +12,6 @@ import 'res/app_routes.dart';
 import 'res/app_theme.dart';
 import 'res/app_constant.dart';
 import 'res/app_string.dart';
-import 'service/provider/auth_proxy_provider.dart';
 import 'service/provider/provider_list.dart';
 import 'service/provider/theme_mode_provider.dart';
 
