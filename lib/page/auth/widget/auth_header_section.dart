@@ -32,7 +32,7 @@ class AuthHeaderSection extends StatelessWidget {
             width: double.infinity,
             fit: BoxFit.contain,
           ),
-          // Why need boxFit.Contain
+
           AppFunction.verticalSpace(20),
           // Title with icon
           Row(
@@ -52,7 +52,9 @@ class AuthHeaderSection extends StatelessWidget {
           // Subtitle
           Text(
             subtitle,
-            style: AppTextStyle.authDescription,
+            style: AppTextStyle.titleTextStyle(context)
+                .copyWith(fontSize: 20.sp)
+                .copyWith(color: AppColors.black, fontWeight: FontWeight.w400),
             textAlign: TextAlign.center,
           ),
         ],

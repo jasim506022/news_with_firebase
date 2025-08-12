@@ -5,11 +5,14 @@ import '../res/app_colors.dart';
 import '../res/app_text_style.dart';
 import '../res/network_utilis.dart';
 
-class RichTextWidget extends StatelessWidget {
-  /// - [normalText] is the non-clickable portion of the text.
-  /// - [highlightedText] is the tappable portion of the text.
-  /// - [onTap] is the function executed when the highlighted text is tapped.
+/// A widget that displays a line of text with a tappable highlighted portion.
+///
+/// - [normalText] is the regular, non-clickable part.
+/// - [highlightedText] is the clickable, styled part of the text.
+/// - [onTap] is the callback executed when the highlighted text is tapped.
+///
 
+class RichTextWidget extends StatelessWidget {
   const RichTextWidget({
     super.key,
     required this.normalText,

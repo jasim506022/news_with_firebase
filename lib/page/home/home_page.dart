@@ -48,7 +48,7 @@ class _HomePageState extends State<HomePage>
       final authProvider =
           Provider.of<AuthManageProvider>(context, listen: false);
 
-      authProvider.getUser();
+      authProvider.getUserProfile();
     }
     _tabController =
         TabController(length: AppConstants.categoryLength, vsync: this);

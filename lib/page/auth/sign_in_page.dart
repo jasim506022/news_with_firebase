@@ -17,8 +17,12 @@ import 'widget/icon_text_button.dart';
 import 'widget/auth_button.dart';
 import 'widget/auth_header_section.dart';
 
-/// LoginPage allows users to sign in using email/password, phone number, or Google.
-/// Includes form validation, navigation to sign up, and exit confirmation.
+/// **SignInPage**
+/// Allows users to sign in using:
+/// - Email & Password, Phone Number, Google account
+
+/// Includes:
+/// - Form validation, Navigation to Sign Up page, Exit confirmation dialog
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -32,7 +36,7 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
-// Form key to validate the form inputs.
+  /// Key to manage and validate the form.
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
@@ -59,12 +63,12 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    // Access the authentication provider (non-listening)
+    // Get the authentication provider without listening for changes.
     final authProvider =
         Provider.of<AuthManageProvider>(context, listen: false);
 
     return GestureDetector(
-      // Dismiss keyboard when tapping outside input fields.
+      // Close keyboard on tap outside
       onTap: () => FocusScope.of(context).unfocus(),
       child: PopScope(
         canPop: false,
@@ -90,15 +94,14 @@ class _LoginPageState extends State<LoginPage> {
                 ),
 
                 /// Login form containing email & password input
-                _buildEmailPasswordForm(),
+                _buildSignInForm(),
                 AppFunction.verticalSpace(15),
 
-                /// Main login button
+                /// Main sign-in button
                 AuthButton(
                     onPressed: () {
-                      // Validate form before proceeding.
                       if (!_formKey.currentState!.validate()) return;
-                      authProvider.loginWithEmailAndPassword(
+                      authProvider.signinWithEmailAndPassword(
                         context: context,
                         email: _emailController.text.trim(),
                         password: _passwordController.text.trim(),
@@ -124,6 +127,8 @@ class _LoginPageState extends State<LoginPage> {
                         authProvider.loginWithGoogle(context: context)),
 
                 AppFunction.verticalSpace(15),
+
+                /// Sign-up navigation
                 RichTextWidget(
                     normalText: AppString.dontHaveAnAccount,
                     highlightedText: AppString.btnSignUp,
@@ -141,7 +146,7 @@ class _LoginPageState extends State<LoginPage> {
   /// Builds the login form containing:
   /// - Email input field
   /// - Password input field (with toggle visibility)
-  Form _buildEmailPasswordForm() => Form(
+  Form _buildSignInForm() => Form(
       key: _formKey,
       child: Column(
         children: [

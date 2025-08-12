@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:newsapps/page/splash/onboading_page.dart';
 
 // Pages
-import '../page/auth/log_in_page.dart';
-import '../page/auth/login_phone_number_page.dart';
+import '../page/auth/sign_in_page.dart';
+import '../page/auth/phone_number_signin_page.dart';
 import '../page/auth/sign_up_page.dart';
 import '../page/auth/verify_code_page.dart';
 import '../page/home/home_page.dart';
@@ -45,7 +45,7 @@ class AppRoutes {
   static Map<String, WidgetBuilder> routes = {
     signInPage: (_) => const LoginPage(),
     signUpPage: (_) => const SignUpPage(),
-    loginWithPhonePage: (_) => const LoginPhoneNumberPage(),
+    loginWithPhonePage: (_) => const PhoneNumberSignInPage(),
     verifyCodePage: (_) => const VerifyCodePage(),
     searchPage: (_) => const SearchPage(),
     homePage: (_) => const HomePage(),

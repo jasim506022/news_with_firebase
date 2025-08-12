@@ -16,8 +16,9 @@ import 'widget/auth_button.dart';
 import 'widget/auth_header_section.dart';
 
 /// SignUpPage allows new users to register by providing
-/// their name, email, password, and confirming password.
-/// Includes form validation and navigation to Login page.
+/// their name, email, password, and password confirmation.
+/// Includes form validation and navigation to the Login page
+
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
 
@@ -26,15 +27,15 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
-  // Controllers to manage email and password, name input fields.
+  // Controllers to manage input for name, email, password, and confirm password fields.
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _nameController =
       TextEditingController(); // Difference
   final _confirmPasswordController = TextEditingController();
 
-  // Form key to validate the form inputs.
-  final _formKey = GlobalKey<FormState>();
+  /// Key to manage and validate the form.
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   void dispose() {
@@ -48,54 +49,54 @@ class _SignUpPageState extends State<SignUpPage> {
 
   @override
   Widget build(BuildContext context) {
-    // Access the authentication provider (non-listening)
+    // Get the authentication provider without listening for changes.
     final authProvider =
         Provider.of<AuthManageProvider>(context, listen: false);
     return GestureDetector(
+      // Dismiss keyboard when tapping outside text fields.
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         backgroundColor: AppColors.white,
         body: SafeArea(
-          child: Padding(
+          child: SingleChildScrollView(
             padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  /// Header with image and page title/subtitle
-                  const AuthHeaderSection(
-                    imageAssetPath: AppImages.appIntroImage,
-                    title: AppString.btnSignUp,
-                    subtitle: AppString.authSubTitle,
-                  ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                /// Header with image and page title/subtitle
+                const AuthHeaderSection(
+                  imageAssetPath: AppImages.appIntroImage,
+                  title: AppString.btnSignUp,
+                  subtitle: AppString.authSubTitle,
+                ),
 
-                  _buildSignUpForm(),
-                  AppFunction.verticalSpace(15),
+                /// The sign-up form with input fields and validation.
+                _buildSignUpForm(),
+                AppFunction.verticalSpace(15),
 
-                  /// Main Sign Up button
+                /// Main sign-up button that triggers user registration.
+                AuthButton(
+                    onPressed: () {
+                      if (!_formKey.currentState!.validate()) return;
 
-                  AuthButton(
-                      onPressed: () {
-                        if (!_formKey.currentState!.validate()) return;
-                        // Validate form before proceeding.
-                        authProvider.registerNewUser(
-                            context: context,
-                            email: _emailController.text.trim(),
-                            password: _passwordController.text.trim(),
-                            name: _nameController.text.trim());
-                      },
-                      label: AppString.btnSignUp),
-                  AppFunction.verticalSpace(15),
-                  // Navigation to Login
-                  RichTextWidget(
-                    normalText: AppString.alreadHaveAAcount,
-                    highlightedText: AppString.btnLogin,
-                    onTap: () => Navigator.pop(context),
-                  ),
-                  AppFunction.verticalSpace(200),
-                ],
-              ),
+                      authProvider.registerNewUser(
+                          context: context,
+                          email: _emailController.text.trim(),
+                          password: _passwordController.text.trim(),
+                          name: _nameController.text.trim());
+                    },
+                    label: AppString.btnSignUp),
+                AppFunction.verticalSpace(15),
+
+                /// Sign-in navigation
+                RichTextWidget(
+                  normalText: AppString.alreadHaveAAcount,
+                  highlightedText: AppString.btnLogin,
+                  onTap: () => Navigator.pop(context),
+                ),
+                AppFunction.verticalSpace(200),
+              ],
             ),
           ),
         ),

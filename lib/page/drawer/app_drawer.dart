@@ -69,7 +69,7 @@ class AppDrawer extends StatelessWidget {
                         dialogIcon: Icons.logout,
                         message: AppString.confirmLogoutMessage,
                         onConfirm: () async {
-                          await authProvider.logOut(context);
+                          await authProvider.signOut(context);
                           if (!context.mounted) return;
                           Navigator.pop(context);
                         }),

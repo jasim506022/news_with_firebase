@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/foundation.dart';
+
 import 'package:flutter/material.dart';
 
 import '../../model/profile_model.dart';
@@ -10,36 +10,37 @@ import '../../res/app_string.dart';
 import '../other/auth_repository.dart';
 import 'loadingprovider.dart';
 
+/// Provider that handles authentication-related logic, state management,
+/// and navigation after authentication actions.
+///
+/// Uses [AuthRepository] for Firebase operations and [LoadingProvider]
+/// for showing/hiding loading indicators.
+
 class AuthManageProvider with ChangeNotifier {
   LoadingProvider? _loadingProvider;
 
-  /// Set the external loading  (for showing loading indicators)
+  /// Links a [LoadingProvider] to this provider for showing progress indicators.
   void setLoadingProvider(LoadingProvider loadingProvider) =>
       _loadingProvider = loadingProvider;
 
-  Future<void> getUser() async {
-    var snapshot = await FirebaseFirestore.instance
-        .collection(AppString.userCollection)
-        .doc(
-            AppConstants.sharedPreferences!.getString(AppString.uidSharePrefer))
-        .get();
-
-    if (snapshot.exists) {
-      final profileModel = ProfileModel.fromMap(snapshot.data()!);
-      if (kDebugMode) {
-        print(profileModel.email);
-      }
-      await AppConstants.sharedPreferences!
-          .setString(AppString.nameSharePrefer, profileModel.name!);
-      await AppConstants.sharedPreferences!
-          .setString(AppString.emailSharePrefer, profileModel.email!);
-
-      await AppConstants.sharedPreferences!
-          .setBool(AppString.setDataShareprefer, true);
-    } else {}
+  /// Fetches the logged-in user's profile from Firestore
+  /// and stores it in shared preferences.
+  Future<void> getUserProfile() async {
+    await _executeWithLoading(
+      () async {
+        final profileModel = await AuthRepository.getUserProfile();
+        final prefs = AppConstants.sharedPreferences!;
+        await Future.wait([
+          prefs.setString(AppString.nameSharePrefer, profileModel!.name ?? ''),
+          prefs.setString(AppString.emailSharePrefer, profileModel.email ?? ''),
+          prefs.setBool(AppString.setDataShareprefer, true),
+        ]);
+      },
+    );
   }
 
-  /// Handles user registration, profile creation, and post-sign-up navigation
+  /// Registers a new user, creates their profile in Firestore,
+  /// and navigates to the home screen.
   Future<void> registerNewUser(
       {required String email,
       required String password,
@@ -47,9 +48,9 @@ class AuthManageProvider with ChangeNotifier {
       required BuildContext context}) async {
     await _executeWithLoading(() async {
       // Reload current user (safety check, often optional during registration)
-      await AuthRepository.firebaseAuth.currentUser?.reload();
-      var user =
-          await AuthRepository.registerUser(email: email, password: password);
+      await AuthRepository.auth.currentUser?.reload();
+      var user = await AuthRepository.registerWithEmail(
+          email: email, password: password);
 
       if (user == null) {
         AppFunction.toastMessage(AppString.loginFailMessage);
@@ -64,7 +65,7 @@ class AuthManageProvider with ChangeNotifier {
         createdAt: Timestamp.now(),
       );
       // Save user profile to Firestore
-      await AuthRepository.createUserProfile(
+      await AuthRepository.saveUserProfile(
           uid: user.uid, profileModel: profileModel);
 
       if (!context.mounted) return;
@@ -77,12 +78,9 @@ class AuthManageProvider with ChangeNotifier {
     });
   }
 
-  /// Authenticates a user using email and password.
-  ///
-  /// - Shows loading during the process.
-  /// - Displays an error toast if login fails.
-  /// - Navigates to the next screen on success.
-  Future<void> loginWithEmailAndPassword({
+  /// Logs in a user with email and password,
+  /// shows an error if login fails
+  Future<void> signinWithEmailAndPassword({
     required String email,
     required String password,
     required BuildContext context,
@@ -100,6 +98,7 @@ class AuthManageProvider with ChangeNotifier {
     });
   }
 
+  /// Sends OTP to the provided phone number and navigates to verification page.
   Future<void> sendOtp({
     required String phoneNumber,
     required BuildContext context,
@@ -117,6 +116,7 @@ class AuthManageProvider with ChangeNotifier {
     });
   }
 
+  /// Signs in with Google and navigates to home page on success.
   Future<void> loginWithGoogle({
     required BuildContext context,
   }) async {
@@ -129,13 +129,14 @@ class AuthManageProvider with ChangeNotifier {
     });
   }
 
+  /// Verifies OTP code and navigates to home page on success.
   Future<void> verifyOtp({
     required String verificationId,
     required String smsCode,
     required BuildContext context,
   }) async {
     await _executeWithLoading(() async {
-      final uid = await AuthRepository.verifySmsCode(
+      final uid = await AuthRepository.verifyOtpCode(
         verificationId: verificationId,
         smsCode: smsCode,
       );
@@ -147,14 +148,46 @@ class AuthManageProvider with ChangeNotifier {
     });
   }
 
+  /// Signs out the current user using [AuthRepository].
+  /// Catches and handles Firebase authentication errors gracefully.
+  Future<void> signOut(BuildContext context) async {
+    _executeWithLoading(
+      () async {
+        await AuthRepository.signOut();
+
+        await _clearUserPrefs();
+        if (!context.mounted) return;
+        Navigator.pushNamedAndRemoveUntil(
+          context,
+          AppRoutes.signInPage,
+          (_) => false,
+        );
+      },
+    );
+  }
+
+  Future<void> _clearUserPrefs() async {
+    final prefs = AppConstants.sharedPreferences!;
+
+    await Future.wait([
+      prefs.setBool(AppString.setDataShareprefer, false),
+      prefs.setString(AppString.uidSharePrefer, ''),
+      prefs.setString(AppString.nameSharePrefer, ''),
+      prefs.setString(AppString.emailSharePrefer, ''),
+    ]);
+  }
+
   /// Handles post-sign-in tasks: storing UID, showing success message, and navigating to home screen.
   Future<void> _navigateAfterSignIn(String uid, BuildContext context,
       [String message = AppString.successSignInMessage]) async {
     // Save the user ID to shared preferences
-    await AppConstants.sharedPreferences!
-        .setString(AppString.uidSharePrefer, uid);
-    await AppConstants.sharedPreferences!
-        .setBool(AppString.setDataShareprefer, false);
+    final prefs = AppConstants.sharedPreferences!;
+
+    await Future.wait([
+      prefs.setString(AppString.uidSharePrefer, uid),
+      prefs.setBool(AppString.setDataShareprefer, false),
+    ]);
+
     AppFunction.toastMessage(message);
     if (!context.mounted) return;
     // Navigate to the home page, replacing the sign-in screen
@@ -175,32 +208,6 @@ class AuthManageProvider with ChangeNotifier {
       AppFunction.handleFirebaseAuthError(error);
     } finally {
       _loadingProvider?.setUploading(loading: false);
-    }
-  }
-
-  /// Signs out the current user using [AuthRepository].
-  /// Catches and handles Firebase authentication errors gracefully.
-  Future<void> logOut(BuildContext context) async {
-    try {
-      await AuthRepository.signOut();
-      Navigator.pushNamedAndRemoveUntil(
-        // ignore: use_build_context_synchronously
-        context,
-        AppRoutes.signInPage,
-        (route) => false,
-      );
-      await AppConstants.sharedPreferences!
-          .setBool(AppString.setDataShareprefer, false);
-      await AppConstants.sharedPreferences!
-          .setString(AppString.uidSharePrefer, "");
-
-      await AppConstants.sharedPreferences!
-          .setString(AppString.nameSharePrefer, "");
-
-      await AppConstants.sharedPreferences!
-          .setString(AppString.emailSharePrefer, "");
-    } catch (e) {
-      AppFunction.handleFirebaseAuthError(e);
     }
   }
 }

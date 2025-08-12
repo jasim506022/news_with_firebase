@@ -5,6 +5,13 @@ import 'app_colors.dart';
 
 /// A utility class that defines consistent text styles used across the app.
 class AppTextStyle {
+  // set name
+  static TextStyle get authTitle => GoogleFonts.poppins(
+      color: AppColors.red,
+      fontSize: 28.sp,
+      letterSpacing: 1.2,
+      fontWeight: FontWeight.w800);
+
   // title Larget Text Style
   static TextStyle get titleLargeTextStyle => GoogleFonts.poppins(
       textStyle: TextStyle(
@@ -96,17 +103,12 @@ class AppTextStyle {
         fontSize: 15.sp,
         fontWeight: FontWeight.w700,
       );
-  static TextStyle get authTitle => GoogleFonts.poppins(
-      color: AppColors.red,
-      fontSize: 28.sp,
-      letterSpacing: 1.2,
-      fontWeight: FontWeight.w800);
 
-  static TextStyle get authDescription => GoogleFonts.poppins(
-      color: AppColors.black,
-      fontSize: 20.sp,
-      letterSpacing: 1.1,
-      fontWeight: FontWeight.normal);
+  // static TextStyle get authDescription => GoogleFonts.poppins(
+  //     color: AppColors.black,
+  //     fontSize: 20.sp,
+  //     letterSpacing: 1.1,
+  //     fontWeight: FontWeight.normal);
 
   static TextStyle get errorValue => GoogleFonts.poppins(
       fontSize: 20.sp, fontWeight: FontWeight.w900, color: AppColors.deepred);

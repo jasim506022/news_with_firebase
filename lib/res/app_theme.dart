@@ -86,12 +86,13 @@ class AppTheme {
   ElevatedButtonThemeData _elevatedButtonTheme() {
     return ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
-        padding: EdgeInsets.zero,
-        backgroundColor: AppColors.red,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15.r),
-        ),
-      ),
+          padding: EdgeInsets.zero,
+          backgroundColor: AppColors.red,
+          foregroundColor: AppColors.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15.r),
+          ),
+          textStyle: AppTextStyle.buttonTextStyle()),
     );
   }
 

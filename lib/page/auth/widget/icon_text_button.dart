@@ -6,9 +6,10 @@ import '../../../res/app_function.dart';
 import '../../../res/app_text_style.dart';
 import '../../../res/network_utilis.dart';
 
-/// A button widget that displays an icon alongside a label,
+/// A reusable button widget that combines an icon and a label,
 /// typically used for third-party sign-in options (e.g., Google, Phone).
-/// Includes internet connectivity check before executing the tap action.
+///
+/// Tapping the button runs [onTap] after checking internet connectivity.
 class IconTextButton extends StatelessWidget {
   const IconTextButton({
     super.key,
